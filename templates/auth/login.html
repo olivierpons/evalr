@@ -1,0 +1,127 @@
+{% extends 'new/base.html' %}
+{% load static i18n compress %}
+{% block body %}
+    <body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-xl-10 col-lg-12 col-md-9">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">{% trans "Welcome back!" %}</h1>
+                                    </div>
+                                    <form class="user" method="post" action="">
+                                        {% csrf_token %}
+                                        {% for hidden_field in form_search_generic.hidden_fields %}
+                                            {{ hidden_field }}
+                                        {% endfor %}
+                                        <div class="form-group">
+                                            <input class="form-control form-control-user"
+                                                   id="{{ form.username.auto_id }}"
+                                                   name="{{ form.username.html_name }}"
+                                                   type="{{ form.username.field.widget.input_type }}"
+                                                    {% if form.username.value %}
+                                                   value="{{ form.username.value }}"
+                                                    {% endif %}
+                                                   aria-describedby="{{ form.username.html_name }}"
+                                                   placeholder="{% trans "username or email..." %}"
+                                                    autofocus />
+                                            {% for error in form.username.errors %}
+                                                <div class="form-control form-control-error alert-danger" role="alert">
+                                                    <i class="fas fa-exclamation-triangle"></i>
+                                                    <span class="glyphicon glyphicon-exclamation-sign"
+                                                          aria-hidden="true"></span>
+                                                    {{ error }}
+                                                    <span class="sr-only">{{ error }}</span>
+                                                </div>
+                                            {% endfor %}
+
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control form-control-user"
+                                                   id="{{ form.password.auto_id }}"
+                                                   name="{{ form.password.html_name }}"
+                                                   type="{{ form.password.field.widget.input_type }}"
+                                                   aria-describedby="{{ form.password.html_name }}"
+                                                   placeholder="{% trans "password..." %}">
+                                            {% for error in form.password.errors %}
+                                                <div class="form-control form-control-error alert-danger" role="alert">
+                                                    <i class="fas fa-exclamation-triangle"></i>
+                                                    <span class="glyphicon glyphicon-exclamation-sign"
+                                                          aria-hidden="true"></span>
+                                                    {{ error }}
+                                                    <span class="sr-only">{{ error }}</span>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                        {% for error in form.non_field_errors %}
+                                            <div class="form-control form-control-error alert-danger" role="alert">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                                <span class="glyphicon glyphicon-exclamation-sign"
+                                                      aria-hidden="true"></span>
+                                                {{ error }}
+                                                <span class="sr-only">{{ error }}</span>
+                                            </div>
+                                        {% endfor %}
+
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox small">
+                                                <input type="checkbox" class="custom-control-input" id="remember_me" name="remember_me">
+                                                <label class="custom-control-label" for="remember_me">
+                                                    {% trans "Remember me" %}
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                            {% trans "Login" %}
+                                        </button>
+                                        <hr>
+                                        <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-google btn-user btn-block">
+                                            <i class="fab fa-google fa-fw"></i> Google
+                                        </a>
+                                        <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-facebook btn-user btn-block">
+                                            <i class="fab fa-facebook-f fa-fw"></i> Facebook
+                                        </a>
+                                        <a href="{% url 'social:begin' 'twitter' %}" class="btn btn-twitter btn-user btn-block">
+                                            <i class="fab fa-twitter fa-fw"></i> Twitter
+                                        </a>
+                                        <a href="{% url 'social:begin' 'github' %}" class="btn btn-github btn-user btn-block">
+                                            <i class="fab fa-github fa-fw"></i> Github
+                                        </a>
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" href="{% url 'auth_forgot_password' %}">
+                                            {% trans "Forgot password?" %}
+                                        </a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="small" href="{% url 'auth_register' %}">
+                                            {% trans "Create an account!" %}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {# (!) body overriden = re-includes messages here: #}
+    {% include 'include/messages.html' %}
+    </body>
+{% endblock body %}

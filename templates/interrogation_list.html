@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Interrogations" %}{% endblock %}
+
+{% block content %}
+
+    <h2>{% trans "Interrogations" %}</h2>
+    {% if interrogations %}
+    <div class="cs-row">
+    {% for interrogation in interrogations %}
+        <div class="col-md-8">{% autoescape off %}
+            <span>{{ interrogation.description }}</span>
+        {% endautoescape %}
+        </div>
+        <div class="col-md-4">
+            <a class="btn btn-default btn"
+               style="display: inline-block; vertical-align: middle; float: none;"
+               href="{% url 'app_interrogation' interrogation.description %}"
+               role="button">{% trans "Go &raquo;" %}</a>
+        </div>
+    {% endfor %}
+    </div>
+    {% else %}
+        <h3>{% trans "No interrogation yet" %}</h3>
+    {% endif %}
+{% endblock %}

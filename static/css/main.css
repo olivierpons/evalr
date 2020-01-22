@@ -1,0 +1,158 @@
+/* they forgot this width for the cards in the sbadmin2! */
+.mb-6, .my-6, .mb-8, .my-8, .mb-12, .my-12 {
+    margin-bottom: 1.5rem!important;
+}
+
+/* */
+span.wizard {
+    width: 3em;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-top: .5rem;
+}
+
+.important {
+    font-weight: bolder;
+}
+
+.btn-github {
+  color: #fff;
+  background-color: #4078c0;
+  border-color: #fff;
+}
+
+.btn-github:hover {
+  color: #fff;
+  background-color: #1b39c0;
+  border-color: #e6e6e6;
+}
+
+.btn-github:focus, .btn-github.focus {
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
+}
+
+.btn-github.disabled, .btn-github:disabled {
+  color: #fff;
+  background-color: #2548c0;
+  border-color: #fff;
+}
+
+.btn-github:not(:disabled):not(.disabled):active, .btn-github:not(:disabled):not(.disabled).active,
+.show > .btn-facebook.dropdown-toggle {
+  color: #fff;
+  background-color: #2d4373;
+  border-color: #dfdfdf;
+}
+
+.btn-github:not(:disabled):not(.disabled):active:focus, .btn-github:not(:disabled):not(.disabled).active:focus,
+.show > .btn-github.dropdown-toggle:focus {
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.btn-twitter {
+  color: #fff;
+  background-color: #1da1f2;
+  border-color: #fff;
+}
+
+.btn-twitter:hover {
+  color: #fff;
+  background-color: #0c7af2;
+  border-color: #e6e6e6;
+}
+
+.btn-twitter:focus, .btn-twitter.focus {
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
+}
+
+.btn-twitter.disabled, .btn-twitter:disabled {
+  color: #fff;
+  background-color: #3b5998;
+  border-color: #fff;
+}
+
+.btn-twitter:not(:disabled):not(.disabled):active, .btn-twitter:not(:disabled):not(.disabled).active,
+.show > .btn-facebook.dropdown-toggle {
+  color: #fff;
+  background-color: #2d4373;
+  border-color: #dfdfdf;
+}
+
+.btn-twitter:not(:disabled):not(.disabled):active:focus, .btn-twitter:not(:disabled):not(.disabled).active:focus,
+.show > .btn-twitter.dropdown-toggle:focus {
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
+}
+
+
+
+
+
+
+
+
+
+
+
+.badge-danger .badge-counter {
+    animation: bounce 0.7s ease infinite;
+}
+
+@keyframes bounce {
+    from {top: 1.55rem;}
+    50%  {top: 0.55rem;}
+    to   {top: 1.55rem;}
+}
+
+.flag-img-s {
+    max-height: 12px;
+}
+
+.input-like-text {
+    border: none;
+    display: inline;
+    font-family: inherit;
+    font-size: inherit;
+    background-color: transparent;
+    width: auto;
+}
+
+.bg-login-image {
+    background: url(../img/login.jpg) center;
+    background-size: cover;
+}
+
+.bg-register-image {
+    background: url(../img/register.jpg) center;
+    background-size: cover;
+}
+
+.form-control-error {
+    border-radius: 1rem;
+    font-size: smaller;
+    height: auto;
+    margin-bottom: 1rem;
+}

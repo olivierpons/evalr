@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load i18n static staticfiles %}
+
+{% block title %}{% trans "Interrogation" %}{% endblock %}
+
+{% block content %}
+    <h2>{% trans "Interrogation" %}</h2>
+    <p>C'est ici que seront mises les questions</p>
+    <p>
+        <a class="btn btn-default btn"
+           href="{% url 'app_sessions' %}"
+           role="button">{% trans "All my sessions &raquo;" %}</a>
+    </p>
+{% endblock %}

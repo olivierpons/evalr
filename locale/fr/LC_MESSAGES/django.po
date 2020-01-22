@@ -1,0 +1,1923 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-10-06 22:31+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\app\admin\admin.py:71 .\app\admin\admin.py:94
+msgid "Groups of bubbles"
+msgstr "Groupes de bulles"
+
+#: .\app\admin\admin.py:84 .\app\models\bulle.py:53
+msgid "Bubble"
+msgstr "Bulle"
+
+#: .\app\admin\admin.py:85
+msgid "Bubbles"
+msgstr "Bulles"
+
+#: .\app\admin\admin.py:108 .\app\models\entity\base.py:55
+msgid "Parent"
+msgstr "Parent"
+
+#: .\app\admin\admin.py:109
+msgid "Parents"
+msgstr "Parents"
+
+#: .\app\admin\admin.py:130 .\app\models\regle.py:88
+msgid "Rules"
+msgstr "Règles"
+
+#: .\app\admin\admin.py:144 .\app\models\categorie.py:121
+#: .\app\models\expression.py:116 .\app\models\modele.py:72
+#: .\app\models\phrase.py:23
+msgid "{}"
+msgstr "{}"
+
+#: .\app\admin\admin.py:146
+#: .\wizard\views\json\step\new_learners_group\step_3.py:76
+msgid "Summary"
+msgstr "Résumé"
+
+#: .\app\admin\admin.py:151
+msgid "{} -> {}"
+msgstr "{} -> {}"
+
+#: .\app\admin\admin.py:152 .\app\admin\admin.py:153
+msgid "(?)"
+msgstr "(?)"
+
+#: .\app\admin\admin.py:156
+msgid "Example"
+msgstr "Exemple"
+
+#: .\app\admin\admin.py:164
+msgid "Current word"
+msgstr "Le mot courant"
+
+#: .\app\admin\admin.py:170
+msgid "Next word"
+msgstr "Le mot suivant"
+
+#: .\app\admin\admin.py:176
+msgid "Replacing word"
+msgstr "Le mot remplaçant"
+
+#: .\app\admin\admin.py:193 .\app\admin\admin.py:334 .\app\admin\admin.py:375
+#: .\app\models\categorie.py:27
+msgid "Group of categories"
+msgstr "Groupe de catégories"
+
+#: .\app\admin\admin.py:194 .\app\admin\admin.py:376
+#: .\app\models\categorie.py:28
+msgid "Groups of categories"
+msgstr "Groupes de catégories"
+
+#: .\app\admin\admin.py:202 .\app\models\voix.py:86
+msgid "Voice"
+msgstr "Voix"
+
+#: .\app\admin\admin.py:203 .\app\models\voix.py:87
+msgid "Voices"
+msgstr "Voix"
+
+#: .\app\admin\admin.py:213 .\app\admin\admin.py:608
+msgid "Word alone"
+msgstr "Mot seul"
+
+#: .\app\admin\admin.py:225 .\app\admin\admin.py:268 .\app\admin\admin.py:626
+msgid "I."
+msgstr "I."
+
+#: .\app\admin\admin.py:232
+msgid "V."
+msgstr "V."
+
+#: .\app\admin\admin.py:241
+msgid "Automatic generation"
+msgstr "Génération automatique"
+
+#: .\app\admin\admin.py:245 .\app\admin\admin.py:550 .\app\admin\admin.py:585
+#: .\app\admin\admin.py:641
+msgid "Advanced options"
+msgstr "Options avancées"
+
+#: .\app\admin\admin.py:282 .\app\models\categorie.py:104
+#: .\app\models\categorie.py:115
+msgid "Category"
+msgstr "Categorie"
+
+#: .\app\admin\admin.py:283 .\app\models\categorie.py:105
+msgid "Categories"
+msgstr "Catégories"
+
+#: .\app\admin\admin.py:287 .\app\admin\admin.py:380
+#: .\app\forms\generic\generic.py:260 .\app\forms\login.py:14
+#: .\app\forms\register.py:14
+msgid "This field is required"
+msgstr "Ce champ est requis"
+
+#: .\app\admin\admin.py:288 .\app\admin\admin.py:381
+#: .\app\forms\generic\generic.py:261 .\app\forms\register.py:15
+msgid "This field contains invalid data"
+msgstr "Ce champ contient des données invalides"
+
+#: .\app\admin\admin.py:290 .\app\admin\admin.py:383
+msgid "Description:"
+msgstr "Description :"
+
+#: .\app\admin\admin.py:294 .\app\admin\admin.py:388
+msgid "description"
+msgstr "description"
+
+#: .\app\admin\admin.py:298 .\app\admin\admin.py:392
+msgid "Example:"
+msgstr "Exemple :"
+
+#: .\app\admin\admin.py:302 .\app\admin\admin.py:397
+msgid "example"
+msgstr "exemple"
+
+#: .\app\admin\admin.py:335
+msgid "Categories: groups of categories"
+msgstr "Catégories : groupes de catégories"
+
+#: .\app\admin\admin.py:360
+msgid "Current words"
+msgstr "Mots actuels"
+
+#: .\app\admin\admin.py:366 .\app\models\bulle.py:51
+#: .\app\models\categorie.py:111
+msgid "Group"
+msgstr "Groupe"
+
+#: .\app\admin\admin.py:367 .\app\admin\admin.py:431
+msgid "Groups of expressions"
+msgstr "Groupes d'expressions"
+
+#: .\app\admin\admin.py:421
+msgid "Sentence"
+msgstr "Phrase"
+
+#: .\app\admin\admin.py:422
+msgid "Sentences"
+msgstr "Phrases"
+
+#: .\app\admin\admin.py:430
+msgid "Group of expressions"
+msgstr "Groupe d'expressions"
+
+#: .\app\admin\admin.py:440 .\app\admin\generic.py:65
+msgid "Col."
+msgstr "Col."
+
+#: .\app\admin\admin.py:457
+msgid "person"
+msgstr "Personne"
+
+#: .\app\admin\admin.py:458
+msgid "persons"
+msgstr "Personnes"
+
+#: .\app\admin\admin.py:466
+msgid "session"
+msgstr "session"
+
+#: .\app\admin\admin.py:468
+msgid "sessions"
+msgstr "sessions"
+
+#: .\app\admin\admin.py:468
+msgid "for consulting ONLY"
+msgstr "pour consultation UNIQUEMENT"
+
+#: .\app\admin\admin.py:469
+msgid "DO NOT TOUCH"
+msgstr "NE PAS TOUCHER"
+
+#: .\app\admin\admin.py:470
+msgid "they are automatically generated"
+msgstr "elles sont créées automatiquement"
+
+#: .\app\admin\admin.py:496
+msgid "Relation"
+msgstr "Relation"
+
+#: .\app\admin\admin.py:497
+msgid "Relations"
+msgstr "Relations"
+
+#: .\app\admin\admin.py:505
+msgid "Address"
+msgstr "Adresse"
+
+#: .\app\admin\admin.py:506
+msgid "Addresses"
+msgstr "Adresses"
+
+#: .\app\admin\admin.py:514
+msgid "Phone"
+msgstr "Téléphone"
+
+#: .\app\admin\admin.py:515
+msgid "Phones"
+msgstr "Téléphones"
+
+#: .\app\admin\admin.py:523 .\app\models\entity\person.py:157
+#: .\app\models\personne_session.py:14
+msgid "Person"
+msgstr "Personne"
+
+#: .\app\admin\admin.py:528
+msgid "Gravatar image"
+msgstr "Image gravatar"
+
+#: .\app\admin\admin.py:536
+msgid "Activated"
+msgstr "Actif"
+
+#: .\app\admin\admin.py:564 .\app\admin\admin.py:572 .\app\admin\admin.py:615
+msgid "See"
+msgstr "Voir"
+
+#: .\app\admin\admin.py:565 .\app\models\interrogation.py:48
+#: .\templates\index.html:4 .\templates\index.html:7
+#: .\templates\interrogation_detail.html:5
+msgid "Interrogation"
+msgstr "Interrogation"
+
+#: .\app\admin\admin.py:573 .\templates\personnesession_detail.html:5
+msgid "Session"
+msgstr "Session"
+
+#: .\app\admin\admin.py:582
+msgid "Parent links"
+msgstr "Liens parents"
+
+#: .\app\admin\admin.py:599
+msgid "Full sentence"
+msgstr "Phrase complète"
+
+#: .\app\admin\admin.py:616
+msgid "Person session sentence"
+msgstr "Personne session phrase"
+
+#: .\app\admin\admin.py:633
+msgid "Correction"
+msgstr "Correction"
+
+#: .\app\admin\admin.py:637 .\app\admin\generic.py:53
+msgid "Audio"
+msgstr "Audio"
+
+#: .\app\admin\admin.py:655
+msgid "Interro / administration"
+msgstr "Interro / administration"
+
+#: .\app\admin\admin.py:682
+msgid "Frequently needed"
+msgstr ""
+
+#: .\app\admin\generic.py:45
+msgid "Your web browser can't read audio files."
+msgstr "Votre navigateur ne sait pas lire directement les fichiers audio."
+
+#: .\app\admin\generic.py:77
+msgid "Check as IMPORTANT for an interrogation"
+msgstr "Marquer comme IMPORTANT pour une interrogation"
+
+#: .\app\admin\generic.py:85
+msgid "Check as NOT important for an interrogation"
+msgstr "Marquer comme PAS important pour une interrogation"
+
+#: .\app\admin\generic.py:99
+msgid "Check as verified and OK"
+msgstr "Marquer comme corrigé, et OK"
+
+#: .\app\admin\generic.py:107
+msgid "Check as verified and NOT ok"
+msgstr "Marquer comme corrigé, et PAS ok"
+
+#: .\app\forms\generic\generic.py:281
+msgid "Url must contains only alphanumerics, \"_\", \"-\" or \".\" characters"
+msgstr ""
+"Url doit contenir uniquement des caractères alphanumériques, \"_\", \"-\" ou "
+"\".\""
+
+#: .\app\forms\login.py:15
+#, python-format
+msgid ""
+"Please enter a correct %(username)s and password. Note that both fields may "
+"be case-sensitive."
+msgstr ""
+"Entrez un %(username)s acceptable et un mot de passe. Les deux champs sont "
+"sensibles à la casse."
+
+#: .\app\forms\login.py:18
+msgid "This account is inactive."
+msgstr "Ce compte est inactif"
+
+#: .\app\forms\login.py:20 .\app\forms\register.py:17
+#: .\app\forms\register.py:22 .\app\forms\register.py:26
+#: .\wizard\views\json\step\new_learners_group\step_2.py:34
+#: .\wizard\views\json\step\new_learners_group\step_3.py:34
+msgid "Email"
+msgstr "Email"
+
+#: .\app\forms\login.py:26 .\app\forms\register.py:30
+msgid "Password"
+msgstr "mot de passe"
+
+#: .\app\forms\register.py:34
+msgid "Repeat password"
+msgstr "Répétez le mot de passe"
+
+#: .\app\forms\register.py:50 .\app\forms\register.py:51
+msgid "Passwords do not match"
+msgstr "Les mots de passe sont différents"
+
+#: .\app\forms\voix.py:35
+msgid "File too big (limit: 40Mb)"
+msgstr "Fichier trop grand (limite : 40 Mb )"
+
+#: .\app\forms\voix.py:55
+msgid "File conversion error"
+msgstr "Erreur de conversion du fichier"
+
+#: .\app\forms\voix.py:59 .\app\forms\voix.py:61
+msgid "File reading error"
+msgstr "Erreur de lecture du fichier"
+
+#: .\app\models\base.py:12 .\wizard\models\wz_user_step.py:81
+msgid "Created"
+msgstr "Crée"
+
+#: .\app\models\base.py:14 .\wizard\models\wz_user_step.py:83
+msgid "Last changed"
+msgstr "Dernière modification"
+
+#: .\app\models\base.py:17 .\app\models\generic.py:26
+msgid "V. start"
+msgstr "V. début"
+
+#: .\app\models\base.py:21 .\app\models\generic.py:32
+msgid "V. end"
+msgstr "V. fin"
+
+#: .\app\models\base.py:27
+msgid "No date"
+msgstr "Aucune date"
+
+#: .\app\models\base.py:38
+msgid "1 day ago"
+msgstr "Il y a 1 jour"
+
+#: .\app\models\base.py:40
+msgid "{} days ago"
+msgstr "il y a {} jours"
+
+#: .\app\models\base.py:42
+msgid "Just now"
+msgstr "Maintenant"
+
+#: .\app\models\base.py:44
+msgid "{} seconds ago"
+msgstr "il y a {} secondes"
+
+#: .\app\models\base.py:46
+msgid "1 minute ago"
+msgstr "il y a 1 minute"
+
+#: .\app\models\base.py:48
+msgid "{} minutes ago"
+msgstr "il y a {} minutes"
+
+#: .\app\models\base.py:50
+msgid "1 hour ago"
+msgstr "il a 1 heure"
+
+#: .\app\models\base.py:52
+msgid "{} hours ago"
+msgstr "il a {} heures"
+
+#: .\app\models\base.py:68
+msgid "(no date)"
+msgstr "(aucune date)"
+
+#: .\app\models\bulle.py:27
+msgid "{} - {} ({})"
+msgstr "{} - {} ({})"
+
+#: .\app\models\bulle.py:43 .\app\models\interrogation.py:45
+msgid "{} - {}"
+msgstr "{} - {}"
+
+#: .\app\models\bulle.py:46
+msgid "Group of bubbles"
+msgstr "Groupe de bulles"
+
+#: .\app\models\bulle.py:47
+msgid "Bubbles: groups of bubbles"
+msgstr "Bulles : groupes de bulles"
+
+#: .\app\models\bulle.py:57 .\app\models\categorie.py:135
+msgid "{} / {}"
+msgstr "{} / {}"
+
+#: .\app\models\categorie.py:21 .\app\models\categorie.py:99
+msgid "{}{}"
+msgstr "{}{}"
+
+#: .\app\models\categorie.py:35
+msgid "Groups of categories of the current expression"
+msgstr "Groupes de catégories de l'expression courante"
+
+#: .\app\models\categorie.py:39
+msgid "Groups of categories of the next expression"
+msgstr "Groupes de catégories de l'expression suivante"
+
+#: .\app\models\categorie.py:48
+msgid "{} + {} = ({} <> {}) -> {}"
+msgstr "{} + {} = ({} <> {}) -> {}"
+
+#: .\app\models\categorie.py:57
+msgid "Categories: groups of categories / rule"
+msgstr "Catégories : groupes de catégories / règle"
+
+#: .\app\models\categorie.py:58
+msgid "Categories: groups of categories / rules"
+msgstr "Catégories : groupes de catégories / règles"
+
+#: .\app\models\categorie.py:81
+#, python-brace-format
+msgid "({g1} <> {g2}) -> {regle}"
+msgstr "({g1} <> {g2}) -> {regle}"
+
+#: .\app\models\categorie.py:127
+msgid "Src link"
+msgstr "Lien src"
+
+#: .\app\models\categorie.py:131
+msgid "Dst link"
+msgstr "Lien dst"
+
+#: .\app\models\document\base.py:13
+msgid "no state"
+msgstr "aucun état"
+
+#: .\app\models\document\state.py:9
+msgid "Expired"
+msgstr "Expiré"
+
+#: .\app\models\document\state.py:21
+msgid "no previous"
+msgstr "pas de précédent"
+
+#: .\app\models\document\state.py:26
+msgid "no current"
+msgstr "pas de courant"
+
+#: .\app\models\entity\base.py:35
+msgid "Entity address"
+msgstr "Entrez une adresse mail..."
+
+#: .\app\models\entity\base.py:36
+msgid "Entity addresses"
+msgstr "Entrez une adresse mail..."
+
+#: .\app\models\entity\base.py:48
+msgid "Entity phone"
+msgstr "Entité - téléphone"
+
+#: .\app\models\entity\base.py:49
+msgid "Entity phones"
+msgstr "Entité - téléphones"
+
+#: .\app\models\entity\base.py:56
+msgid "Child"
+msgstr "Enfant"
+
+#: .\app\models\entity\base.py:60
+msgid "Husband"
+msgstr "Mari"
+
+#: .\app\models\entity\base.py:61
+msgid "Wife"
+msgstr "Femme"
+
+#: .\app\models\entity\base.py:65
+msgid "Teacher"
+msgstr "Professeur"
+
+#: .\app\models\entity\base.py:66
+msgid "Learner"
+msgstr "Apprenant"
+
+#: .\app\models\entity\base.py:70
+msgid "Group of learners"
+msgstr "Groupe d'apprenants"
+
+#: .\app\models\entity\base.py:99
+msgid "Entity link"
+msgstr "Lien entité"
+
+#: .\app\models\entity\base.py:100
+msgid "Entity links"
+msgstr "Lien entités"
+
+#: .\app\models\entity\base.py:107
+msgid "There's already an opposite link like that"
+msgstr "Il y a déjà un lien oppose comme celui-ci"
+
+#: .\app\models\entity\entities_group.py:17
+#: .\app\models\entity\entities_group.py:32
+#: .\app\models\entity\entities_group_type.py:15
+msgid "(no name)"
+msgstr "(aucun nom)"
+
+#: .\app\models\entity\entities_group.py:31
+#: .\app\models\entity\entities_group_type.py:11
+msgid "(no type)"
+msgstr "(aucun type)"
+
+#: .\app\models\entity\entities_group.py:39
+msgid "Entities group"
+msgstr "Groupe d'entités"
+
+#: .\app\models\entity\entities_group.py:40
+msgid "Entities groups"
+msgstr "Groupes d'entités"
+
+#: .\app\models\entity\entities_group_type.py:9 .\templates\new\index.html:85
+#: .\templates\new\index.html:96 .\templates\new\index.html:97
+msgid "Learners"
+msgstr "Apprenants"
+
+#: .\app\models\entity\entities_group_type.py:18
+msgid "Entities group type"
+msgstr "Type de groupe d'entités"
+
+#: .\app\models\entity\entities_group_type.py:19
+msgid "Entities group types"
+msgstr "Types de groupe d'entités"
+
+#: .\app\models\entity\person.py:30
+msgid "No file"
+msgstr "Aucun fichier"
+
+#: .\app\models\entity\person.py:153
+msgid "No email"
+msgstr "Aucun mail"
+
+#: .\app\models\entity\person.py:158 .\app\models\interrogation.py:39
+msgid "Persons"
+msgstr "Personnes"
+
+#: .\app\models\expression.py:43
+msgid "Generate if no file"
+msgstr "Générer si aucun fichier"
+
+#: .\app\models\expression.py:46
+msgid "Language"
+msgstr "Langue"
+
+#: .\app\models\expression.py:53
+msgid "Important"
+msgstr "Important"
+
+#: .\app\models\expression.py:80
+msgid "{} (generated with gTTS)"
+msgstr "{} (generé avec gTTS)"
+
+#: .\app\models\expression.py:111
+msgid "Description"
+msgstr "Description"
+
+#: .\app\models\expression.py:130
+msgid "Expression: group of categories"
+msgstr "Expression : groupe de catégories de l'expression"
+
+#: .\app\models\expression.py:131
+msgid "Expression: groups of categories"
+msgstr "Expression : groupes de catégories de l'expression"
+
+#: .\app\models\expression.py:143
+msgid "Expression voice"
+msgstr "Voix de l'expression"
+
+#: .\app\models\expression.py:144
+msgid "Expression voices"
+msgstr "Voix de l'expression"
+
+#: .\app\models\expression.py:152
+msgid "Expressions group"
+msgstr "Groupe d'expression"
+
+#: .\app\models\expression.py:153
+msgid "Expressions groups"
+msgstr "Groupes d'expressions"
+
+#: .\app\models\generic.py:19
+msgid "Date C."
+msgstr "Date C."
+
+#: .\app\models\generic.py:21
+msgid "Date M."
+msgstr "Date M."
+
+#: .\app\models\generic.py:40
+msgid "Infinite"
+msgstr "Infini"
+
+#: .\app\models\generic.py:59
+msgid "Private"
+msgstr "Privé"
+
+#: .\app\models\generic.py:60
+msgid "Only close relationships"
+msgstr "Seulement des relations proches"
+
+#: .\app\models\generic.py:61
+msgid "Everybody"
+msgstr "Tout le monde"
+
+#: .\app\models\interrogation.py:32
+msgid "Creator"
+msgstr "Créateur"
+
+#: .\app\models\interrogation.py:36
+msgid "Interrogation template"
+msgstr "Modèle d'interrogation"
+
+#: .\app\models\interrogation.py:49 .\templates\interrogation_list.html:4
+#: .\templates\interrogation_list.html:8
+msgid "Interrogations"
+msgstr "Interrogations"
+
+#: .\app\models\interrogation.py:63
+msgid "Person interrogation"
+msgstr "Interrogation de personne"
+
+#: .\app\models\interrogation.py:64
+msgid "Person interrogations"
+msgstr "Interrogations de personne"
+
+#: .\app\models\langue.py:28
+msgid "- activated"
+msgstr "- actif"
+
+#: .\app\models\langue.py:32
+msgid "Languages"
+msgstr "Langues"
+
+#: .\app\models\modele.py:30
+msgid "Exam template"
+msgstr "Modèle d'examen"
+
+#: .\app\models\modele.py:31
+msgid "Exam templates"
+msgstr "Modèles d'examens"
+
+#: .\app\models\modele.py:44
+msgid "Exam template - group of expressions"
+msgstr "Modèle d'examen - groupe d'expressions"
+
+#: .\app\models\modele.py:45
+msgid "Exam template - groups of expressions"
+msgstr "Modèle d'examen - groupes d'expressions"
+
+#: .\app\models\modele.py:60
+msgid "Exam template - sentence"
+msgstr "Modèle d'examen - phrase"
+
+#: .\app\models\modele.py:61
+msgid "Exam template - sentences"
+msgstr "Modèle d'examen - phrases"
+
+#: .\app\models\modele.py:67
+msgid "Number of sentences"
+msgstr "Nombre de phrases"
+
+#: .\app\models\modele.py:69
+msgid "Length (in minutes)"
+msgstr "Durée (en minutes)"
+
+#: .\app\models\modele.py:75
+msgid "Exam template - Session"
+msgstr "Modèle d'examen - session"
+
+#: .\app\models\modele.py:76
+msgid "Exam template - Sessions"
+msgstr "Modèle d'examen - sessions"
+
+#: .\app\models\personne_session.py:16
+msgid "Session ref."
+msgstr "Réf. session"
+
+#: .\app\models\personne_session.py:19
+msgid "Interro ref."
+msgstr "Réf. interro"
+
+#: .\app\models\personne_session.py:27
+msgid "N°{} : {} / {} "
+msgstr "N°{} : {} / {} "
+
+#: .\app\models\personne_session.py:31
+msgid "Interrogation: session of a person"
+msgstr "Examen : session d'une personne"
+
+#: .\app\models\personne_session.py:32
+msgid "Interrogation: sessions of a person"
+msgstr "Examen : sessions de personnes"
+
+#: .\app\models\personne_session.py:45
+msgid "N°{} (session n°{} : {}) / {}"
+msgstr "N°{} (session n°{} : {}) / {}"
+
+#: .\app\models\personne_session.py:60
+msgid "To be done"
+msgstr "En attente"
+
+#: .\app\models\personne_session.py:61
+msgid "Done"
+msgstr "Corrigé"
+
+#: .\app\models\personne_session.py:70
+msgid "Valid"
+msgstr "Valide"
+
+#: .\app\models\phrase.py:17
+msgid "Silence length (start of the sentence)"
+msgstr "Durée du silence au début de la phrase"
+
+#: .\app\models\phrase.py:20
+msgid "Silence length (end of the sentence)"
+msgstr "Durée du silence à la fin de la phrase"
+
+#: .\app\models\phrase.py:40
+msgid "Sentence: group of categories"
+msgstr "Phrase : groupe de catégories de la phrase"
+
+#: .\app\models\phrase.py:41
+msgid "Sentence: groups of categories"
+msgstr "Phrase : groupes de catégories de la phrase"
+
+#: .\app\models\regle.py:12
+msgid "... starts with"
+msgstr "... commence par"
+
+#: .\app\models\regle.py:13
+msgid "... ends with"
+msgstr "... commence par"
+
+#: .\app\models\regle.py:14
+msgid "... doesn't start with"
+msgstr "... ne commence pas par"
+
+#: .\app\models\regle.py:15
+msgid "... doesn't end with"
+msgstr "... ne se termine pas par"
+
+#: .\app\models\regle.py:31 .\app\models\regle.py:43 .\app\models\regle.py:87
+msgid "Rule"
+msgstr "Règle"
+
+#: .\app\models\regle.py:35 .\app\models\regle.py:47
+msgid "letters (un-checked) or words (checked)"
+msgstr "lettres (pas coché) ou des mots (coché)"
+
+#: .\app\models\regle.py:36 .\app\models\regle.py:48
+msgid "Ex.: letters: 'ùûüÿAE', words: 'un|des|les|ces'"
+msgstr "Ex.: lettres : 'ùûüÿAE', mots : 'un|des|les|ces'"
+
+#: .\app\models\regle.py:39 .\app\models\regle.py:51
+msgid "Not case sensitive"
+msgstr "Insensible à la casse"
+
+#: .\app\models\regle.py:82
+msgid "{} ({} <> {})..."
+msgstr "{} ({} <> {})..."
+
+#: .\app\models\voix.py:83
+msgid "{}, n°{}"
+msgstr "{}, n°{}"
+
+#: .\app\models\voix.py:96
+msgid "{} ({} ms)"
+msgstr "{} ({} ms)"
+
+#: .\app\models\voix.py:99
+msgid "Voice: merge"
+msgstr "Voix : fusion"
+
+#: .\app\models\voix.py:100
+msgid "Voice: merges"
+msgstr "Voix : fusions"
+
+#: .\app\views\auth\forgot_password.py:22
+#: .\templates\auth\forgot-password.html:21
+msgid "Forgot your password?"
+msgstr "Mot de passe oublié&nbsp;?"
+
+#: .\app\views\auth\forgot_password.py:42
+msgid "You're a social person!"
+msgstr "Vous êtes une personne sociale&nbsp;!"
+
+#: .\app\views\auth\forgot_password.py:43
+msgid "You registered here via a social network."
+msgstr "Vous vous êtes enregistré via un réseau social"
+
+#: .\app\views\auth\forgot_password.py:44
+msgid "Please connect via a social network available here."
+msgstr "Connectez-vous avec l'un des réseaux sociaux disponibles ici"
+
+#: .\app\views\auth\forgot_password.py:57 .\app\views\auth\reset_password.py:14
+msgid "Password reset"
+msgstr "Ré-initialisation du mot de passe"
+
+#: .\app\views\auth\forgot_password.py:59
+#, python-format
+msgid "You've asked to reset your password on %(site_name)s"
+msgstr ""
+"Vous avez demandé à ré-initialiser votre mot de passe sur %(site_name)s"
+
+#: .\app\views\auth\forgot_password.py:61
+msgid "Please go to the following page and choose a new password:"
+msgstr "Allez sur cette page et changez votre mot de passe :"
+
+#: .\app\views\auth\forgot_password.py:68
+msgid "Thanks for using our site!"
+msgstr "Merci de venir sur notre site !"
+
+#: .\app\views\auth\forgot_password.py:69
+#, python-format
+msgid "See you soon on %(site_name)s"
+msgstr "A très bientôt sur %(site_name)s"
+
+#: .\app\views\auth\forgot_password.py:71
+#, python-format
+msgid "The %(site_name)s's team"
+msgstr "L'équipe %(site_name)s"
+
+#: .\app\views\auth\forgot_password.py:83
+msgid "Email sent!"
+msgstr "Email envoyé !"
+
+#: .\app\views\auth\forgot_password.py:84
+msgid "A reset link has been sent"
+msgstr "Un lien de ré-initialisation vous a été envoyé"
+
+#: .\app\views\auth\forgot_password.py:85
+msgid "(if your email is in our database)."
+msgstr "(si votre mail est connu)"
+
+#: .\app\views\auth\login.py:36 .\app\views\auth\register_validate.py:25
+msgid "Already logged in"
+msgstr "Déjà connecté"
+
+#: .\app\views\auth\login.py:37
+msgid "You are already logged."
+msgstr "Vous êtes déjà connecté."
+
+#: .\app\views\auth\login.py:38
+msgid "If you want to logout:"
+msgstr "Si vous voulez vous déconnecter&nbsp;:"
+
+#: .\app\views\auth\login.py:39
+msgid "- click on your username"
+msgstr "- cliquez sur votre nom d'utilisateur"
+
+#: .\app\views\auth\login.py:40
+#, python-brace-format
+msgid "- click on {logout}"
+msgstr "- cliquez sur {logout}"
+
+#: .\app\views\auth\login.py:46 .\app\views\index.py:11 .\app\views\index.py:20
+msgid "Home"
+msgstr "Accueil"
+
+#: .\app\views\auth\password_reset.py:47
+msgid "Change password"
+msgstr "Nouveau mot de passe"
+
+#: .\app\views\auth\password_reset.py:65 .\app\views\auth\reset_password.py:19
+msgid "Password reset!"
+msgstr "Mot de passe ré-initialisé !"
+
+#: .\app\views\auth\password_reset.py:66
+msgid "Your password has been reset!"
+msgstr "Votre mot de passe a été changé !"
+
+#: .\app\views\auth\password_reset.py:67
+msgid "You can login with your new password."
+msgstr "Vous pouvez vous connecter avec votre nouveau mot de passe"
+
+#: .\app\views\auth\register.py:22
+msgid "Registration"
+msgstr "S'enregistrer"
+
+#: .\app\views\auth\register.py:32
+msgid "Email already used"
+msgstr "Email déjà utilisé"
+
+#: .\app\views\auth\register.py:55
+msgid "Thanks for registering!"
+msgstr "Merci pour votre enregistrement !"
+
+#: .\app\views\auth\register.py:57
+msgid "Thanks for signing up!"
+msgstr "Merci de vous être enregistré !"
+
+#: .\app\views\auth\register.py:58
+msgid ""
+"We sincerely hope that you will appreciate this new and innovative "
+"international way to teach / and / or / learn things, for which the "
+"operative word is “fun”"
+msgstr ""
+"Nous espérons que vous apprécierez cette nouvelle méthode d'apprentissage "
+"internationale, pour laquelle le mot clé est “fun” !"
+
+#: .\app\views\auth\register.py:62
+msgid "To validate your registration, click on the following link:"
+msgstr "Pour valider votre enregistrement, cliquez sur le lien suivant :"
+
+#: .\app\views\auth\register.py:77
+msgid "Successful registration!"
+msgstr "Enregistrement réussi !"
+
+#: .\app\views\auth\register.py:79
+msgid ""
+"An email containing an activation link has been sent to the email address "
+"you provided."
+msgstr ""
+"Un email contenant un lien d'activation a été envoyé à l'adresse email que "
+"vous avez donnée."
+
+#: .\app\views\auth\register_validate.py:26
+msgid "You were logged as another user"
+msgstr "Vous étiez connecté sous un autre utilisateur"
+
+#: .\app\views\auth\register_validate.py:27
+msgid "You have been disconnected"
+msgstr "Vous avez été déconnecté"
+
+#: .\app\views\auth\register_validate.py:28
+msgid "Please reconnect"
+msgstr "Re-connectez vous"
+
+#: .\app\views\auth\register_validate.py:40
+#: .\app\views\auth\register_validate.py:51
+msgid "Account activated!"
+msgstr "Compte activé !"
+
+#: .\app\views\auth\register_validate.py:41
+msgid "You have been automatically logged"
+msgstr "Vous avez été connecté automatiquement"
+
+#: .\app\views\auth\register_validate.py:42
+msgid "(your account was already activated)"
+msgstr "(votre compte était déjà actif)"
+
+#: .\app\views\auth\register_validate.py:52
+msgid "Welcome to {}!"
+msgstr "Bienvenue chez {} !"
+
+#: .\app\views\auth\register_validate.py:53
+msgid "Congratulations!"
+msgstr "Félicitations !"
+
+#: .\app\views\auth\register_validate.py:54
+msgid "Your account has been activated!"
+msgstr "Votre compte a été activé !"
+
+#: .\app\views\auth\reset_password.py:20
+msgid "Your password has been successfully reset."
+msgstr "Votre mot de passe a été changé avec succès."
+
+#: .\app\views\auth\reset_password.py:21
+msgid "You can now login with your new password."
+msgstr "Vous pouvez vous connecter avec votre nouveau mot de passe"
+
+#: .\app\views\interrogation_list.py:19 .\app\views\session_list.py:41
+msgid " - "
+msgstr " - "
+
+#: .\app\views\personne_session.py:50
+msgid "This session isn't yours"
+msgstr "Cette session n'est pas la vôtre"
+
+#: .\app\views\personne_session.py:51
+msgid "Try a session that is yours"
+msgstr "Essayez une session qui est la vôtre"
+
+#: .\app\views\personne_session.py:140
+msgid "No voice to generate"
+msgstr "Aucune voix à générer"
+
+#: .\app\views\personne_session.py:159 .\app\views\personne_session.py:178
+msgid "File deletion error"
+msgstr "Erreur suppression fichier"
+
+#: .\app\views\personne_session.py:163 .\app\views\personne_session.py:182
+msgid "File moving error"
+msgstr "Erreur déplacement fichier"
+
+#: .\app\views\personne_session.py:251
+msgid ""
+"The following words have no associated sound. They can't be in an "
+"interrogation."
+msgstr ""
+"Les mots qui suivent n'ont pas de son associé. Ils ne peuvent donc pas être "
+"dans une interrogation."
+
+#: .\app\views\personne_session.py:254
+msgid "&nbsp;&raquo; &raquo; there's a sound needed for:"
+msgstr "&nbsp;&raquo; &raquo; Il vous faut un son pour&nbsp;:"
+
+#: .\app\views\personne_session.py:257
+msgid ""
+"Following words have no groups of categories. They can't be used in a "
+"sentence."
+msgstr ""
+"Les mots qui suivent n'ont pas de groupes de catégories. Ils ne peuvent donc "
+"pas être mis dans une phrase."
+
+#: .\app\views\personne_session.py:261
+msgid "You have to associate at least one category:"
+msgstr "Il vous faut associer au moins une catégorie à&nbsp;:"
+
+#: .\app\views\personne_session.py:352
+msgid "A rule isn't properly setup"
+msgstr "Une règle n'est pas définie correctement"
+
+#: .\app\views\personne_session.py:353
+msgid "There's one word missing for this rule:"
+msgstr "Il manque un mot remplaçant pour cette règle :"
+
+#: .\app\views\personne_session.py:414
+msgid ""
+"The following word have no sentence to go and therefore can't be shown/used"
+msgstr ""
+"Les mots qui suivent n'ont aucune phrase où aller et ne peuvent donc pas "
+"être proposés"
+
+#: .\app\views\personne_session.py:418
+msgid "You have to add a sentence that contains:"
+msgstr "Il vous faut ajouter une phrase qui contient&nbsp;:"
+
+#: .\app\views\wizard\index.py:13 .\app\views\wizard\new_exam.py:13
+#: .\app\views\wizard\new_exam_template.py:13
+#: .\wizard\models\wz_user_step.py:36
+msgid "Wizard"
+msgstr "Assistant"
+
+#: .\app\views\wizard\new_learners_group.py:13
+msgid "New learners group - Wizard"
+msgstr "Nouveau groupe d'apprenants - Assistant"
+
+#: .\app\views\wizards.py:13 .\templates\new\base.html:78
+#: .\templates\new\index.html:16 .\templates\new\index.html:28
+#: .\templates\new\index.html:29 .\templates\new\wizards.html:256
+msgid "Wizards"
+msgstr "Assistants"
+
+#: .\interro\settings.py:240
+msgid "English"
+msgstr "Anglais"
+
+#: .\interro\settings.py:241
+msgid "French"
+msgstr "Français"
+
+#: .\interro\urls.py:92
+msgid "^wizards/?$"
+msgstr "^assistants/?$"
+
+#: .\interro\urls.py:93
+msgid "^wizard/?$"
+msgstr "^assistant/?$"
+
+#: .\interro\urls.py:94
+msgid "^wizard/new-examination-template/?$"
+msgstr "^wizard/nouveau-modele-examen/?$"
+
+#: .\interro\urls.py:96
+msgid "^wizard/new-exam/?$"
+msgstr "^wizard/nouvel-examen/?$"
+
+#: .\interro\urls.py:98
+msgid "^wizard/new-learners-group/?$"
+msgstr "^wizard/nouveau-groupe-apprenants/?$"
+
+#: .\interro\urls.py:102
+msgid "^interrogation/(?P<slug>[^/.]+)/$"
+msgstr "^interrogation/(?P<slug>[^/.]+)/$"
+
+#: .\interro\urls.py:104
+msgid "^interrogations/$"
+msgstr "^interrogations/$"
+
+#: .\interro\urls.py:106
+msgid "^sessions/$"
+msgstr "^sessions/$"
+
+#: .\interro\urls.py:108
+msgid "^session/(?P<pk>[0-9]+)/$"
+msgstr "^session/(?P<pk>[0-9]+)/$"
+
+#: .\templates\admin\base_site.html:3
+msgid "Django site admin"
+msgstr "Site d'administration Django"
+
+#: .\templates\admin\base_site.html:6
+msgid "Django administration"
+msgstr "Administration Django"
+
+#: .\templates\auth\forgot-password.html:24
+msgid ""
+"We get it, stuff happens. Just enter your email address below and we'll send "
+"you a link to reset your password!"
+msgstr ""
+"Cela arrive... Entrez votre adresse email ci-dessous et nous vous enverrons "
+"un lien pour ré-initialiser votre mot de passe !"
+
+#: .\templates\auth\forgot-password.html:41
+msgid "Enter Email address..."
+msgstr "Entrez une adresse mail..."
+
+#: .\templates\auth\forgot-password.html:45
+msgid "Reset Password"
+msgstr "Ré-initialiser le mot de passe"
+
+#: .\templates\auth\forgot-password.html:51 .\templates\auth\login.html:109
+#: .\templates\auth\register.html:16
+msgid "Create an account!"
+msgstr "Créer un compte&nbsp;!"
+
+#: .\templates\auth\forgot-password.html:56 .\templates\auth\register.html:122
+msgid "Already have an account? Login!"
+msgstr "Déjà inscrit&nbsp;? Connectez-vous&nbsp;!"
+
+#: .\templates\auth\login.html:20
+msgid "Welcome back!"
+msgstr "Bienvenue&nbsp;!"
+
+#: .\templates\auth\login.html:36
+msgid "username or email..."
+msgstr "username ou email..."
+
+#: .\templates\auth\login.html:55
+msgid "password..."
+msgstr "mot de passe"
+
+#: .\templates\auth\login.html:80
+msgid "Remember me"
+msgstr "Se souvenir de moi"
+
+#: .\templates\auth\login.html:85
+msgid "Login"
+msgstr "Se connecter"
+
+#: .\templates\auth\login.html:104
+msgid "Forgot password?"
+msgstr "Mot de passe oublié&nbsp;?"
+
+#: .\templates\auth\password-reset.html:23
+msgid ""
+"Please enter your old password, for security's sake, and then enter your new "
+"password twice so we can verify you typed it in correctly."
+msgstr ""
+"Pour des raisons de sécurité, entrez votre ancien mot de passe votre nouveau "
+"mot puis re-tapez le, afin de vous assurer que vous l'avez correctement tapé."
+
+#: .\templates\auth\password-reset.html:54
+msgid "Change my password"
+msgstr "Nouveau mot de passe"
+
+#: .\templates\auth\password-reset.html:60
+msgid "Remember your password? Login!"
+msgstr "Mot de passe retrouvé&nbsp;? Connexion&nbsp;!"
+
+#: .\templates\auth\register.html:31
+msgid "First Name"
+msgstr "Prénom"
+
+#: .\templates\auth\register.html:45
+msgid "Last Name"
+msgstr "Nom"
+
+#: .\templates\auth\register.html:90
+msgid "Register account"
+msgstr "S'enregistrer&nbsp;!"
+
+#: .\templates\auth\register.html:96
+msgid "Register with Google"
+msgstr "S'enregistrer avec Google"
+
+#: .\templates\auth\register.html:101
+msgid "Register with Facebook"
+msgstr "S'enregistrer avec Facebook"
+
+#: .\templates\auth\register.html:106
+msgid "Register with Twitter"
+msgstr "S'enregistrer avec Twitter"
+
+#: .\templates\auth\register.html:111
+msgid "Register with Github"
+msgstr "S'enregistrer avec Github"
+
+#: .\templates\auth\register.html:117
+msgid "Forgot Password?"
+msgstr "Mot de passe oublié&nbsp;?"
+
+#: .\templates\base.html:43
+msgid "Interrogation!"
+msgstr "Interrogation&nbsp;!"
+
+#: .\templates\base.html:47
+#, python-format
+msgid "Welcome, %(nom)s"
+msgstr "Bienvenue, %(nom)s"
+
+#: .\templates\base.html:98
+msgid "Help students to learn with pleasure"
+msgstr "Aidez vos étudiants à apprendre avec plaisir"
+
+#: .\templates\icones.html:4
+msgid "icons"
+msgstr "icônes"
+
+#: .\templates\include\messages.html:18 .\templates\include\messages.html:39
+#: .\templates\new\wizard\index.html:45
+msgid "Close"
+msgstr "Fermer"
+
+#: .\templates\index.html:12
+msgid "All my sessions &raquo;"
+msgstr "Toutes mes sessions &raquo;"
+
+#: .\templates\interrogation_detail.html:45
+#: .\templates\personnesession_detail.html:56
+msgid "Solution"
+msgstr "Solution"
+
+#: .\templates\interrogation_list.html:20
+#: .\templates\personnesession_list.html:20
+msgid "Go &raquo;"
+msgstr "Go &raquo;"
+
+#: .\templates\interrogation_list.html:25
+msgid "No interrogation yet"
+msgstr "Aucune interrogation actuellement"
+
+#: .\templates\new\base.html:88 .\templates\new\index.html:111
+#: .\templates\personnesession_list.html:4
+#: .\templates\personnesession_list.html:8
+msgid "Sessions"
+msgstr "Sessions"
+
+#: .\templates\new\base.html:458
+msgid "Ready to leave?"
+msgstr "Prêt à partir&nbsp;?"
+
+#: .\templates\new\base.html:465
+msgid "Select \"Logout\" below if you are ready to end your current session."
+msgstr "Choisissez \"Déconnexion\" si vous voulez terminer votre session"
+
+#: .\templates\new\base.html:471
+msgid "Cancel"
+msgstr "Annuler"
+
+#: .\templates\new\base.html:472
+msgid "Logout"
+msgstr "Déconnexion"
+
+#: .\templates\new\index.html:49 .\templates\new\index.html:70
+#: .\templates\new\index.html:71
+msgid "Examinations"
+msgstr "Examens"
+
+#: .\templates\new\index.html:120 .\templates\new\wizards.html:324
+msgid "New session"
+msgstr "Nouvelle session"
+
+#: .\templates\new\index.html:126
+msgid "Modify session"
+msgstr "Modifier une session"
+
+#: .\templates\new\wizard\index.html:39
+msgid "Reset Wizard"
+msgstr "Ré-initialiser le mot de passe"
+
+#: .\templates\new\wizard\index.html:56
+msgid "The wizard won't work with your Web-browser."
+msgstr "L'assistant ne fonctionne pas sur votre navigateur"
+
+#: .\templates\new\wizard\index.html:58
+msgid "Please upgrade it to a newer version."
+msgstr "Mettez le à jour avec une version plus récente."
+
+#: .\templates\new\wizard\index.html:60
+msgid "You may upgrade, or try, Chrome, or Firefox."
+msgstr "Essayez Chrome, Chromium ou Firefox."
+
+#: .\templates\new\wizard\index.html:62
+msgid "We're sorry for that inconvenience"
+msgstr "Nous somme désolés pour ce problème"
+
+#: .\templates\new\wizard\index.html:85
+msgid "Help"
+msgstr "Aide"
+
+#: .\templates\new\wizard\index.html:88
+msgid "The server didn't send a specific error message"
+msgstr "Le serveur n'a pas envoyé de message d'erreur explicite"
+
+#: .\templates\new\wizard\index.html:90
+msgid "A critical error happened with an AJAX call"
+msgstr "Une erreur critique est arrivée lors d'un appel AJAX"
+
+#: .\templates\new\wizard\index.html:92
+msgid "Click here to reset the whole configuration"
+msgstr "Cliquez ici pour ré-initialiser la configuration"
+
+#: .\templates\new\wizard\index.html:94
+msgid "Select all"
+msgstr "Sélectionner tout"
+
+#: .\templates\new\wizard\index.html:95
+msgid "Deselect all"
+msgstr "Dé-sélectionner tout"
+
+#: .\templates\new\wizards.html:268
+msgid "New learners group"
+msgstr "Nouveau groupe d'apprenants"
+
+#: .\templates\new\wizards.html:277 .\templates\new\wizards.html:315
+msgid "New examination"
+msgstr "Nouvel examen"
+
+#: .\templates\new\wizards.html:287
+msgid "Launch an examination"
+msgstr "Lancer un nouvel examen"
+
+#: .\templates\new\wizards.html:297
+msgid "New learner"
+msgstr "Nouvel apprenant"
+
+#: .\templates\new\wizards.html:306
+msgid "New examination template"
+msgstr "Nouveau modèle d'examen"
+
+#: .\templates\personnesession_list.html:25
+msgid "No session yet"
+msgstr "Aucune session actuellement"
+
+#: .\wizard\models\wz_user_step.py:112
+msgid "? Unknown uuid: {}"
+msgstr "? Uuid inconnu : {}"
+
+#: .\wizard\models\wz_user_step.py:116
+msgid "? Unknown step: {}/{}"
+msgstr "? Étape inconnue : {}/{}"
+
+#: .\wizard\views\json\base.py:17
+msgid "Incorrect step"
+msgstr "Étape incorrecte"
+
+#: .\wizard\views\json\base.py:52
+msgid "Internal error: {}"
+msgstr "Erreur interne : {}"
+
+#: .\wizard\views\json\base.py:54
+msgid "Internal error"
+msgstr "Erreur interne"
+
+#: .\wizard\views\json\base.py:55
+msgid "Technical details:"
+msgstr "Détails techniques :"
+
+#: .\wizard\views\json\base.py:57
+msgid "We're sorry for the inconvenience"
+msgstr "Nous sommes désolés pour ce problème"
+
+#: .\wizard\views\json\base.py:120
+msgid "Reset wizard"
+msgstr "Ré-initialiser l'assistant"
+
+#: .\wizard\views\json\base.py:140
+msgid "Restart a new wizard"
+msgstr "Re-démarrer un nouvel assistant"
+
+#: .\wizard\views\json\base.py:277
+msgid "Dates and times of all injections:"
+msgstr "Dates et heures de toutes les injections :"
+
+#: .\wizard\views\json\base.py:279
+msgid "Injection done: {}"
+msgstr "Injection finie : {}"
+
+#: .\wizard\views\json\base.py:348
+msgid "Select/fill a value"
+msgstr "Sélectionnez/remplissez une valeur"
+
+#: .\wizard\views\json\base.py:350
+msgid "Select/fill a value for {}"
+msgstr "Sélectionnez/remplissez une valeur pour {}"
+
+#: .\wizard\views\json\base.py:354
+#: .\wizard\views\json\step\example\step_2.py:156
+#: .\wizard\views\json\step\new_exam\step_2.py:160
+#: .\wizard\views\json\step\new_learners_group\step_1.py:174
+#: .\wizard\views\json\step\new_learners_group\step_2.py:207
+msgid "Mandatory fields"
+msgstr "Champs obligatoires"
+
+#: .\wizard\views\json\base.py:392
+msgid "Type of model not handled {}"
+msgstr "Type de modèle non géré {}"
+
+#: .\wizard\views\json\step\example\step_1.py:8
+#: .\wizard\views\json\step\example\step_1.py:9
+#: .\wizard\views\json\step\example\step_1.py:27
+#: .\wizard\views\json\step\new_exam\step_1.py:9
+#: .\wizard\views\json\step\new_exam\step_1.py:10
+#: .\wizard\views\json\step\new_exam\step_1.py:27
+msgid "Step 1"
+msgstr "Étape 1"
+
+#: .\wizard\views\json\step\example\step_1.py:29
+msgid "Phrase"
+msgstr "Phrase"
+
+#: .\wizard\views\json\step\example\step_1.py:32
+msgid ""
+"Une phrase est composée de plusieurs 'parties' : (a) +  (b) +  (c) +  (d) ..."
+msgstr ""
+
+#: .\wizard\views\json\step\example\step_1.py:37
+msgid ""
+"Chaque morceau est une expression simple ex: 'Complément circonstanciel de "
+"temps'. "
+msgstr ""
+
+#: .\wizard\views\json\step\example\step_1.py:39
+msgid ""
+"Seulement, comme plein de ces expressions sont réutilisées, je les ai "
+"découpées en 'groupe de catégories' qui contiennent une ou plusieurs "
+"catégories (et c'est ça qui est dur à comprendre pour moi)"
+msgstr ""
+
+#: .\wizard\views\json\step\example\step_1.py:45
+msgid "Expression"
+msgstr "Expression"
+
+#: .\wizard\views\json\step\example\step_1.py:49
+msgid ""
+"Une expression = un mot ou même une phrase en entier (ex: le verbe conjugué "
+"en entier : 'je désole')"
+msgstr ""
+
+#: .\wizard\views\json\step\example\step_1.py:51
+msgid "Une expression appartient à un ou plusieurs groupes de catégories"
+msgstr ""
+
+#: .\wizard\views\json\step\example\step_1.py:55
+msgid "Groupes d'expressions"
+msgstr ""
+
+#: .\wizard\views\json\step\example\step_1.py:59
+msgid ""
+"Quand on commence à avoir trop d'expressions, il faudrait les grouper, "
+"sinon, pour faire une interrogation, c'est une galère pas possible"
+msgstr ""
+
+#: .\wizard\views\json\step\example\step_1.py:62
+msgid "=> j'ai défini des \"groupes d'expressions\""
+msgstr ""
+
+#: .\wizard\views\json\step\example\step_1.py:65
+msgid "Comment faire une interrogation ?"
+msgstr "Comment faire une interrogation ?"
+
+#: .\wizard\views\json\step\example\step_1.py:69
+msgid "1) Aller dans les modèles d'interrogation"
+msgstr ""
+
+#: .\wizard\views\json\step\example\step_1.py:70
+msgid ""
+"2) Choisir les expressions qui sont à sortir pour l'interrogation. pour me "
+"simplifier la vie, j'ai fait des \"groupes d'expressions\"."
+msgstr ""
+
+#: .\wizard\views\json\step\example\step_1.py:73
+msgid ""
+"Donc au lieu de choisir des expressions, il faut choisir des \"groupes "
+"d'expressions\". Ça paraît plus énervant au début, mais dès qu'on a beaucoup "
+"d'expressions, ça devient super pratique"
+msgstr ""
+
+#: .\wizard\views\json\step\example\step_1.py:78
+msgid ""
+"3) il faut choisir les modèles de phrases qui serviront de base (= pour "
+"construire les phrases 'finales' proposées aux apprenants)."
+msgstr ""
+
+#: .\wizard\views\json\step\example\step_1.py:81
+msgid ""
+"Il faut choisir les expressions et les phrases, de manière à ce que, lors de "
+"la construction, on puisse 'remplir' complètement les phrases avec les "
+"expressions"
+msgstr ""
+
+#: .\wizard\views\json\step\example\step_1.py:85
+msgid ""
+"4) aller dans interrogations, et en créer une nouvelle : choisir le modèle "
+"qu'on vient juste de créer, et y ajouter des participants"
+msgstr ""
+
+#: .\wizard\views\json\step\example\step_1.py:89
+msgid ""
+"5) aller dans interrogation > sessions et créer une nouvelle session par "
+"participant à l'interrogation"
+msgstr ""
+
+#: .\wizard\views\json\step\example\step_1.py:95
+msgid "This is where you can generate a new session."
+msgstr "C'est ici que vous pouvez générer une nouvelle session."
+
+#: .\wizard\views\json\step\example\step_1.py:96
+msgid "Note: \"session\" is not an \"interrogation\" !"
+msgstr "NB : une \"session\" n'est pas une \"interrogation\" !"
+
+#: .\wizard\views\json\step\example\step_1.py:97
+msgid ""
+"If you are new to what a session is, checkout <a href=\"{}\">this link</a>."
+msgstr ""
+"If vous ne savez pas ce qu'est une session, cliquez <a href=\"{}\">ici</a>."
+
+#: .\wizard\views\json\step\example\step_1.py:159
+#: .\wizard\views\json\step\new_exam\step_1.py:125
+msgid "Explanation done"
+msgstr "Explication finie"
+
+#: .\wizard\views\json\step\example\step_2.py:9
+#: .\wizard\views\json\step\example\step_2.py:10
+#: .\wizard\views\json\step\example\step_2.py:44
+#: .\wizard\views\json\step\new_exam\step_2.py:10
+#: .\wizard\views\json\step\new_exam\step_2.py:11
+#: .\wizard\views\json\step\new_exam\step_2.py:46
+#: .\wizard\views\json\step\new_learners_group\step_2.py:10
+#: .\wizard\views\json\step\new_learners_group\step_2.py:11
+#: .\wizard\views\json\step\new_learners_group\step_2.py:86
+msgid "Step 2"
+msgstr "Étape 2"
+
+#: .\wizard\views\json\step\example\step_2.py:35
+#: .\wizard\views\json\step\new_exam\step_2.py:36
+msgid "Default value"
+msgstr "Valeur par défaut"
+
+#: .\wizard\views\json\step\example\step_2.py:70
+#: .\wizard\views\json\step\new_exam\step_2.py:74
+msgid "Choose the interrogation"
+msgstr "Choisissez l'interrogation"
+
+#: .\wizard\views\json\step\example\step_2.py:140
+#: .\wizard\views\json\step\example\step_2.py:141
+#: .\wizard\views\json\step\new_exam\step_2.py:144
+#: .\wizard\views\json\step\new_exam\step_2.py:145
+#: .\wizard\views\json\step\new_learners_group\step_1.py:138
+#: .\wizard\views\json\step\new_learners_group\step_1.py:139
+msgid "Enter a name"
+msgstr "Entrez un nom"
+
+#: .\wizard\views\json\step\example\step_2.py:150
+#: .\wizard\views\json\step\example\step_2.py:151
+#: .\wizard\views\json\step\new_exam\step_2.py:154
+#: .\wizard\views\json\step\new_exam\step_2.py:155
+msgid "Select an interrogation"
+msgstr "Sélectionnez une interrogation"
+
+#: .\wizard\views\json\step\example\step_2.py:163
+#: .\wizard\views\json\step\new_exam\step_2.py:167
+msgid "Step 2 done"
+msgstr "Étape 2 finie"
+
+#: .\wizard\views\json\step\example\step_3.py:7
+#: .\wizard\views\json\step\example\step_3.py:8
+#: .\wizard\views\json\step\new_exam\step_3.py:8
+#: .\wizard\views\json\step\new_exam\step_3.py:9
+#: .\wizard\views\json\step\new_exam\step_3.py:26
+#: .\wizard\views\json\step\new_learners_group\step_3.py:8
+#: .\wizard\views\json\step\new_learners_group\step_3.py:9
+#: .\wizard\views\json\step\new_learners_group\step_3.py:73
+msgid "Step 3"
+msgstr "Étape 3"
+
+#: .\wizard\views\json\step\example\step_3.py:24
+msgid "Step 3 - final sample"
+msgstr "Étape 3 - exemple final"
+
+#: .\wizard\views\json\step\new_exam\step_1.py:8
+#: .\wizard\views\json\step\new_exam\step_2.py:9
+#: .\wizard\views\json\step\new_exam\step_3.py:7
+msgid "Wizard - New examination"
+msgstr "Assistant - Nouvel examen"
+
+#: .\wizard\views\json\step\new_exam\step_1.py:45
+msgid "You have one template. Do you want to use it?"
+msgstr "Vous avez un modèle. Voulez-vous l'utiliser ?"
+
+#: .\wizard\views\json\step\new_exam\step_1.py:47
+msgid "You have {} templates. Do you want to use one of them?"
+msgstr "Vous avez {} modèles. Voulez-vous utiliser l'un de ceux-ci ?"
+
+#: .\wizard\views\json\step\new_exam\step_1.py:59
+msgid "Yes"
+msgstr "Oui"
+
+#: .\wizard\views\json\step\new_exam\step_1.py:63
+msgid "No"
+msgstr "Non"
+
+#: .\wizard\views\json\step\new_exam\step_2.py:48
+#: .\wizard\views\json\step\new_exam\step_3.py:28
+msgid "New exam"
+msgstr "Nouvel examen"
+
+#: .\wizard\views\json\step\new_learners_group\step_1.py:10
+#: .\wizard\views\json\step\new_learners_group\step_2.py:9
+#: .\wizard\views\json\step\new_learners_group\step_3.py:7
+#: .\wizard\views\json\step\new_learners_group\step_4.py:15
+msgid "Wizard - New learners group"
+msgstr "Assistant - Nouveau groupe d'apprenants"
+
+#: .\wizard\views\json\step\new_learners_group\step_1.py:11
+msgid "Name / how many?"
+msgstr "Nom / combien ?"
+
+#: .\wizard\views\json\step\new_learners_group\step_1.py:27
+#, python-brace-format
+msgid "{str_datetime} - Group of learners"
+msgstr "{str_datetime} - Group of learners"
+
+#: .\wizard\views\json\step\new_learners_group\step_1.py:61
+msgid "Name of the group"
+msgstr "Nom du groupe"
+
+#: .\wizard\views\json\step\new_learners_group\step_1.py:73
+msgid "Number of learners"
+msgstr "Nombre de d'apprenants"
+
+#: .\wizard\views\json\step\new_learners_group\step_1.py:146
+msgid "Name not unique"
+msgstr "Nom pas unique"
+
+#: .\wizard\views\json\step\new_learners_group\step_1.py:147
+#: .\wizard\views\json\step\new_learners_group\step_4.py:51
+msgid "A group like this already exists"
+msgstr "Un groupe comme celui-ci existe déjà"
+
+#: .\wizard\views\json\step\new_learners_group\step_1.py:149
+msgid "Name is already taken, please change the name of the group"
+msgstr "Le nom est déjà pris, choisissez-en un autre"
+
+#: .\wizard\views\json\step\new_learners_group\step_1.py:160
+msgid "The number of learners must be > 0 and <= 30"
+msgstr "Le nombre d'apprenants doit être > 0 et >= 30"
+
+#: .\wizard\views\json\step\new_learners_group\step_1.py:164
+msgid "Select a number"
+msgstr "Choisissez un nombre"
+
+#: .\wizard\views\json\step\new_learners_group\step_1.py:181
+msgid "Name: {}, ({} learner(s))"
+msgstr "Nom : {}, ({} apprenant(s))"
+
+#: .\wizard\views\json\step\new_learners_group\step_2.py:35
+#: .\wizard\views\json\step\new_learners_group\step_3.py:35
+msgid "First name"
+msgstr "Prénom"
+
+#: .\wizard\views\json\step\new_learners_group\step_2.py:35
+#: .\wizard\views\json\step\new_learners_group\step_3.py:35
+msgid "Last name"
+msgstr "Nom"
+
+#: .\wizard\views\json\step\new_learners_group\step_2.py:79
+msgid "Incorrect number of learners."
+msgstr "Nombre incorrect d'apprenants"
+
+#: .\wizard\views\json\step\new_learners_group\step_2.py:88
+msgid "Learners information"
+msgstr "Information sur les apprenants"
+
+#: .\wizard\views\json\step\new_learners_group\step_2.py:164
+msgid "Email can't be empty"
+msgstr "L'email ne peut pas être vide"
+
+#: .\wizard\views\json\step\new_learners_group\step_2.py:168
+msgid "Invalid email"
+msgstr "Email invalide"
+
+#: .\wizard\views\json\step\new_learners_group\step_2.py:172
+msgid "First name can't be empty"
+msgstr "Le prénom ne peut pas être vide"
+
+#: .\wizard\views\json\step\new_learners_group\step_2.py:176
+msgid "Last name can't be empty"
+msgstr "Le nom ne peut pas être vide"
+
+#: .\wizard\views\json\step\new_learners_group\step_2.py:187
+msgid "Email already registered"
+msgstr "Email déjà enregistré"
+
+#: .\wizard\views\json\step\new_learners_group\step_2.py:191
+#, python-brace-format
+msgid "First name different ({u.first_name})"
+msgstr "Prénom différent ({u.first_name})"
+
+#: .\wizard\views\json\step\new_learners_group\step_2.py:195
+#, python-brace-format
+msgid "Last name different ({u.last_name})"
+msgstr "Nom différent ({u.last_name})"
+
+#: .\wizard\views\json\step\new_learners_group\step_2.py:199
+msgid "Email already registered (more than once!)"
+msgstr "Email déjà enregistré (plus d'une fois !)"
+
+#: .\wizard\views\json\step\new_learners_group\step_2.py:215
+msgid "1 learner entered"
+msgstr "1 apprenant entré"
+
+#: .\wizard\views\json\step\new_learners_group\step_2.py:216
+msgid "Informations entered ({} learners)"
+msgstr "Informations entrées ({} apprenants)"
+
+#: .\wizard\views\json\step\new_learners_group\step_3.py:64
+#: .\wizard\views\json\step\new_learners_group\step_4.py:138
+msgid "Incorrect data."
+msgstr "Données incorrectes"
+
+#: .\wizard\views\json\step\new_learners_group\step_3.py:81
+msgid "validation step"
+msgstr "étape de validation"
+
+#: .\wizard\views\json\step\new_learners_group\step_3.py:104
+msgid "Click on \"Next\" to validate the group"
+msgstr "Cliquez sur \"Suivant\" pour valider le groupe"
+
+#: .\wizard\views\json\step\new_learners_group\step_3.py:108
+msgid "Make sure everything is ok before clicking \"Next\""
+msgstr "Assurez-vous que tout est ok avant de cliquer sur \"Suivant\""
+
+#: .\wizard\views\json\step\new_learners_group\step_3.py:163
+msgid "Validation done"
+msgstr "Validation terminée"
+
+#: .\wizard\views\json\step\new_learners_group\step_4.py:16
+#: .\wizard\views\json\step\new_learners_group\step_4.py:17
+msgid "Step 4"
+msgstr "Étape 4"
+
+#: .\wizard\views\json\step\new_learners_group\step_4.py:40
+msgid "Informations"
+msgstr "Informations"
+
+#: .\wizard\views\json\step\new_learners_group\step_4.py:40
+msgid "Result"
+msgstr "Résultat"
+
+#: .\wizard\views\json\step\new_learners_group\step_4.py:49
+msgid "Error"
+msgstr "Erreur"
+
+#: .\wizard\views\json\step\new_learners_group\step_4.py:55
+msgid "Please change the name of the group"
+msgstr "Changez le nom du groupe"
+
+#: .\wizard\views\json\step\new_learners_group\step_4.py:56
+msgid "Click on corresponding step to change it."
+msgstr "Cliquez sur l'étape correspondante pour le changer."
+
+#: .\wizard\views\json\step\new_learners_group\step_4.py:107
+msgid "account with this mail exists, no action has been done"
+msgstr "un compte avec ce mail existe déjà, aucune action réalisée"
+
+#: .\wizard\views\json\step\new_learners_group\step_4.py:147
+msgid "Success!"
+msgstr "Succès !"
+
+#: .\wizard\views\json\step\new_learners_group\step_4.py:149
+#, python-brace-format
+msgid "\"{name}\" has been successfully created"
+msgstr "\"{name}\" a été crée avec succès."
+
+#: .\wizard\views\json\step\view.py:252
+msgid "Index not found"
+msgstr "Index non trouvé"
+
+#~ msgid "Sample"
+#~ msgstr "Exemple"
+
+#~ msgid "^wizard/new-question/?$"
+#~ msgstr "^wizard/nouvelle-question/?$"
+
+#~ msgid "New question"
+#~ msgstr "Nouvelle question"
+
+#~ msgid "Student"
+#~ msgstr "Étudiant"
+
+#~ msgid "n.{} - {} ({}) > {} ({})"
+#~ msgstr "n.{} - {} ({}) > {} ({})"
+
+#~ msgid "doonoo"
+#~ msgstr "doonoo"
+
+#~ msgid "Edit exam"
+#~ msgstr "Éditer un examen"
+
+#~ msgid "Close Wizard"
+#~ msgstr "Fermer l'assistant"
+
+#~ msgid "Categories : groups of categories"
+#~ msgstr "Catégories : groupes de catégories"
+
+#~ msgid "Interrogation templates"
+#~ msgstr "Modèles d'interrogation"
+
+#~ msgid "Interrogation - group of words"
+#~ msgstr "Interrogation - groupes de mot"
+
+#~ msgid "Interrogation - groups of words"
+#~ msgstr "Interrogation - groupes de mots"
+
+#~ msgid "Interrogation sentence"
+#~ msgstr "Interrogation - phrase"
+
+#~ msgid "Interrogations sentences"
+#~ msgstr "Interrogation - phrases"
+
+#~ msgid "Template session"
+#~ msgstr "Session - modèle"
+
+#~ msgid "Wizard: new session"
+#~ msgstr "Assistant : Nouvelle session"
+
+#~ msgid "Groups of words"
+#~ msgstr "Groupes de mots"
+
+#~ msgid "Group of words"
+#~ msgstr "Groupe de mots"
+
+#~ msgid "Word voice"
+#~ msgstr "Voix du mot"
+
+#~ msgid "Word voices"
+#~ msgstr "Voix du mot"
+
+#~ msgid "Words group"
+#~ msgstr "Groupe de mots"
+
+#~ msgid "Parent > child"
+#~ msgstr "Parent > enfant"
+
+#~ msgid "Teacher > student"
+#~ msgstr "Professeur > étudiant"
+
+#~ msgid "Child > parent"
+#~ msgstr "Enfant > parent"
+
+#~ msgid "Wife <> husband"
+#~ msgstr "Femme <> mari"
+
+#~ msgid "Student > teacher"
+#~ msgstr "Étudiant > professeur"
+
+#~ msgid "n.{} {} --> {}"
+#~ msgstr "n.{} {} --> {}"
+
+#~ msgid "You are now logged with your new password."
+#~ msgstr "Vous êtes connecté(e) avec votre nouveau mot de passe."
+
+#~ msgid "Reset password!"
+#~ msgstr "Ré-initialiser le mot de passe"
+
+#~ msgid "Username, email or password invalid"
+#~ msgstr "Nom d'utilisateur, email ou mot de passe invalides"

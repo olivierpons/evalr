@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{{ interrogation.description }} - {% spaceless %}
+    {% trans "Interrogation" %}
+{% endspaceless %}{% endblock %}
+
+{% block content %}{% spaceless %}
+    <h1><i class="fa fa-child fa"></i>
+        <i class="fa fa-female fa"></i>
+        <i class="fa fa-diamond fa"></i>
+        <i class="fa fa-gift fa"></i>
+        <i class="fa fa-gamepad fa"></i>
+        <i class="fa fa-group fa"></i>
+        <i class="fa fa-file-picture-o fa"></i>
+<br/>
+        {% endspaceless %}{{ interrogation.description }}
+    </h1>
+
+    {% if not erreurs %}
+{% comment %}---------------------------------------------------------
+Affichage des phrases
+{% endcomment %}
+    {% autoescape off %}
+    {% for mots in phrases %}
+        <p>
+        {% for mot in mots %}
+            {{ mot }}
+        {% endfor %}
+        </p>
+    {% endfor %}
+    {% endautoescape %}
+    {% else %}
+{% comment %}---------------------------------------------------------
+Affichage des erreurs
+{% endcomment %}
+        <div class="alert alert-danger" role="alert">
+        {% autoescape off %}
+        {% for erreur in erreurs.titres %}
+            <p>
+            {% if forloop.first %}
+                <span class="glyphicon glyphicon-exclamation-sign"
+                      aria-hidden="true"></span>
+            {% else %}
+                <i class="fa fa-support" title="{% trans "Solution" %}"></i>
+            {% endif %}
+            {{ erreur }}
+            </p>
+        {% endfor %}
+        {% endautoescape %}
+        {% if erreurs.liste %}
+            <ul>
+            {% for erreur in erreurs.liste %}
+                <li>{{ erreur }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        </div>
+    {% endif %}
+
+{% endblock %}

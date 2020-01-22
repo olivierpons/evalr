@@ -1,0 +1,10 @@
+{% load static i18n compress %}
+{% for error in field.errors %}
+    <div class="form-control form-control-error alert-danger" role="alert">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span class="glyphicon glyphicon-exclamation-sign"
+              aria-hidden="true"></span>
+        {{ error }}
+        <span class="sr-only">{{ error }}</span>
+    </div>
+{% endfor %}

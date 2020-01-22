@@ -1,0 +1,135 @@
+{% extends 'new/base.html' %}
+{% load static i18n compress %}
+{% block content %}
+    <div class="row">
+
+        {# groupes #}
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow h-100 py-2">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        {% comment %}--------------------------------------------
+                        <i class="fas fa-fw fa-hat-wizard"></i>&nbsp;
+                        {% endcomment %}
+                        <a href="{% url 'app_wizards' %}">
+                            {% trans "Wizards" %}
+                        </a>
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col auto">
+                            <a href="{% url 'app_wizards' %}">
+                                <div class="text-center">
+                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4 "
+                                         style="width: 15rem; opacity: 0.2"
+                                         src="{% static 'img/wizard-big.svg' %}"
+                                         title="{% trans "Wizards" %}"
+                                         alt="{% trans "Wizards" %}">
+                                </div>
+                            </a>
+                        </div>
+                        {% comment %}--------------------------------------------
+                        <div class="col-auto">
+                            <i class="fas fa-fw fa-hat-wizard fa-6x text-gray-300"></i>
+                        </div>
+                        {% endcomment %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# examens #}
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow h-100 py-2">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        {% trans "Examinations" %}
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            {% comment %}--------------------------------------------
+
+                            <p>
+                                <i class="fa fa-plus-circle"></i>&nbsp;&nbsp;
+                                <span class="font-weight-bold">
+                                    {% trans "New exam" %}
+                                </span>
+                            </p>
+                            {% endcomment %}
+                            <a href="{% url 'app_wizards' %}">
+                                <div class="text-center">
+                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4 "
+                                         style="width: 15rem; opacity: 0.2"
+                                         src="{% static 'img/exam-big.svg' %}"
+                                         title="{% trans "Examinations" %}"
+                                         alt="{% trans "Examinations" %}">
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# learners #}
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow h-100 py-2">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        {% trans "Learners" %}
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <a href="{% url 'app_wizards' %}">
+                                <div class="text-center">
+                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4 "
+                                         style="width: 15rem; opacity: 0.2"
+                                         src="{% static 'img/learner-big.svg' %}"
+                                         title="{% trans "Learners" %}"
+                                         alt="{% trans "Learners" %}">
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# sessions #}
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow h-100 py-2">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        {% trans "Sessions" %}
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <p>
+                                <i class="fa fa-plus-circle"></i>&nbsp;&nbsp;
+                                <span class="font-weight-bold">
+                                    {% trans "New session" %}
+                                </span>
+                            </p>
+                            <p class="mb-0">
+                                <i class="fa fa-user-edit"></i>&nbsp;&nbsp;
+                                <span class="font-weight-bold">
+                                    {% trans "Modify session" %}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-edit fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

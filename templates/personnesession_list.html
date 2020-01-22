@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Sessions" %}{% endblock %}
+
+{% block content %}
+
+    <h2>{% trans "Sessions" %}</h2>
+    {% if sessions %}
+    <div class="cs-row">
+    {% for session in sessions %}
+        <div class="col-md-8">{% autoescape off %}
+            <span>{{ session.description }}</span>
+        {% endautoescape %}
+        </div>
+        <div class="col-md-4">
+            <a class="btn btn-default btn"
+               style="display: inline-block; vertical-align: middle; float: none;"
+               href="{% url 'app_person_session' session.pk %}"
+               role="button">{% trans "Go &raquo;" %}</a>
+        </div>
+    {% endfor %}
+    </div>
+    {% else %}
+        <h3>{% trans "No session yet" %}</h3>
+    {% endif %}
+{% endblock %}

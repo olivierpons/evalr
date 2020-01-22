@@ -1,0 +1,10 @@
+pytz
+pydub
+django
+django-colorful
+django-compressor
+libgravatar
+python-magic
+social-auth-app-django
+Pillow
+psycopg2

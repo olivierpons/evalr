@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{{ session.description }} - {% spaceless %}
+    {% trans "Session" %}
+{% endspaceless %}{% endblock %}
+
+{% block content %}{% spaceless %}
+    <h1><i class="fa fa-child fa"></i>
+        <i class="fa fa-female fa"></i>
+        <i class="fa fa-diamond fa"></i>
+        <i class="fa fa-gift fa"></i>
+        <i class="fa fa-gamepad fa"></i>
+        <i class="fa fa-group fa"></i>
+        <i class="fa fa-file-picture-o fa"></i>
+<br/>
+        {% endspaceless %}{{ session.description }}
+    </h1>
+
+    {% if not errors %}
+{% comment %}---------------------------------------------------------
+Affichage des phrases
+{% endcomment %}
+    {% autoescape off %}
+        <style>
+        audio::-webkit-media-controls-enclosure {
+            max-width: 100%; /*or inherit*/
+        }
+        </style>
+    {% for phrase in phrases %}
+    <div class="row">
+        <div class="col-md-12">
+            <audio controls style="width: 100%; margin: 0; padding: 0">
+                <source src="{{ phrase }}" type="audio/mp3" preload="none" />
+            Votre navigateur ne sait pas lire directement les fichiers audio.
+            </audio>
+        </div>
+    </div>
+    {% endfor %}
+    {% endautoescape %}
+    {% else %}
+{% comment %}---------------------------------------------------------
+Errors display
+{% endcomment %}
+        <div class="alert alert-danger" role="alert">
+        {% autoescape off %}
+        {% for idx, tab in errors.items %}
+            {% if tab.list|length > 0 %}
+                {% for titre in tab.titles %}
+                    <p>
+                    {% if forloop.first %}
+                        <span class="glyphicon glyphicon-exclamation-sign"
+                              aria-hidden="true"></span>
+                    {% else %}
+                        <i class="fa fa-support"
+                           title="{% trans "Solution" %}"></i>
+                    {% endif %}
+                    {{ titre }}
+                    </p>
+                {% endfor %}
+                <ul>
+                {% for e, u in tab.list %}
+                    {% if user.is_authenticated and u %}
+                    <li><a href="{{ u }}">{{ e }}</a></li>
+                    {% else %}
+                    <li>{{ e }}</li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endfor %}
+        {% endautoescape %}
+        </div>
+    {% endif %}
+
+{% endblock %}

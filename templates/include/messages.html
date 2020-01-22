@@ -1,0 +1,49 @@
+{% load static i18n compress %}
+{% if messages %}
+    <div class="modal fade" id="modalMessages" tabindex="-1"
+         role="dialog" aria-labelledby="modalMessagesLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="modalMessagesLabel">
+                        {% for message in messages %}
+                            {% if forloop.first %}{{ message }}{% endif %}
+                        {% endfor %}
+                    </h5>
+                    <button class="close"
+                            type="button"
+                            data-dismiss="modal"
+                            aria-label="{% trans 'Close' %}">
+                        <span aria-hidden="true">×</span>
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+                    {% autoescape off %}
+                        {% for message in messages %}
+                            {% if not forloop.first %}
+                                {{ message }}
+                                {% if not forloop.last %}
+                                    <br />
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endautoescape %}
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button" data-dismiss="modal">
+                        {% trans "Close" %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>$(document).ready(function () {
+        {# https://coreui.io/docs/components/modal/#via-javascript #}
+        $('#modalMessages').modal({});
+    });</script>
+{% endif %}

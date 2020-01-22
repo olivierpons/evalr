@@ -1,0 +1,1721 @@
+{% extends 'new/base.html' %}
+{% load static i18n compress %}
+{% block javascript_more %}
+    {{ bloc.super }}
+    {% comment %} nominatim random search
+    <script>
+        let search, is_running = false, wait_delay = 4000, ajax_running=false;
+        $(document).ready(function () {
+            function rand(max) {
+                return Math.floor(Math.random() * Math.floor(max));
+            }
+            let barfleur = {lat: 49.669700, lng: -1.265590},
+                nice = {lat: 43.703430, lng: 7.266270},
+                diff = {lat: nice.lat*1000000-barfleur.lat*1000000,
+                    lng: nice.lng*1000000-barfleur.lng*1000000, },
+                sgn  = {lat: diff.lat>0 ? 1 : -1,
+                    lng: diff.lng>0 ? 1 : -1, },
+                abs  = {lat: Math.abs(diff.lat),
+                    lng: Math.abs(diff.lng), };
+
+            search = function () {
+                let rnd = {lat: barfleur.lat + (rand(abs.lat)/1000000 * sgn.lat),
+                    lng: barfleur.lng + (rand(abs.lng)/1000000 * sgn.lng), };
+                ajax_running=true;
+                $.ajax({
+                    url: 'http://nominatim.openstreetmap.org/search',
+                    data: {
+                        q: rnd.lat+','+rnd.lng,
+                        addressdetails: 1,
+                        format: 'json'
+                    },
+                    type: 'get',
+                    cache: false
+                }).done(function (result) {
+                    for (let i=0; i<result.length; i++) {
+                        let item = result[i];
+                        if (item.class !== 'highway'
+                            && item.class !== 'boundary'
+                        ) {
+                            console.log(item);
+                            console.log(
+                                'class', item.class,
+                                ', display name', item.display_name
+                            );
+                        }
+                        if ((item.class==="place" && item.type==="house")
+                            || item.class==="building"
+                        ) {
+                            let a = item.address,
+                                address = a.house_number || '',
+                                _a = function (txt, plus) {
+                                    return (!!txt ? txt + plus : '');
+                                };
+                            address = _a(address, ' ');
+                            address += _a(a.road, ', ');
+                            address += _a(a.postcode, ' ');
+                            address += _a(a.village, ', ');
+                            address += _a(a.county, ', ');
+                            address += _a(a.country, '');
+                            $('#real-addresses').append(
+                                '{"place_id":"'+'OSM - ' + item.place_id+'", '+
+                                '"lat": '+item.lat+','+
+                                '"lng": '+item.lon+',<br/>'+
+                                '"description": "'+address+'", },<br/>'
+                            );
+                        }
+                        if (is_running) {
+                            setTimeout(search, wait_delay + rand(wait_delay));
+                            if (wait_delay>1000) {
+                                wait_delay -= 50;
+                            }
+                        } else {
+                            $('#btn-start-stop').html('START');
+                        }
+                    }
+                    ajax_running=false;
+                }).fail(function () {
+                    wait_delay += 500;
+                    console.log('Fail > wait_delay is now: ', wait_delay);
+                    if (is_running) {
+                        console.log("Waiting 20s...");
+                        setTimeout(function () {
+                            console.log("Waiting 20s...");
+                            setTimeout(search, wait_delay + rand(wait_delay));
+                        }, 20000);
+                    } else {
+                        $('#btn-start-stop').html('START');
+                    }
+                    ajax_running=false;
+                });
+            };
+        });
+        function start_stop_search() {
+            let btn = $('#btn-start-stop');
+            if (ajax_running) {
+                /* Only STOP possible: */
+                btn.html('AJAX Running, stopping...');
+                is_running = false;
+            } else {
+                is_running = !is_running;
+            }
+            if (is_running) {
+                btn.html('STOP');
+                setTimeout(search, 1);
+            }
+        }
+    </script>
+    {% endcomment %}
+{% endblock javascript_more %}
+{% block content %}
+    {% comment %} 3 cards on one line
+    <div class="row">
+
+        {# Learners #}
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow h-100 py-2">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fa fa-file-signature"></i>&nbsp;&nbsp;
+                        <i class="fas fa-fw fa-users"></i>&nbsp;&nbsp;
+                        {% trans "Learners" %}
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <p>
+                                <i class="fa fa-plus-circle"></i>&nbsp;&nbsp;
+                                <span class="font-weight-bold">
+                                    {% trans "New group" %}
+                                </span>
+                            </p>
+                            <p>
+                                <i class="fa fa-pencil-alt"></i>&nbsp;&nbsp;
+                                <span class="font-weight-bold">
+                                    {% trans "Edit group" %}
+                                </span>
+                            </p>
+                            <p class="mb-0">
+                                <i class="fa fa-user-edit"></i>&nbsp;&nbsp;
+                                <span class="font-weight-bold">
+                                    {% trans "Edit learner" %}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Examens #}
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow h-100 py-2">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-fw fa-file-alt"></i>
+                        {% trans "Examinations" %}
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <p>
+                                <i class="fa fa-plus-circle"></i>&nbsp;&nbsp;
+                                <span class="font-weight-bold">
+                                    {% trans "New exam" %}
+                                </span>
+                            </p>
+                            <p class="mb-0">
+                                <i class="fa fa-pencil-alt"></i>&nbsp;&nbsp;
+                                <span class="font-weight-bold">
+                                    {% trans "Edit exam" %}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-file-alt fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Sessions #}
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow h-100 py-2">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-fw fa-user-friends"></i>
+                        {% trans "Sessions" %}
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <p>
+                                <i class="fa fa-plus-circle"></i>&nbsp;&nbsp;
+                                <span class="font-weight-bold">
+                                    {% trans "New session" %}
+                                </span>
+                            </p>
+                            <p class="mb-0">
+                                <i class="fa fa-pencil-alt"></i>&nbsp;&nbsp;
+                                <span class="font-weight-bold">
+                                    {% trans "Modify session" %}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-user-friends fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endcomment %}
+    {% comment %} for nominatim random search (see above)
+    <div class="row">
+
+        <div class="col-lg-12 mb-12">
+            <div class="card shadow h-100 py-2">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-fw fa-hat-wizard"></i>&nbsp;&nbsp;
+                        {% trans "Wizards" %}
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <button onclick="start_stop_search();"
+                                id="btn-start-stop">
+                            START
+                        </button>
+                    </div>
+                    <code id="real-addresses"></code>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endcomment %}
+    <div class="row">
+
+        <div class="col-lg-12 mb-12">
+            <div class="card shadow h-100 py-2">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-fw fa-hat-wizard"></i>&nbsp;&nbsp;
+                        {% trans "Wizards" %}
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <p><a href="{% url 'wz_new_learners_group' %}"
+                                  class="btn btn-light btn-icon-split btn-lg">
+                                <span class="wizard icon text-gray-600">
+                                  <i class="fas fa-users"></i>
+                                </span>
+                                <span class="text">
+                                    {% trans "New learners group" %}
+                                </span>
+                            </a></p>
+                            <p><a href="{% url 'wz_new_exam_template' %}"
+                                  class="btn btn-light btn-icon-split btn-lg">
+                                <span class="wizard icon text-gray-600">
+                                  <i class="fas fa-file"></i>
+                                </span>
+                                <span class="text">
+                                    {% trans "New examination" %}
+
+                                </span>
+                            </a></p>
+                            <p><a href="{% url 'wz_new_exam_template' %}"
+                                  class="btn btn-light btn-icon-split btn-lg">
+                                <span class="wizard icon text-gray-600">
+                                  <i class="fas fa-file"></i>
+                                </span>
+                                <span class="text">
+                                    {% trans "Launch an examination" %}
+
+                                </span>
+                            </a></p>
+                            <p><a href="#"
+                                  class="btn btn-light btn-icon-split btn-lg">
+                                <span class="wizard icon text-gray-600">
+                                  <i class="fas fa-user"></i>
+                                </span>
+                                <span class="text">
+                                    {% trans "New learner" %}
+                                </span>
+                            </a></p>
+                            <p><a href="{% url 'wz_new_exam' %}"
+                                  class="btn btn-light btn-icon-split btn-lg">
+                                <span class="wizard icon text-gray-600">
+                                  <i class="fas fa-file"></i>
+                                </span>
+                                <span class="text">
+                                    {% trans "New examination template" %}
+                                </span>
+                            </a></p>
+                            <p><a href="#"
+                                  class="btn btn-light btn-icon-split btn-lg">
+                                <span class="wizard icon text-gray-600">
+                                  <i class="fas fa-file-alt"></i>
+                                </span>
+                                <span class="text">
+                                    {% trans "New examination" %}
+                                </span>
+                            </a></p>
+                            <p><a href="#"
+                                  class="btn btn-light btn-icon-split btn-lg">
+                                <span class="wizard icon text-gray-600">
+                                  <i class="fas fa-user-friends"></i>
+                                </span>
+                                <span class="text">
+                                    {% trans "New session" %}
+                                </span>
+                            </a></p>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-hat-wizard fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% comment %} icons display
+    <div class="row">
+        {# examens #}
+        <div class="col-lg-12 mb-12">
+            <div class="card shadow h-100 py-2">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-fw fa-file-alt"></i>
+                        {% trans "Examinations" %}
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2" style="font-size: 600%; color: black">
+
+                            <i class="fas fa-fw fa-ad"></i>
+                            <i class="fas fa-fw fa-address-book"></i>
+                            <i class="fas fa-fw fa-address-card"></i>
+                            <i class="fas fa-fw fa-adjust"></i>
+                            <i class="fas fa-fw fa-air-freshener"></i>
+                            <i class="fas fa-fw fa-align-center"></i>
+                            <i class="fas fa-fw fa-align-justify"></i>
+                            <i class="fas fa-fw fa-align-left"></i>
+                            <i class="fas fa-fw fa-align-right"></i>
+                            <i class="fas fa-fw fa-allergies"></i>
+                            <i class="fas fa-fw fa-ambulance"></i>
+                            <i class="fas fa-fw fa-american-sign-language-interpreting"></i>
+                            <i class="fas fa-fw fa-anchor"></i>
+                            <i class="fas fa-fw fa-angle-double-down"></i>
+                            <i class="fas fa-fw fa-angle-double-left"></i>
+                            <i class="fas fa-fw fa-angle-double-right"></i>
+                            <i class="fas fa-fw fa-angle-double-up"></i>
+                            <i class="fas fa-fw fa-angle-down"></i>
+                            <i class="fas fa-fw fa-angle-left"></i>
+                            <i class="fas fa-fw fa-angle-right"></i>
+                            <i class="fas fa-fw fa-angle-up"></i>
+                            <i class="fas fa-fw fa-angry"></i>
+                            <i class="fas fa-fw fa-angrycreative"></i>
+                            <i class="fas fa-fw fa-angular"></i>
+                            <i class="fas fa-fw fa-ankh"></i>
+                            <i class="fas fa-fw fa-app-store"></i>
+                            <i class="fas fa-fw fa-app-store-ios"></i>
+                            <i class="fas fa-fw fa-apper"></i>
+                            <i class="fas fa-fw fa-apple"></i>
+                            <i class="fas fa-fw fa-apple-alt"></i>
+                            <i class="fas fa-fw fa-apple-pay"></i>
+                            <i class="fas fa-fw fa-archive"></i>
+                            <i class="fas fa-fw fa-archway"></i>
+                            <i class="fas fa-fw fa-arrow-alt-circle-down"></i>
+                            <i class="fas fa-fw fa-arrow-alt-circle-left"></i>
+                            <i class="fas fa-fw fa-arrow-alt-circle-right"></i>
+                            <i class="fas fa-fw fa-arrow-alt-circle-up"></i>
+                            <i class="fas fa-fw fa-arrow-circle-down"></i>
+                            <i class="fas fa-fw fa-arrow-circle-left"></i>
+                            <i class="fas fa-fw fa-arrow-circle-right"></i>
+                            <i class="fas fa-fw fa-arrow-circle-up"></i>
+                            <i class="fas fa-fw fa-arrow-down"></i>
+                            <i class="fas fa-fw fa-arrow-left"></i>
+                            <i class="fas fa-fw fa-arrow-right"></i>
+                            <i class="fas fa-fw fa-arrow-up"></i>
+                            <i class="fas fa-fw fa-arrows-alt"></i>
+                            <i class="fas fa-fw fa-arrows-alt-h"></i>
+                            <i class="fas fa-fw fa-arrows-alt-v"></i>
+                            <i class="fas fa-fw fa-artstation"></i>
+                            <i class="fas fa-fw fa-assistive-listening-systems"></i>
+                            <i class="fas fa-fw fa-asterisk"></i>
+                            <i class="fas fa-fw fa-asymmetrik"></i>
+                            <i class="fas fa-fw fa-at"></i>
+                            <i class="fas fa-fw fa-atlas"></i>
+                            <i class="fas fa-fw fa-atlassian"></i>
+                            <i class="fas fa-fw fa-atom"></i>
+                            <i class="fas fa-fw fa-audible"></i>
+                            <i class="fas fa-fw fa-audio-description"></i>
+                            <i class="fas fa-fw fa-autoprefixer"></i>
+                            <i class="fas fa-fw fa-avianex"></i>
+                            <i class="fas fa-fw fa-aviato"></i>
+                            <i class="fas fa-fw fa-award"></i>
+                            <i class="fas fa-fw fa-aws"></i>
+                            <i class="fas fa-fw fa-baby"></i>
+                            <i class="fas fa-fw fa-baby-carriage"></i>
+                            <i class="fas fa-fw fa-backspace"></i>
+                            <i class="fas fa-fw fa-backward"></i>
+                            <i class="fas fa-fw fa-bacon"></i>
+                            <i class="fas fa-fw fa-balance-scale"></i>
+                            <i class="fas fa-fw fa-ban"></i>
+                            <i class="fas fa-fw fa-band-aid"></i>
+                            <i class="fas fa-fw fa-bandcamp"></i>
+                            <i class="fas fa-fw fa-barcode"></i>
+                            <i class="fas fa-fw fa-bars"></i>
+                            <i class="fas fa-fw fa-baseball-ball"></i>
+                            <i class="fas fa-fw fa-basketball-ball"></i>
+                            <i class="fas fa-fw fa-bath"></i>
+                            <i class="fas fa-fw fa-battery-empty"></i>
+                            <i class="fas fa-fw fa-battery-full"></i>
+                            <i class="fas fa-fw fa-battery-half"></i>
+                            <i class="fas fa-fw fa-battery-quarter"></i>
+                            <i class="fas fa-fw fa-battery-three-quarters"></i>
+                            <i class="fas fa-fw fa-bed"></i>
+                            <i class="fas fa-fw fa-beer"></i>
+                            <i class="fas fa-fw fa-behance"></i>
+                            <i class="fas fa-fw fa-behance-square"></i>
+                            <i class="fas fa-fw fa-bell"></i>
+                            <i class="fas fa-fw fa-bell-slash"></i>
+                            <i class="fas fa-fw fa-bezier-curve"></i>
+                            <i class="fas fa-fw fa-bible"></i>
+                            <i class="fas fa-fw fa-bicycle"></i>
+                            <i class="fas fa-fw fa-bimobject"></i>
+                            <i class="fas fa-fw fa-binoculars"></i>
+                            <i class="fas fa-fw fa-biohazard"></i>
+                            <i class="fas fa-fw fa-birthday-cake"></i>
+                            <i class="fas fa-fw fa-bitbucket"></i>
+                            <i class="fas fa-fw fa-bitcoin"></i>
+                            <i class="fas fa-fw fa-bity"></i>
+                            <i class="fas fa-fw fa-black-tie"></i>
+                            <i class="fas fa-fw fa-blackberry"></i>
+                            <i class="fas fa-fw fa-blender"></i>
+                            <i class="fas fa-fw fa-blender-phone"></i>
+                            <i class="fas fa-fw fa-blind"></i>
+                            <i class="fas fa-fw fa-blog"></i>
+                            <i class="fas fa-fw fa-blogger"></i>
+                            <i class="fas fa-fw fa-blogger-b"></i>
+                            <i class="fas fa-fw fa-bluetooth"></i>
+                            <i class="fas fa-fw fa-bluetooth-b"></i>
+                            <i class="fas fa-fw fa-bold"></i>
+                            <i class="fas fa-fw fa-bolt"></i>
+                            <i class="fas fa-fw fa-bomb"></i>
+                            <i class="fas fa-fw fa-bone"></i>
+                            <i class="fas fa-fw fa-bong"></i>
+                            <i class="fas fa-fw fa-book"></i>
+                            <i class="fas fa-fw fa-book-dead"></i>
+                            <i class="fas fa-fw fa-book-medical"></i>
+                            <i class="fas fa-fw fa-book-open"></i>
+                            <i class="fas fa-fw fa-book-reader"></i>
+                            <i class="fas fa-fw fa-bookmark"></i>
+                            <i class="fas fa-fw fa-border"></i>
+                            <i class="fas fa-fw fa-bowling-ball"></i>
+                            <i class="fas fa-fw fa-box"></i>
+                            <i class="fas fa-fw fa-box-open"></i>
+                            <i class="fas fa-fw fa-boxes"></i>
+                            <i class="fas fa-fw fa-braille"></i>
+                            <i class="fas fa-fw fa-brain"></i>
+                            <i class="fas fa-fw fa-bread-slice"></i>
+                            <i class="fas fa-fw fa-briefcase"></i>
+                            <i class="fas fa-fw fa-briefcase-medical"></i>
+                            <i class="fas fa-fw fa-broadcast-tower"></i>
+                            <i class="fas fa-fw fa-broom"></i>
+                            <i class="fas fa-fw fa-brush"></i>
+                            <i class="fas fa-fw fa-btc"></i>
+                            <i class="fas fa-fw fa-bug"></i>
+                            <i class="fas fa-fw fa-building"></i>
+                            <i class="fas fa-fw fa-bullhorn"></i>
+                            <i class="fas fa-fw fa-bullseye"></i>
+                            <i class="fas fa-fw fa-burn"></i>
+                            <i class="fas fa-fw fa-buromobelexperte"></i>
+                            <i class="fas fa-fw fa-bus"></i>
+                            <i class="fas fa-fw fa-bus-alt"></i>
+                            <i class="fas fa-fw fa-business-time"></i>
+                            <i class="fas fa-fw fa-buysellads"></i>
+                            <i class="fas fa-fw fa-calculator"></i>
+                            <i class="fas fa-fw fa-calendar"></i>
+                            <i class="fas fa-fw fa-calendar-alt"></i>
+                            <i class="fas fa-fw fa-calendar-check"></i>
+                            <i class="fas fa-fw fa-calendar-day"></i>
+                            <i class="fas fa-fw fa-calendar-minus"></i>
+                            <i class="fas fa-fw fa-calendar-plus"></i>
+                            <i class="fas fa-fw fa-calendar-times"></i>
+                            <i class="fas fa-fw fa-calendar-week"></i>
+                            <i class="fas fa-fw fa-camera"></i>
+                            <i class="fas fa-fw fa-camera-retro"></i>
+                            <i class="fas fa-fw fa-campground"></i>
+                            <i class="fas fa-fw fa-canadian-maple-leaf"></i>
+                            <i class="fas fa-fw fa-candy-cane"></i>
+                            <i class="fas fa-fw fa-cannabis"></i>
+                            <i class="fas fa-fw fa-capsules"></i>
+                            <i class="fas fa-fw fa-car"></i>
+                            <i class="fas fa-fw fa-car-alt"></i>
+                            <i class="fas fa-fw fa-car-battery"></i>
+                            <i class="fas fa-fw fa-car-crash"></i>
+                            <i class="fas fa-fw fa-car-side"></i>
+                            <i class="fas fa-fw fa-caret-down"></i>
+                            <i class="fas fa-fw fa-caret-left"></i>
+                            <i class="fas fa-fw fa-caret-right"></i>
+                            <i class="fas fa-fw fa-caret-square-down"></i>
+                            <i class="fas fa-fw fa-caret-square-left"></i>
+                            <i class="fas fa-fw fa-caret-square-right"></i>
+                            <i class="fas fa-fw fa-caret-square-up"></i>
+                            <i class="fas fa-fw fa-caret-up"></i>
+                            <i class="fas fa-fw fa-carrot"></i>
+                            <i class="fas fa-fw fa-cart-arrow-down"></i>
+                            <i class="fas fa-fw fa-cart-plus"></i>
+                            <i class="fas fa-fw fa-cash-register"></i>
+                            <i class="fas fa-fw fa-cat"></i>
+                            <i class="fas fa-fw fa-cc-amazon-pay"></i>
+                            <i class="fas fa-fw fa-cc-amex"></i>
+                            <i class="fas fa-fw fa-cc-apple-pay"></i>
+                            <i class="fas fa-fw fa-cc-diners-club"></i>
+                            <i class="fas fa-fw fa-cc-discover"></i>
+                            <i class="fas fa-fw fa-cc-jcb"></i>
+                            <i class="fas fa-fw fa-cc-mastercard"></i>
+                            <i class="fas fa-fw fa-cc-paypal"></i>
+                            <i class="fas fa-fw fa-cc-stripe"></i>
+                            <i class="fas fa-fw fa-cc-visa"></i>
+                            <i class="fas fa-fw fa-centercode"></i>
+                            <i class="fas fa-fw fa-centos"></i>
+                            <i class="fas fa-fw fa-certificate"></i>
+                            <i class="fas fa-fw fa-chair"></i>
+                            <i class="fas fa-fw fa-chalkboard"></i>
+                            <i class="fas fa-fw fa-chalkboard-teacher"></i>
+                            <i class="fas fa-fw fa-charging-station"></i>
+                            <i class="fas fa-fw fa-chart-area"></i>
+                            <i class="fas fa-fw fa-chart-bar"></i>
+                            <i class="fas fa-fw fa-chart-line"></i>
+                            <i class="fas fa-fw fa-chart-pie"></i>
+                            <i class="fas fa-fw fa-check"></i>
+                            <i class="fas fa-fw fa-check-circle"></i>
+                            <i class="fas fa-fw fa-check-double"></i>
+                            <i class="fas fa-fw fa-check-square"></i>
+                            <i class="fas fa-fw fa-cheese"></i>
+                            <i class="fas fa-fw fa-chess"></i>
+                            <i class="fas fa-fw fa-chess-bishop"></i>
+                            <i class="fas fa-fw fa-chess-board"></i>
+                            <i class="fas fa-fw fa-chess-king"></i>
+                            <i class="fas fa-fw fa-chess-knight"></i>
+                            <i class="fas fa-fw fa-chess-pawn"></i>
+                            <i class="fas fa-fw fa-chess-queen"></i>
+                            <i class="fas fa-fw fa-chess-rook"></i>
+                            <i class="fas fa-fw fa-chevron-circle-down"></i>
+                            <i class="fas fa-fw fa-chevron-circle-left"></i>
+                            <i class="fas fa-fw fa-chevron-circle-right"></i>
+                            <i class="fas fa-fw fa-chevron-circle-up"></i>
+                            <i class="fas fa-fw fa-chevron-down"></i>
+                            <i class="fas fa-fw fa-chevron-left"></i>
+                            <i class="fas fa-fw fa-chevron-right"></i>
+                            <i class="fas fa-fw fa-chevron-up"></i>
+                            <i class="fas fa-fw fa-child"></i>
+                            <i class="fas fa-fw fa-chrome"></i>
+                            <i class="fas fa-fw fa-church"></i>
+                            <i class="fas fa-fw fa-circle"></i>
+                            <i class="fas fa-fw fa-circle-notch"></i>
+                            <i class="fas fa-fw fa-city"></i>
+                            <i class="fas fa-fw fa-clinic-medical"></i>
+                            <i class="fas fa-fw fa-clipboard"></i>
+                            <i class="fas fa-fw fa-clipboard-check"></i>
+                            <i class="fas fa-fw fa-clipboard-list"></i>
+                            <i class="fas fa-fw fa-clock"></i>
+                            <i class="fas fa-fw fa-clone"></i>
+                            <i class="fas fa-fw fa-closed-captioning"></i>
+                            <i class="fas fa-fw fa-cloud"></i>
+                            <i class="fas fa-fw fa-cloud-download-alt"></i>
+                            <i class="fas fa-fw fa-cloud-meatball"></i>
+                            <i class="fas fa-fw fa-cloud-moon"></i>
+                            <i class="fas fa-fw fa-cloud-moon-rain"></i>
+                            <i class="fas fa-fw fa-cloud-rain"></i>
+                            <i class="fas fa-fw fa-cloud-showers-heavy"></i>
+                            <i class="fas fa-fw fa-cloud-sun"></i>
+                            <i class="fas fa-fw fa-cloud-sun-rain"></i>
+                            <i class="fas fa-fw fa-cloud-upload-alt"></i>
+                            <i class="fas fa-fw fa-cloudscale"></i>
+                            <i class="fas fa-fw fa-cloudsmith"></i>
+                            <i class="fas fa-fw fa-cloudversify"></i>
+                            <i class="fas fa-fw fa-cocktail"></i>
+                            <i class="fas fa-fw fa-code"></i>
+                            <i class="fas fa-fw fa-code-branch"></i>
+                            <i class="fas fa-fw fa-codepen"></i>
+                            <i class="fas fa-fw fa-codiepie"></i>
+                            <i class="fas fa-fw fa-coffee"></i>
+                            <i class="fas fa-fw fa-cog"></i>
+                            <i class="fas fa-fw fa-cogs"></i>
+                            <i class="fas fa-fw fa-coins"></i>
+                            <i class="fas fa-fw fa-columns"></i>
+                            <i class="fas fa-fw fa-comment"></i>
+                            <i class="fas fa-fw fa-comment-alt"></i>
+                            <i class="fas fa-fw fa-comment-dollar"></i>
+                            <i class="fas fa-fw fa-comment-dots"></i>
+                            <i class="fas fa-fw fa-comment-medical"></i>
+                            <i class="fas fa-fw fa-comment-slash"></i>
+                            <i class="fas fa-fw fa-comments"></i>
+                            <i class="fas fa-fw fa-comments-dollar"></i>
+                            <i class="fas fa-fw fa-compact-disc"></i>
+                            <i class="fas fa-fw fa-compass"></i>
+                            <i class="fas fa-fw fa-compress"></i>
+                            <i class="fas fa-fw fa-compress-arrows-alt"></i>
+                            <i class="fas fa-fw fa-concierge-bell"></i>
+                            <i class="fas fa-fw fa-confluence"></i>
+                            <i class="fas fa-fw fa-connectdevelop"></i>
+                            <i class="fas fa-fw fa-contao"></i>
+                            <i class="fas fa-fw fa-cookie"></i>
+                            <i class="fas fa-fw fa-cookie-bite"></i>
+                            <i class="fas fa-fw fa-copy"></i>
+                            <i class="fas fa-fw fa-copyright"></i>
+                            <i class="fas fa-fw fa-couch"></i>
+                            <i class="fas fa-fw fa-cpanel"></i>
+                            <i class="fas fa-fw fa-creative-commons"></i>
+                            <i class="fas fa-fw fa-creative-commons-by"></i>
+                            <i class="fas fa-fw fa-creative-commons-nc"></i>
+                            <i class="fas fa-fw fa-creative-commons-nc-eu"></i>
+                            <i class="fas fa-fw fa-creative-commons-nc-jp"></i>
+                            <i class="fas fa-fw fa-creative-commons-nd"></i>
+                            <i class="fas fa-fw fa-creative-commons-pd"></i>
+                            <i class="fas fa-fw fa-creative-commons-pd-alt"></i>
+                            <i class="fas fa-fw fa-creative-commons-remix"></i>
+                            <i class="fas fa-fw fa-creative-commons-sa"></i>
+                            <i class="fas fa-fw fa-creative-commons-sampling"></i>
+                            <i class="fas fa-fw fa-creative-commons-sampling-plus"></i>
+                            <i class="fas fa-fw fa-creative-commons-share"></i>
+                            <i class="fas fa-fw fa-creative-commons-zero"></i>
+                            <i class="fas fa-fw fa-credit-card"></i>
+                            <i class="fas fa-fw fa-critical-role"></i>
+                            <i class="fas fa-fw fa-crop"></i>
+                            <i class="fas fa-fw fa-crop-alt"></i>
+                            <i class="fas fa-fw fa-cross"></i>
+                            <i class="fas fa-fw fa-crosshairs"></i>
+                            <i class="fas fa-fw fa-crow"></i>
+                            <i class="fas fa-fw fa-crown"></i>
+                            <i class="fas fa-fw fa-crutch"></i>
+                            <i class="fas fa-fw fa-css3"></i>
+                            <i class="fas fa-fw fa-css3-alt"></i>
+                            <i class="fas fa-fw fa-cube"></i>
+                            <i class="fas fa-fw fa-cubes"></i>
+                            <i class="fas fa-fw fa-cut"></i>
+                            <i class="fas fa-fw fa-cuttlefish"></i>
+                            <i class="fas fa-fw fa-d-and-d"></i>
+                            <i class="fas fa-fw fa-d-and-d-beyond"></i>
+                            <i class="fas fa-fw fa-dashcube"></i>
+                            <i class="fas fa-fw fa-database"></i>
+                            <i class="fas fa-fw fa-deaf"></i>
+                            <i class="fas fa-fw fa-delicious"></i>
+                            <i class="fas fa-fw fa-democrat"></i>
+                            <i class="fas fa-fw fa-deploydog"></i>
+                            <i class="fas fa-fw fa-deskpro"></i>
+                            <i class="fas fa-fw fa-desktop"></i>
+                            <i class="fas fa-fw fa-dev"></i>
+                            <i class="fas fa-fw fa-deviantart"></i>
+                            <i class="fas fa-fw fa-dharmachakra"></i>
+                            <i class="fas fa-fw fa-dhl"></i>
+                            <i class="fas fa-fw fa-diagnoses"></i>
+                            <i class="fas fa-fw fa-diaspora"></i>
+                            <i class="fas fa-fw fa-dice"></i>
+                            <i class="fas fa-fw fa-dice-d20"></i>
+                            <i class="fas fa-fw fa-dice-d6"></i>
+                            <i class="fas fa-fw fa-dice-five"></i>
+                            <i class="fas fa-fw fa-dice-four"></i>
+                            <i class="fas fa-fw fa-dice-one"></i>
+                            <i class="fas fa-fw fa-dice-six"></i>
+                            <i class="fas fa-fw fa-dice-three"></i>
+                            <i class="fas fa-fw fa-dice-two"></i>
+                            <i class="fas fa-fw fa-digg"></i>
+                            <i class="fas fa-fw fa-digital-ocean"></i>
+                            <i class="fas fa-fw fa-digital-tachograph"></i>
+                            <i class="fas fa-fw fa-directions"></i>
+                            <i class="fas fa-fw fa-discord"></i>
+                            <i class="fas fa-fw fa-discourse"></i>
+                            <i class="fas fa-fw fa-divide"></i>
+                            <i class="fas fa-fw fa-dizzy"></i>
+                            <i class="fas fa-fw fa-dna"></i>
+                            <i class="fas fa-fw fa-dochub"></i>
+                            <i class="fas fa-fw fa-docker"></i>
+                            <i class="fas fa-fw fa-dog"></i>
+                            <i class="fas fa-fw fa-dollar-sign"></i>
+                            <i class="fas fa-fw fa-dolly"></i>
+                            <i class="fas fa-fw fa-dolly-flatbed"></i>
+                            <i class="fas fa-fw fa-donate"></i>
+                            <i class="fas fa-fw fa-door-closed"></i>
+                            <i class="fas fa-fw fa-door-open"></i>
+                            <i class="fas fa-fw fa-dot-circle"></i>
+                            <i class="fas fa-fw fa-dove"></i>
+                            <i class="fas fa-fw fa-download"></i>
+                            <i class="fas fa-fw fa-draft2digital"></i>
+                            <i class="fas fa-fw fa-drafting-compass"></i>
+                            <i class="fas fa-fw fa-dragon"></i>
+                            <i class="fas fa-fw fa-draw-polygon"></i>
+                            <i class="fas fa-fw fa-dribbble"></i>
+                            <i class="fas fa-fw fa-dribbble-square"></i>
+                            <i class="fas fa-fw fa-dropbox"></i>
+                            <i class="fas fa-fw fa-drum"></i>
+                            <i class="fas fa-fw fa-drum-steelpan"></i>
+                            <i class="fas fa-fw fa-drumstick-bite"></i>
+                            <i class="fas fa-fw fa-drupal"></i>
+                            <i class="fas fa-fw fa-dumbbell"></i>
+                            <i class="fas fa-fw fa-dumpster"></i>
+                            <i class="fas fa-fw fa-dumpster-fire"></i>
+                            <i class="fas fa-fw fa-dungeon"></i>
+                            <i class="fas fa-fw fa-dyalog"></i>
+                            <i class="fas fa-fw fa-earlybirds"></i>
+                            <i class="fas fa-fw fa-ebay"></i>
+                            <i class="fas fa-fw fa-edge"></i>
+                            <i class="fas fa-fw fa-edit"></i>
+                            <i class="fas fa-fw fa-egg"></i>
+                            <i class="fas fa-fw fa-eject"></i>
+                            <i class="fas fa-fw fa-elementor"></i>
+                            <i class="fas fa-fw fa-ellipsis-h"></i>
+                            <i class="fas fa-fw fa-ellipsis-v"></i>
+                            <i class="fas fa-fw fa-ello"></i>
+                            <i class="fas fa-fw fa-ember"></i>
+                            <i class="fas fa-fw fa-empire"></i>
+                            <i class="fas fa-fw fa-envelope"></i>
+                            <i class="fas fa-fw fa-envelope-open"></i>
+                            <i class="fas fa-fw fa-envelope-open-text"></i>
+                            <i class="fas fa-fw fa-envelope-square"></i>
+                            <i class="fas fa-fw fa-envira"></i>
+                            <i class="fas fa-fw fa-equals"></i>
+                            <i class="fas fa-fw fa-eraser"></i>
+                            <i class="fas fa-fw fa-erlang"></i>
+                            <i class="fas fa-fw fa-ethereum"></i>
+                            <i class="fas fa-fw fa-ethernet"></i>
+                            <i class="fas fa-fw fa-etsy"></i>
+                            <i class="fas fa-fw fa-euro-sign"></i>
+                            <i class="fas fa-fw fa-exchange-alt"></i>
+                            <i class="fas fa-fw fa-exclamation"></i>
+                            <i class="fas fa-fw fa-exclamation-circle"></i>
+                            <i class="fas fa-fw fa-exclamation-triangle"></i>
+                            <i class="fas fa-fw fa-expand"></i>
+                            <i class="fas fa-fw fa-expand-arrows-alt"></i>
+                            <i class="fas fa-fw fa-expeditedssl"></i>
+                            <i class="fas fa-fw fa-external-link-alt"></i>
+                            <i class="fas fa-fw fa-external-link-square-alt"></i>
+                            <i class="fas fa-fw fa-eye"></i>
+                            <i class="fas fa-fw fa-eye-dropper"></i>
+                            <i class="fas fa-fw fa-eye-slash"></i>
+                            <i class="fas fa-fw fa-facebook"></i>
+                            <i class="fas fa-fw fa-facebook-f"></i>
+                            <i class="fas fa-fw fa-facebook-messenger"></i>
+                            <i class="fas fa-fw fa-facebook-square"></i>
+                            <i class="fas fa-fw fa-fantasy-flight-games"></i>
+                            <i class="fas fa-fw fa-fast-backward"></i>
+                            <i class="fas fa-fw fa-fast-forward"></i>
+                            <i class="fas fa-fw fa-fax"></i>
+                            <i class="fas fa-fw fa-feather"></i>
+                            <i class="fas fa-fw fa-feather-alt"></i>
+                            <i class="fas fa-fw fa-fedex"></i>
+                            <i class="fas fa-fw fa-fedora"></i>
+                            <i class="fas fa-fw fa-female"></i>
+                            <i class="fas fa-fw fa-fighter-jet"></i>
+                            <i class="fas fa-fw fa-figma"></i>
+                            <i class="fas fa-fw fa-file"></i>
+                            <i class="fas fa-fw fa-file-alt"></i>
+                            <i class="fas fa-fw fa-file-archive"></i>
+                            <i class="fas fa-fw fa-file-audio"></i>
+                            <i class="fas fa-fw fa-file-code"></i>
+                            <i class="fas fa-fw fa-file-contract"></i>
+                            <i class="fas fa-fw fa-file-csv"></i>
+                            <i class="fas fa-fw fa-file-download"></i>
+                            <i class="fas fa-fw fa-file-excel"></i>
+                            <i class="fas fa-fw fa-file-export"></i>
+                            <i class="fas fa-fw fa-file-image"></i>
+                            <i class="fas fa-fw fa-file-import"></i>
+                            <i class="fas fa-fw fa-file-invoice"></i>
+                            <i class="fas fa-fw fa-file-invoice-dollar"></i>
+                            <i class="fas fa-fw fa-file-medical"></i>
+                            <i class="fas fa-fw fa-file-medical-alt"></i>
+                            <i class="fas fa-fw fa-file-pdf"></i>
+                            <i class="fas fa-fw fa-file-powerpoint"></i>
+                            <i class="fas fa-fw fa-file-prescription"></i>
+                            <i class="fas fa-fw fa-file-signature"></i>
+                            <i class="fas fa-fw fa-file-upload"></i>
+                            <i class="fas fa-fw fa-file-video"></i>
+                            <i class="fas fa-fw fa-file-word"></i>
+                            <i class="fas fa-fw fa-fill"></i>
+                            <i class="fas fa-fw fa-fill-drip"></i>
+                            <i class="fas fa-fw fa-film"></i>
+                            <i class="fas fa-fw fa-filter"></i>
+                            <i class="fas fa-fw fa-fingerprint"></i>
+                            <i class="fas fa-fw fa-fire"></i>
+                            <i class="fas fa-fw fa-fire-alt"></i>
+                            <i class="fas fa-fw fa-fire-extinguisher"></i>
+                            <i class="fas fa-fw fa-firefox"></i>
+                            <i class="fas fa-fw fa-first-aid"></i>
+                            <i class="fas fa-fw fa-first-order"></i>
+                            <i class="fas fa-fw fa-first-order-alt"></i>
+                            <i class="fas fa-fw fa-firstdraft"></i>
+                            <i class="fas fa-fw fa-fish"></i>
+                            <i class="fas fa-fw fa-fist-raised"></i>
+                            <i class="fas fa-fw fa-flag"></i>
+                            <i class="fas fa-fw fa-flag-checkered"></i>
+                            <i class="fas fa-fw fa-flag-usa"></i>
+                            <i class="fas fa-fw fa-flask"></i>
+                            <i class="fas fa-fw fa-flickr"></i>
+                            <i class="fas fa-fw fa-flip-both"></i>
+                            <i class="fas fa-fw fa-flip-horizontal"></i>
+                            <i class="fas fa-fw fa-flip-vertical"></i>
+                            <i class="fas fa-fw fa-flipboard"></i>
+                            <i class="fas fa-fw fa-flushed"></i>
+                            <i class="fas fa-fw fa-fly"></i>
+                            <i class="fas fa-fw fa-folder"></i>
+                            <i class="fas fa-fw fa-folder-minus"></i>
+                            <i class="fas fa-fw fa-folder-open"></i>
+                            <i class="fas fa-fw fa-folder-plus"></i>
+                            <i class="fas fa-fw fa-font"></i>
+                            <i class="fas fa-fw fa-font-awesome"></i>
+                            <i class="fas fa-fw fa-font-awesome-alt"></i>
+                            <i class="fas fa-fw fa-font-awesome-flag"></i>
+                            <i class="fas fa-fw fa-font-awesome-logo-full"></i>
+                            <i class="fas fa-fw fa-fonticons"></i>
+                            <i class="fas fa-fw fa-fonticons-fi"></i>
+                            <i class="fas fa-fw fa-football-ball"></i>
+                            <i class="fas fa-fw fa-fort-awesome"></i>
+                            <i class="fas fa-fw fa-fort-awesome-alt"></i>
+                            <i class="fas fa-fw fa-forumbee"></i>
+                            <i class="fas fa-fw fa-forward"></i>
+                            <i class="fas fa-fw fa-foursquare"></i>
+                            <i class="fas fa-fw fa-free-code-camp"></i>
+                            <i class="fas fa-fw fa-freebsd"></i>
+                            <i class="fas fa-fw fa-frog"></i>
+                            <i class="fas fa-fw fa-frown"></i>
+                            <i class="fas fa-fw fa-frown-open"></i>
+                            <i class="fas fa-fw fa-fulcrum"></i>
+                            <i class="fas fa-fw fa-funnel-dollar"></i>
+                            <i class="fas fa-fw fa-futbol"></i>
+                            <i class="fas fa-fw fa-fw"></i>
+                            <i class="fas fa-fw fa-galactic-republic"></i>
+                            <i class="fas fa-fw fa-galactic-senate"></i>
+                            <i class="fas fa-fw fa-gamepad"></i>
+                            <i class="fas fa-fw fa-gas-pump"></i>
+                            <i class="fas fa-fw fa-gavel"></i>
+                            <i class="fas fa-fw fa-gem"></i>
+                            <i class="fas fa-fw fa-genderless"></i>
+                            <i class="fas fa-fw fa-get-pocket"></i>
+                            <i class="fas fa-fw fa-gg"></i>
+                            <i class="fas fa-fw fa-gg-circle"></i>
+                            <i class="fas fa-fw fa-ghost"></i>
+                            <i class="fas fa-fw fa-gift"></i>
+                            <i class="fas fa-fw fa-gifts"></i>
+                            <i class="fas fa-fw fa-git"></i>
+                            <i class="fas fa-fw fa-git-square"></i>
+                            <i class="fas fa-fw fa-github"></i>
+                            <i class="fas fa-fw fa-github-alt"></i>
+                            <i class="fas fa-fw fa-github-square"></i>
+                            <i class="fas fa-fw fa-gitkraken"></i>
+                            <i class="fas fa-fw fa-gitlab"></i>
+                            <i class="fas fa-fw fa-gitter"></i>
+                            <i class="fas fa-fw fa-glass-cheers"></i>
+                            <i class="fas fa-fw fa-glass-martini"></i>
+                            <i class="fas fa-fw fa-glass-martini-alt"></i>
+                            <i class="fas fa-fw fa-glass-whiskey"></i>
+                            <i class="fas fa-fw fa-glasses"></i>
+                            <i class="fas fa-fw fa-glide"></i>
+                            <i class="fas fa-fw fa-glide-g"></i>
+                            <i class="fas fa-fw fa-globe"></i>
+                            <i class="fas fa-fw fa-globe-africa"></i>
+                            <i class="fas fa-fw fa-globe-americas"></i>
+                            <i class="fas fa-fw fa-globe-asia"></i>
+                            <i class="fas fa-fw fa-globe-europe"></i>
+                            <i class="fas fa-fw fa-gofore"></i>
+                            <i class="fas fa-fw fa-golf-ball"></i>
+                            <i class="fas fa-fw fa-goodreads"></i>
+                            <i class="fas fa-fw fa-goodreads-g"></i>
+                            <i class="fas fa-fw fa-google"></i>
+                            <i class="fas fa-fw fa-google-drive"></i>
+                            <i class="fas fa-fw fa-google-play"></i>
+                            <i class="fas fa-fw fa-google-plus"></i>
+                            <i class="fas fa-fw fa-google-plus-g"></i>
+                            <i class="fas fa-fw fa-google-plus-square"></i>
+                            <i class="fas fa-fw fa-google-wallet"></i>
+                            <i class="fas fa-fw fa-gopuram"></i>
+                            <i class="fas fa-fw fa-graduation-cap"></i>
+                            <i class="fas fa-fw fa-gratipay"></i>
+                            <i class="fas fa-fw fa-grav"></i>
+                            <i class="fas fa-fw fa-greater-than"></i>
+                            <i class="fas fa-fw fa-greater-than-equal"></i>
+                            <i class="fas fa-fw fa-grimace"></i>
+                            <i class="fas fa-fw fa-grin"></i>
+                            <i class="fas fa-fw fa-grin-alt"></i>
+                            <i class="fas fa-fw fa-grin-beam"></i>
+                            <i class="fas fa-fw fa-grin-beam-sweat"></i>
+                            <i class="fas fa-fw fa-grin-hearts"></i>
+                            <i class="fas fa-fw fa-grin-squint"></i>
+                            <i class="fas fa-fw fa-grin-squint-tears"></i>
+                            <i class="fas fa-fw fa-grin-stars"></i>
+                            <i class="fas fa-fw fa-grin-tears"></i>
+                            <i class="fas fa-fw fa-grin-tongue"></i>
+                            <i class="fas fa-fw fa-grin-tongue-squint"></i>
+                            <i class="fas fa-fw fa-grin-tongue-wink"></i>
+                            <i class="fas fa-fw fa-grin-wink"></i>
+                            <i class="fas fa-fw fa-grip-horizontal"></i>
+                            <i class="fas fa-fw fa-grip-lines"></i>
+                            <i class="fas fa-fw fa-grip-lines-vertical"></i>
+                            <i class="fas fa-fw fa-grip-vertical"></i>
+                            <i class="fas fa-fw fa-gripfire"></i>
+                            <i class="fas fa-fw fa-grunt"></i>
+                            <i class="fas fa-fw fa-guitar"></i>
+                            <i class="fas fa-fw fa-gulp"></i>
+                            <i class="fas fa-fw fa-h-square"></i>
+                            <i class="fas fa-fw fa-hacker-news"></i>
+                            <i class="fas fa-fw fa-hacker-news-square"></i>
+                            <i class="fas fa-fw fa-hackerrank"></i>
+                            <i class="fas fa-fw fa-hamburger"></i>
+                            <i class="fas fa-fw fa-hammer"></i>
+                            <i class="fas fa-fw fa-hamsa"></i>
+                            <i class="fas fa-fw fa-hand-holding"></i>
+                            <i class="fas fa-fw fa-hand-holding-heart"></i>
+                            <i class="fas fa-fw fa-hand-holding-usd"></i>
+                            <i class="fas fa-fw fa-hand-lizard"></i>
+                            <i class="fas fa-fw fa-hand-middle-finger"></i>
+                            <i class="fas fa-fw fa-hand-paper"></i>
+                            <i class="fas fa-fw fa-hand-peace"></i>
+                            <i class="fas fa-fw fa-hand-point-down"></i>
+                            <i class="fas fa-fw fa-hand-point-left"></i>
+                            <i class="fas fa-fw fa-hand-point-right"></i>
+                            <i class="fas fa-fw fa-hand-point-up"></i>
+                            <i class="fas fa-fw fa-hand-pointer"></i>
+                            <i class="fas fa-fw fa-hand-rock"></i>
+                            <i class="fas fa-fw fa-hand-scissors"></i>
+                            <i class="fas fa-fw fa-hand-spock"></i>
+                            <i class="fas fa-fw fa-hands"></i>
+                            <i class="fas fa-fw fa-hands-helping"></i>
+                            <i class="fas fa-fw fa-handshake"></i>
+                            <i class="fas fa-fw fa-hanukiah"></i>
+                            <i class="fas fa-fw fa-hard-hat"></i>
+                            <i class="fas fa-fw fa-hashtag"></i>
+                            <i class="fas fa-fw fa-hat-wizard"></i>
+                            <i class="fas fa-fw fa-haykal"></i>
+                            <i class="fas fa-fw fa-hdd"></i>
+                            <i class="fas fa-fw fa-heading"></i>
+                            <i class="fas fa-fw fa-headphones"></i>
+                            <i class="fas fa-fw fa-headphones-alt"></i>
+                            <i class="fas fa-fw fa-headset"></i>
+                            <i class="fas fa-fw fa-heart"></i>
+                            <i class="fas fa-fw fa-heart-broken"></i>
+                            <i class="fas fa-fw fa-heartbeat"></i>
+                            <i class="fas fa-fw fa-helicopter"></i>
+                            <i class="fas fa-fw fa-highlighter"></i>
+                            <i class="fas fa-fw fa-hiking"></i>
+                            <i class="fas fa-fw fa-hippo"></i>
+                            <i class="fas fa-fw fa-hips"></i>
+                            <i class="fas fa-fw fa-hire-a-helper"></i>
+                            <i class="fas fa-fw fa-history"></i>
+                            <i class="fas fa-fw fa-hockey-puck"></i>
+                            <i class="fas fa-fw fa-holly-berry"></i>
+                            <i class="fas fa-fw fa-home"></i>
+                            <i class="fas fa-fw fa-hooli"></i>
+                            <i class="fas fa-fw fa-hornbill"></i>
+                            <i class="fas fa-fw fa-horse"></i>
+                            <i class="fas fa-fw fa-horse-head"></i>
+                            <i class="fas fa-fw fa-hospital"></i>
+                            <i class="fas fa-fw fa-hospital-alt"></i>
+                            <i class="fas fa-fw fa-hospital-symbol"></i>
+                            <i class="fas fa-fw fa-hot-tub"></i>
+                            <i class="fas fa-fw fa-hotdog"></i>
+                            <i class="fas fa-fw fa-hotel"></i>
+                            <i class="fas fa-fw fa-hotjar"></i>
+                            <i class="fas fa-fw fa-hourglass"></i>
+                            <i class="fas fa-fw fa-hourglass-end"></i>
+                            <i class="fas fa-fw fa-hourglass-half"></i>
+                            <i class="fas fa-fw fa-hourglass-start"></i>
+                            <i class="fas fa-fw fa-house-damage"></i>
+                            <i class="fas fa-fw fa-houzz"></i>
+                            <i class="fas fa-fw fa-hryvnia"></i>
+                            <i class="fas fa-fw fa-html5"></i>
+                            <i class="fas fa-fw fa-hubspot"></i>
+                            <i class="fas fa-fw fa-i-cursor"></i>
+                            <i class="fas fa-fw fa-ice-cream"></i>
+                            <i class="fas fa-fw fa-icicles"></i>
+                            <i class="fas fa-fw fa-id-badge"></i>
+                            <i class="fas fa-fw fa-id-card"></i>
+                            <i class="fas fa-fw fa-id-card-alt"></i>
+                            <i class="fas fa-fw fa-igloo"></i>
+                            <i class="fas fa-fw fa-image"></i>
+                            <i class="fas fa-fw fa-images"></i>
+                            <i class="fas fa-fw fa-imdb"></i>
+                            <i class="fas fa-fw fa-inbox"></i>
+                            <i class="fas fa-fw fa-indent"></i>
+                            <i class="fas fa-fw fa-industry"></i>
+                            <i class="fas fa-fw fa-infinity"></i>
+                            <i class="fas fa-fw fa-info"></i>
+                            <i class="fas fa-fw fa-info-circle"></i>
+                            <i class="fas fa-fw fa-instagram"></i>
+                            <i class="fas fa-fw fa-intercom"></i>
+                            <i class="fas fa-fw fa-internet-explorer"></i>
+                            <i class="fas fa-fw fa-inverse"></i>
+                            <i class="fas fa-fw fa-invision"></i>
+                            <i class="fas fa-fw fa-ioxhost"></i>
+                            <i class="fas fa-fw fa-italic"></i>
+                            <i class="fas fa-fw fa-itunes"></i>
+                            <i class="fas fa-fw fa-itunes-note"></i>
+                            <i class="fas fa-fw fa-java"></i>
+                            <i class="fas fa-fw fa-jedi"></i>
+                            <i class="fas fa-fw fa-jedi-order"></i>
+                            <i class="fas fa-fw fa-jenkins"></i>
+                            <i class="fas fa-fw fa-jira"></i>
+                            <i class="fas fa-fw fa-joget"></i>
+                            <i class="fas fa-fw fa-joint"></i>
+                            <i class="fas fa-fw fa-joomla"></i>
+                            <i class="fas fa-fw fa-journal-whills"></i>
+                            <i class="fas fa-fw fa-js"></i>
+                            <i class="fas fa-fw fa-js-square"></i>
+                            <i class="fas fa-fw fa-jsfiddle"></i>
+                            <i class="fas fa-fw fa-kaaba"></i>
+                            <i class="fas fa-fw fa-kaggle"></i>
+                            <i class="fas fa-fw fa-key"></i>
+                            <i class="fas fa-fw fa-keybase"></i>
+                            <i class="fas fa-fw fa-keyboard"></i>
+                            <i class="fas fa-fw fa-keycdn"></i>
+                            <i class="fas fa-fw fa-khanda"></i>
+                            <i class="fas fa-fw fa-kickstarter"></i>
+                            <i class="fas fa-fw fa-kickstarter-k"></i>
+                            <i class="fas fa-fw fa-kiss"></i>
+                            <i class="fas fa-fw fa-kiss-beam"></i>
+                            <i class="fas fa-fw fa-kiss-wink-heart"></i>
+                            <i class="fas fa-fw fa-kiwi-bird"></i>
+                            <i class="fas fa-fw fa-korvue"></i>
+                            <i class="fas fa-fw fa-landmark"></i>
+                            <i class="fas fa-fw fa-language"></i>
+                            <i class="fas fa-fw fa-laptop"></i>
+                            <i class="fas fa-fw fa-laptop-code"></i>
+                            <i class="fas fa-fw fa-laptop-medical"></i>
+                            <i class="fas fa-fw fa-laravel"></i>
+                            <i class="fas fa-fw fa-lastfm"></i>
+                            <i class="fas fa-fw fa-lastfm-square"></i>
+                            <i class="fas fa-fw fa-laugh"></i>
+                            <i class="fas fa-fw fa-laugh-beam"></i>
+                            <i class="fas fa-fw fa-laugh-squint"></i>
+                            <i class="fas fa-fw fa-laugh-wink"></i>
+                            <i class="fas fa-fw fa-layer-group"></i>
+                            <i class="fas fa-fw fa-leaf"></i>
+                            <i class="fas fa-fw fa-leanpub"></i>
+                            <i class="fas fa-fw fa-lemon"></i>
+                            <i class="fas fa-fw fa-less"></i>
+                            <i class="fas fa-fw fa-less-than"></i>
+                            <i class="fas fa-fw fa-less-than-equal"></i>
+                            <i class="fas fa-fw fa-level-down-alt"></i>
+                            <i class="fas fa-fw fa-level-up-alt"></i>
+                            <i class="fas fa-fw fa-lg"></i>
+                            <i class="fas fa-fw fa-li"></i>
+                            <i class="fas fa-fw fa-life-ring"></i>
+                            <i class="fas fa-fw fa-lightbulb"></i>
+                            <i class="fas fa-fw fa-line"></i>
+                            <i class="fas fa-fw fa-link"></i>
+                            <i class="fas fa-fw fa-linkedin"></i>
+                            <i class="fas fa-fw fa-linkedin-in"></i>
+                            <i class="fas fa-fw fa-linode"></i>
+                            <i class="fas fa-fw fa-linux"></i>
+                            <i class="fas fa-fw fa-lira-sign"></i>
+                            <i class="fas fa-fw fa-list"></i>
+                            <i class="fas fa-fw fa-list-alt"></i>
+                            <i class="fas fa-fw fa-list-ol"></i>
+                            <i class="fas fa-fw fa-list-ul"></i>
+                            <i class="fas fa-fw fa-location-arrow"></i>
+                            <i class="fas fa-fw fa-lock"></i>
+                            <i class="fas fa-fw fa-lock-open"></i>
+                            <i class="fas fa-fw fa-long-arrow-alt-down"></i>
+                            <i class="fas fa-fw fa-long-arrow-alt-left"></i>
+                            <i class="fas fa-fw fa-long-arrow-alt-right"></i>
+                            <i class="fas fa-fw fa-long-arrow-alt-up"></i>
+                            <i class="fas fa-fw fa-low-vision"></i>
+                            <i class="fas fa-fw fa-luggage-cart"></i>
+                            <i class="fas fa-fw fa-lyft"></i>
+                            <i class="fas fa-fw fa-magento"></i>
+                            <i class="fas fa-fw fa-magic"></i>
+                            <i class="fas fa-fw fa-magnet"></i>
+                            <i class="fas fa-fw fa-mail-bulk"></i>
+                            <i class="fas fa-fw fa-mailchimp"></i>
+                            <i class="fas fa-fw fa-male"></i>
+                            <i class="fas fa-fw fa-mandalorian"></i>
+                            <i class="fas fa-fw fa-map"></i>
+                            <i class="fas fa-fw fa-map-marked"></i>
+                            <i class="fas fa-fw fa-map-marked-alt"></i>
+                            <i class="fas fa-fw fa-map-marker"></i>
+                            <i class="fas fa-fw fa-map-marker-alt"></i>
+                            <i class="fas fa-fw fa-map-pin"></i>
+                            <i class="fas fa-fw fa-map-signs"></i>
+                            <i class="fas fa-fw fa-markdown"></i>
+                            <i class="fas fa-fw fa-marker"></i>
+                            <i class="fas fa-fw fa-mars"></i>
+                            <i class="fas fa-fw fa-mars-double"></i>
+                            <i class="fas fa-fw fa-mars-stroke"></i>
+                            <i class="fas fa-fw fa-mars-stroke-h"></i>
+                            <i class="fas fa-fw fa-mars-stroke-v"></i>
+                            <i class="fas fa-fw fa-mask"></i>
+                            <i class="fas fa-fw fa-mastodon"></i>
+                            <i class="fas fa-fw fa-maxcdn"></i>
+                            <i class="fas fa-fw fa-medal"></i>
+                            <i class="fas fa-fw fa-medapps"></i>
+                            <i class="fas fa-fw fa-medium"></i>
+                            <i class="fas fa-fw fa-medium-m"></i>
+                            <i class="fas fa-fw fa-medkit"></i>
+                            <i class="fas fa-fw fa-medrt"></i>
+                            <i class="fas fa-fw fa-meetup"></i>
+                            <i class="fas fa-fw fa-megaport"></i>
+                            <i class="fas fa-fw fa-meh"></i>
+                            <i class="fas fa-fw fa-meh-blank"></i>
+                            <i class="fas fa-fw fa-meh-rolling-eyes"></i>
+                            <i class="fas fa-fw fa-memory"></i>
+                            <i class="fas fa-fw fa-mendeley"></i>
+                            <i class="fas fa-fw fa-menorah"></i>
+                            <i class="fas fa-fw fa-mercury"></i>
+                            <i class="fas fa-fw fa-meteor"></i>
+                            <i class="fas fa-fw fa-microchip"></i>
+                            <i class="fas fa-fw fa-microphone"></i>
+                            <i class="fas fa-fw fa-microphone-alt"></i>
+                            <i class="fas fa-fw fa-microphone-alt-slash"></i>
+                            <i class="fas fa-fw fa-microphone-slash"></i>
+                            <i class="fas fa-fw fa-microscope"></i>
+                            <i class="fas fa-fw fa-microsoft"></i>
+                            <i class="fas fa-fw fa-minus"></i>
+                            <i class="fas fa-fw fa-minus-circle"></i>
+                            <i class="fas fa-fw fa-minus-square"></i>
+                            <i class="fas fa-fw fa-mitten"></i>
+                            <i class="fas fa-fw fa-mix"></i>
+                            <i class="fas fa-fw fa-mixcloud"></i>
+                            <i class="fas fa-fw fa-mizuni"></i>
+                            <i class="fas fa-fw fa-mobile"></i>
+                            <i class="fas fa-fw fa-mobile-alt"></i>
+                            <i class="fas fa-fw fa-modx"></i>
+                            <i class="fas fa-fw fa-monero"></i>
+                            <i class="fas fa-fw fa-money-bill"></i>
+                            <i class="fas fa-fw fa-money-bill-alt"></i>
+                            <i class="fas fa-fw fa-money-bill-wave"></i>
+                            <i class="fas fa-fw fa-money-bill-wave-alt"></i>
+                            <i class="fas fa-fw fa-money-check"></i>
+                            <i class="fas fa-fw fa-money-check-alt"></i>
+                            <i class="fas fa-fw fa-monument"></i>
+                            <i class="fas fa-fw fa-moon"></i>
+                            <i class="fas fa-fw fa-mortar-pestle"></i>
+                            <i class="fas fa-fw fa-mosque"></i>
+                            <i class="fas fa-fw fa-motorcycle"></i>
+                            <i class="fas fa-fw fa-mountain"></i>
+                            <i class="fas fa-fw fa-mouse-pointer"></i>
+                            <i class="fas fa-fw fa-mug-hot"></i>
+                            <i class="fas fa-fw fa-music"></i>
+                            <i class="fas fa-fw fa-napster"></i>
+                            <i class="fas fa-fw fa-neos"></i>
+                            <i class="fas fa-fw fa-network-wired"></i>
+                            <i class="fas fa-fw fa-neuter"></i>
+                            <i class="fas fa-fw fa-newspaper"></i>
+                            <i class="fas fa-fw fa-nimblr"></i>
+                            <i class="fas fa-fw fa-nintendo-switch"></i>
+                            <i class="fas fa-fw fa-node"></i>
+                            <i class="fas fa-fw fa-node-js"></i>
+                            <i class="fas fa-fw fa-not-equal"></i>
+                            <i class="fas fa-fw fa-notes-medical"></i>
+                            <i class="fas fa-fw fa-npm"></i>
+                            <i class="fas fa-fw fa-ns8"></i>
+                            <i class="fas fa-fw fa-nutritionix"></i>
+                            <i class="fas fa-fw fa-object-group"></i>
+                            <i class="fas fa-fw fa-object-ungroup"></i>
+                            <i class="fas fa-fw fa-odnoklassniki"></i>
+                            <i class="fas fa-fw fa-odnoklassniki-square"></i>
+                            <i class="fas fa-fw fa-oil-can"></i>
+                            <i class="fas fa-fw fa-old-republic"></i>
+                            <i class="fas fa-fw fa-om"></i>
+                            <i class="fas fa-fw fa-opencart"></i>
+                            <i class="fas fa-fw fa-openid"></i>
+                            <i class="fas fa-fw fa-opera"></i>
+                            <i class="fas fa-fw fa-optin-monster"></i>
+                            <i class="fas fa-fw fa-osi"></i>
+                            <i class="fas fa-fw fa-otter"></i>
+                            <i class="fas fa-fw fa-outdent"></i>
+                            <i class="fas fa-fw fa-page4"></i>
+                            <i class="fas fa-fw fa-pagelines"></i>
+                            <i class="fas fa-fw fa-pager"></i>
+                            <i class="fas fa-fw fa-paint-brush"></i>
+                            <i class="fas fa-fw fa-paint-roller"></i>
+                            <i class="fas fa-fw fa-palette"></i>
+                            <i class="fas fa-fw fa-palfed"></i>
+                            <i class="fas fa-fw fa-pallet"></i>
+                            <i class="fas fa-fw fa-paper-plane"></i>
+                            <i class="fas fa-fw fa-paperclip"></i>
+                            <i class="fas fa-fw fa-parachute-box"></i>
+                            <i class="fas fa-fw fa-paragraph"></i>
+                            <i class="fas fa-fw fa-parking"></i>
+                            <i class="fas fa-fw fa-passport"></i>
+                            <i class="fas fa-fw fa-pastafarianism"></i>
+                            <i class="fas fa-fw fa-paste"></i>
+                            <i class="fas fa-fw fa-patreon"></i>
+                            <i class="fas fa-fw fa-pause"></i>
+                            <i class="fas fa-fw fa-pause-circle"></i>
+                            <i class="fas fa-fw fa-paw"></i>
+                            <i class="fas fa-fw fa-paypal"></i>
+                            <i class="fas fa-fw fa-peace"></i>
+                            <i class="fas fa-fw fa-pen"></i>
+                            <i class="fas fa-fw fa-pen-alt"></i>
+                            <i class="fas fa-fw fa-pen-fancy"></i>
+                            <i class="fas fa-fw fa-pen-nib"></i>
+                            <i class="fas fa-fw fa-pen-square"></i>
+                            <i class="fas fa-fw fa-pencil-alt"></i>
+                            <i class="fas fa-fw fa-pencil-ruler"></i>
+                            <i class="fas fa-fw fa-penny-arcade"></i>
+                            <i class="fas fa-fw fa-people-carry"></i>
+                            <i class="fas fa-fw fa-pepper-hot"></i>
+                            <i class="fas fa-fw fa-percent"></i>
+                            <i class="fas fa-fw fa-percentage"></i>
+                            <i class="fas fa-fw fa-periscope"></i>
+                            <i class="fas fa-fw fa-person-booth"></i>
+                            <i class="fas fa-fw fa-phabricator"></i>
+                            <i class="fas fa-fw fa-phoenix-framework"></i>
+                            <i class="fas fa-fw fa-phoenix-squadron"></i>
+                            <i class="fas fa-fw fa-phone"></i>
+                            <i class="fas fa-fw fa-phone-slash"></i>
+                            <i class="fas fa-fw fa-phone-square"></i>
+                            <i class="fas fa-fw fa-phone-volume"></i>
+                            <i class="fas fa-fw fa-php"></i>
+                            <i class="fas fa-fw fa-pied-piper"></i>
+                            <i class="fas fa-fw fa-pied-piper-alt"></i>
+                            <i class="fas fa-fw fa-pied-piper-hat"></i>
+                            <i class="fas fa-fw fa-pied-piper-pp"></i>
+                            <i class="fas fa-fw fa-piggy-bank"></i>
+                            <i class="fas fa-fw fa-pills"></i>
+                            <i class="fas fa-fw fa-pinterest"></i>
+                            <i class="fas fa-fw fa-pinterest-p"></i>
+                            <i class="fas fa-fw fa-pinterest-square"></i>
+                            <i class="fas fa-fw fa-pizza-slice"></i>
+                            <i class="fas fa-fw fa-place-of-worship"></i>
+                            <i class="fas fa-fw fa-plane"></i>
+                            <i class="fas fa-fw fa-plane-arrival"></i>
+                            <i class="fas fa-fw fa-plane-departure"></i>
+                            <i class="fas fa-fw fa-play"></i>
+                            <i class="fas fa-fw fa-play-circle"></i>
+                            <i class="fas fa-fw fa-playstation"></i>
+                            <i class="fas fa-fw fa-plug"></i>
+                            <i class="fas fa-fw fa-plus"></i>
+                            <i class="fas fa-fw fa-plus-circle"></i>
+                            <i class="fas fa-fw fa-plus-square"></i>
+                            <i class="fas fa-fw fa-podcast"></i>
+                            <i class="fas fa-fw fa-poll"></i>
+                            <i class="fas fa-fw fa-poll-h"></i>
+                            <i class="fas fa-fw fa-poo"></i>
+                            <i class="fas fa-fw fa-poo-storm"></i>
+                            <i class="fas fa-fw fa-poop"></i>
+                            <i class="fas fa-fw fa-portrait"></i>
+                            <i class="fas fa-fw fa-pound-sign"></i>
+                            <i class="fas fa-fw fa-power-off"></i>
+                            <i class="fas fa-fw fa-pray"></i>
+                            <i class="fas fa-fw fa-praying-hands"></i>
+                            <i class="fas fa-fw fa-prescription"></i>
+                            <i class="fas fa-fw fa-prescription-bottle"></i>
+                            <i class="fas fa-fw fa-prescription-bottle-alt"></i>
+                            <i class="fas fa-fw fa-print"></i>
+                            <i class="fas fa-fw fa-procedures"></i>
+                            <i class="fas fa-fw fa-product-hunt"></i>
+                            <i class="fas fa-fw fa-project-diagram"></i>
+                            <i class="fas fa-fw fa-pull-left"></i>
+                            <i class="fas fa-fw fa-pull-right"></i>
+                            <i class="fas fa-fw fa-pulse"></i>
+                            <i class="fas fa-fw fa-pushed"></i>
+                            <i class="fas fa-fw fa-puzzle-piece"></i>
+                            <i class="fas fa-fw fa-python"></i>
+                            <i class="fas fa-fw fa-qq"></i>
+                            <i class="fas fa-fw fa-qrcode"></i>
+                            <i class="fas fa-fw fa-question"></i>
+                            <i class="fas fa-fw fa-question-circle"></i>
+                            <i class="fas fa-fw fa-quidditch"></i>
+                            <i class="fas fa-fw fa-quinscape"></i>
+                            <i class="fas fa-fw fa-quora"></i>
+                            <i class="fas fa-fw fa-quote-left"></i>
+                            <i class="fas fa-fw fa-quote-right"></i>
+                            <i class="fas fa-fw fa-quran"></i>
+                            <i class="fas fa-fw fa-r-project"></i>
+                            <i class="fas fa-fw fa-radiation"></i>
+                            <i class="fas fa-fw fa-radiation-alt"></i>
+                            <i class="fas fa-fw fa-rainbow"></i>
+                            <i class="fas fa-fw fa-random"></i>
+                            <i class="fas fa-fw fa-raspberry-pi"></i>
+                            <i class="fas fa-fw fa-ravelry"></i>
+                            <i class="fas fa-fw fa-react"></i>
+                            <i class="fas fa-fw fa-reacteurope"></i>
+                            <i class="fas fa-fw fa-readme"></i>
+                            <i class="fas fa-fw fa-rebel"></i>
+                            <i class="fas fa-fw fa-receipt"></i>
+                            <i class="fas fa-fw fa-recycle"></i>
+                            <i class="fas fa-fw fa-red-river"></i>
+                            <i class="fas fa-fw fa-reddit"></i>
+                            <i class="fas fa-fw fa-reddit-alien"></i>
+                            <i class="fas fa-fw fa-reddit-square"></i>
+                            <i class="fas fa-fw fa-redhat"></i>
+                            <i class="fas fa-fw fa-redo"></i>
+                            <i class="fas fa-fw fa-redo-alt"></i>
+                            <i class="fas fa-fw fa-registered"></i>
+                            <i class="fas fa-fw fa-renren"></i>
+                            <i class="fas fa-fw fa-reply"></i>
+                            <i class="fas fa-fw fa-reply-all"></i>
+                            <i class="fas fa-fw fa-replyd"></i>
+                            <i class="fas fa-fw fa-republican"></i>
+                            <i class="fas fa-fw fa-researchgate"></i>
+                            <i class="fas fa-fw fa-resolving"></i>
+                            <i class="fas fa-fw fa-restroom"></i>
+                            <i class="fas fa-fw fa-retweet"></i>
+                            <i class="fas fa-fw fa-rev"></i>
+                            <i class="fas fa-fw fa-ribbon"></i>
+                            <i class="fas fa-fw fa-ring"></i>
+                            <i class="fas fa-fw fa-road"></i>
+                            <i class="fas fa-fw fa-robot"></i>
+                            <i class="fas fa-fw fa-rocket"></i>
+                            <i class="fas fa-fw fa-rocketchat"></i>
+                            <i class="fas fa-fw fa-rockrms"></i>
+                            <i class="fas fa-fw fa-rotate-180"></i>
+                            <i class="fas fa-fw fa-rotate-270"></i>
+                            <i class="fas fa-fw fa-rotate-90"></i>
+                            <i class="fas fa-fw fa-route"></i>
+                            <i class="fas fa-fw fa-rss"></i>
+                            <i class="fas fa-fw fa-rss-square"></i>
+                            <i class="fas fa-fw fa-ruble-sign"></i>
+                            <i class="fas fa-fw fa-ruler"></i>
+                            <i class="fas fa-fw fa-ruler-combined"></i>
+                            <i class="fas fa-fw fa-ruler-horizontal"></i>
+                            <i class="fas fa-fw fa-ruler-vertical"></i>
+                            <i class="fas fa-fw fa-running"></i>
+                            <i class="fas fa-fw fa-rupee-sign"></i>
+                            <i class="fas fa-fw fa-sad-cry"></i>
+                            <i class="fas fa-fw fa-sad-tear"></i>
+                            <i class="fas fa-fw fa-safari"></i>
+                            <i class="fas fa-fw fa-sass"></i>
+                            <i class="fas fa-fw fa-satellite"></i>
+                            <i class="fas fa-fw fa-satellite-dish"></i>
+                            <i class="fas fa-fw fa-save"></i>
+                            <i class="fas fa-fw fa-schlix"></i>
+                            <i class="fas fa-fw fa-school"></i>
+                            <i class="fas fa-fw fa-screwdriver"></i>
+                            <i class="fas fa-fw fa-scribd"></i>
+                            <i class="fas fa-fw fa-scroll"></i>
+                            <i class="fas fa-fw fa-sd-card"></i>
+                            <i class="fas fa-fw fa-search"></i>
+                            <i class="fas fa-fw fa-search-dollar"></i>
+                            <i class="fas fa-fw fa-search-location"></i>
+                            <i class="fas fa-fw fa-search-minus"></i>
+                            <i class="fas fa-fw fa-search-plus"></i>
+                            <i class="fas fa-fw fa-searchengin"></i>
+                            <i class="fas fa-fw fa-seedling"></i>
+                            <i class="fas fa-fw fa-sellcast"></i>
+                            <i class="fas fa-fw fa-sellsy"></i>
+                            <i class="fas fa-fw fa-server"></i>
+                            <i class="fas fa-fw fa-servicestack"></i>
+                            <i class="fas fa-fw fa-shapes"></i>
+                            <i class="fas fa-fw fa-share"></i>
+                            <i class="fas fa-fw fa-share-alt"></i>
+                            <i class="fas fa-fw fa-share-alt-square"></i>
+                            <i class="fas fa-fw fa-share-square"></i>
+                            <i class="fas fa-fw fa-shekel-sign"></i>
+                            <i class="fas fa-fw fa-shield-alt"></i>
+                            <i class="fas fa-fw fa-ship"></i>
+                            <i class="fas fa-fw fa-shipping-fast"></i>
+                            <i class="fas fa-fw fa-shirtsinbulk"></i>
+                            <i class="fas fa-fw fa-shoe-prints"></i>
+                            <i class="fas fa-fw fa-shopping-bag"></i>
+                            <i class="fas fa-fw fa-shopping-basket"></i>
+                            <i class="fas fa-fw fa-shopping-cart"></i>
+                            <i class="fas fa-fw fa-shopware"></i>
+                            <i class="fas fa-fw fa-shower"></i>
+                            <i class="fas fa-fw fa-shuttle-van"></i>
+                            <i class="fas fa-fw fa-sign"></i>
+                            <i class="fas fa-fw fa-sign-in-alt"></i>
+                            <i class="fas fa-fw fa-sign-language"></i>
+                            <i class="fas fa-fw fa-sign-out-alt"></i>
+                            <i class="fas fa-fw fa-signal"></i>
+                            <i class="fas fa-fw fa-signature"></i>
+                            <i class="fas fa-fw fa-sim-card"></i>
+                            <i class="fas fa-fw fa-simplybuilt"></i>
+                            <i class="fas fa-fw fa-sistrix"></i>
+                            <i class="fas fa-fw fa-sitemap"></i>
+                            <i class="fas fa-fw fa-sith"></i>
+                            <i class="fas fa-fw fa-skating"></i>
+                            <i class="fas fa-fw fa-sketch"></i>
+                            <i class="fas fa-fw fa-skiing"></i>
+                            <i class="fas fa-fw fa-skiing-nordic"></i>
+                            <i class="fas fa-fw fa-skull"></i>
+                            <i class="fas fa-fw fa-skull-crossbones"></i>
+                            <i class="fas fa-fw fa-skyatlas"></i>
+                            <i class="fas fa-fw fa-skype"></i>
+                            <i class="fas fa-fw fa-slack"></i>
+                            <i class="fas fa-fw fa-slack-hash"></i>
+                            <i class="fas fa-fw fa-slash"></i>
+                            <i class="fas fa-fw fa-sleigh"></i>
+                            <i class="fas fa-fw fa-sliders-h"></i>
+                            <i class="fas fa-fw fa-slideshare"></i>
+                            <i class="fas fa-fw fa-sm"></i>
+                            <i class="fas fa-fw fa-smile"></i>
+                            <i class="fas fa-fw fa-smile-beam"></i>
+                            <i class="fas fa-fw fa-smile-wink"></i>
+                            <i class="fas fa-fw fa-smog"></i>
+                            <i class="fas fa-fw fa-smoking"></i>
+                            <i class="fas fa-fw fa-smoking-ban"></i>
+                            <i class="fas fa-fw fa-sms"></i>
+                            <i class="fas fa-fw fa-snapchat"></i>
+                            <i class="fas fa-fw fa-snapchat-ghost"></i>
+                            <i class="fas fa-fw fa-snapchat-square"></i>
+                            <i class="fas fa-fw fa-snowboarding"></i>
+                            <i class="fas fa-fw fa-snowflake"></i>
+                            <i class="fas fa-fw fa-snowman"></i>
+                            <i class="fas fa-fw fa-snowplow"></i>
+                            <i class="fas fa-fw fa-socks"></i>
+                            <i class="fas fa-fw fa-solar-panel"></i>
+                            <i class="fas fa-fw fa-sort"></i>
+                            <i class="fas fa-fw fa-sort-alpha-down"></i>
+                            <i class="fas fa-fw fa-sort-alpha-up"></i>
+                            <i class="fas fa-fw fa-sort-amount-down"></i>
+                            <i class="fas fa-fw fa-sort-amount-up"></i>
+                            <i class="fas fa-fw fa-sort-down"></i>
+                            <i class="fas fa-fw fa-sort-numeric-down"></i>
+                            <i class="fas fa-fw fa-sort-numeric-up"></i>
+                            <i class="fas fa-fw fa-sort-up"></i>
+                            <i class="fas fa-fw fa-soundcloud"></i>
+                            <i class="fas fa-fw fa-sourcetree"></i>
+                            <i class="fas fa-fw fa-spa"></i>
+                            <i class="fas fa-fw fa-space-shuttle"></i>
+                            <i class="fas fa-fw fa-speakap"></i>
+                            <i class="fas fa-fw fa-spider"></i>
+                            <i class="fas fa-fw fa-spin"></i>
+                            <i class="fas fa-fw fa-spinner"></i>
+                            <i class="fas fa-fw fa-splotch"></i>
+                            <i class="fas fa-fw fa-spotify"></i>
+                            <i class="fas fa-fw fa-spray-can"></i>
+                            <i class="fas fa-fw fa-square"></i>
+                            <i class="fas fa-fw fa-square-full"></i>
+                            <i class="fas fa-fw fa-square-root-alt"></i>
+                            <i class="fas fa-fw fa-squarespace"></i>
+                            <i class="fas fa-fw fa-stack"></i>
+                            <i class="fas fa-fw fa-stack-1x"></i>
+                            <i class="fas fa-fw fa-stack-2x"></i>
+                            <i class="fas fa-fw fa-stack-exchange"></i>
+                            <i class="fas fa-fw fa-stack-overflow"></i>
+                            <i class="fas fa-fw fa-stamp"></i>
+                            <i class="fas fa-fw fa-star"></i>
+                            <i class="fas fa-fw fa-star-and-crescent"></i>
+                            <i class="fas fa-fw fa-star-half"></i>
+                            <i class="fas fa-fw fa-star-half-alt"></i>
+                            <i class="fas fa-fw fa-star-of-david"></i>
+                            <i class="fas fa-fw fa-star-of-life"></i>
+                            <i class="fas fa-fw fa-staylinked"></i>
+                            <i class="fas fa-fw fa-steam"></i>
+                            <i class="fas fa-fw fa-steam-square"></i>
+                            <i class="fas fa-fw fa-steam-symbol"></i>
+                            <i class="fas fa-fw fa-step-backward"></i>
+                            <i class="fas fa-fw fa-step-forward"></i>
+                            <i class="fas fa-fw fa-stethoscope"></i>
+                            <i class="fas fa-fw fa-sticker-mule"></i>
+                            <i class="fas fa-fw fa-sticky-note"></i>
+                            <i class="fas fa-fw fa-stop"></i>
+                            <i class="fas fa-fw fa-stop-circle"></i>
+                            <i class="fas fa-fw fa-stopwatch"></i>
+                            <i class="fas fa-fw fa-store"></i>
+                            <i class="fas fa-fw fa-store-alt"></i>
+                            <i class="fas fa-fw fa-strava"></i>
+                            <i class="fas fa-fw fa-stream"></i>
+                            <i class="fas fa-fw fa-street-view"></i>
+                            <i class="fas fa-fw fa-strikethrough"></i>
+                            <i class="fas fa-fw fa-stripe"></i>
+                            <i class="fas fa-fw fa-stripe-s"></i>
+                            <i class="fas fa-fw fa-stroopwafel"></i>
+                            <i class="fas fa-fw fa-studiovinari"></i>
+                            <i class="fas fa-fw fa-stumbleupon"></i>
+                            <i class="fas fa-fw fa-stumbleupon-circle"></i>
+                            <i class="fas fa-fw fa-subscript"></i>
+                            <i class="fas fa-fw fa-subway"></i>
+                            <i class="fas fa-fw fa-suitcase"></i>
+                            <i class="fas fa-fw fa-suitcase-rolling"></i>
+                            <i class="fas fa-fw fa-sun"></i>
+                            <i class="fas fa-fw fa-superpowers"></i>
+                            <i class="fas fa-fw fa-superscript"></i>
+                            <i class="fas fa-fw fa-supple"></i>
+                            <i class="fas fa-fw fa-surprise"></i>
+                            <i class="fas fa-fw fa-suse"></i>
+                            <i class="fas fa-fw fa-swatchbook"></i>
+                            <i class="fas fa-fw fa-swimmer"></i>
+                            <i class="fas fa-fw fa-swimming-pool"></i>
+                            <i class="fas fa-fw fa-synagogue"></i>
+                            <i class="fas fa-fw fa-sync"></i>
+                            <i class="fas fa-fw fa-sync-alt"></i>
+                            <i class="fas fa-fw fa-syringe"></i>
+                            <i class="fas fa-fw fa-table"></i>
+                            <i class="fas fa-fw fa-table-tennis"></i>
+                            <i class="fas fa-fw fa-tablet"></i>
+                            <i class="fas fa-fw fa-tablet-alt"></i>
+                            <i class="fas fa-fw fa-tablets"></i>
+                            <i class="fas fa-fw fa-tachometer-alt"></i>
+                            <i class="fas fa-fw fa-tag"></i>
+                            <i class="fas fa-fw fa-tags"></i>
+                            <i class="fas fa-fw fa-tape"></i>
+                            <i class="fas fa-fw fa-tasks"></i>
+                            <i class="fas fa-fw fa-taxi"></i>
+                            <i class="fas fa-fw fa-teamspeak"></i>
+                            <i class="fas fa-fw fa-teeth"></i>
+                            <i class="fas fa-fw fa-teeth-open"></i>
+                            <i class="fas fa-fw fa-telegram"></i>
+                            <i class="fas fa-fw fa-telegram-plane"></i>
+                            <i class="fas fa-fw fa-temperature-high"></i>
+                            <i class="fas fa-fw fa-temperature-low"></i>
+                            <i class="fas fa-fw fa-tencent-weibo"></i>
+                            <i class="fas fa-fw fa-tenge"></i>
+                            <i class="fas fa-fw fa-terminal"></i>
+                            <i class="fas fa-fw fa-text-height"></i>
+                            <i class="fas fa-fw fa-text-width"></i>
+                            <i class="fas fa-fw fa-th"></i>
+                            <i class="fas fa-fw fa-th-large"></i>
+                            <i class="fas fa-fw fa-th-list"></i>
+                            <i class="fas fa-fw fa-the-red-yeti"></i>
+                            <i class="fas fa-fw fa-theater-masks"></i>
+                            <i class="fas fa-fw fa-themeco"></i>
+                            <i class="fas fa-fw fa-themeisle"></i>
+                            <i class="fas fa-fw fa-thermometer"></i>
+                            <i class="fas fa-fw fa-thermometer-empty"></i>
+                            <i class="fas fa-fw fa-thermometer-full"></i>
+                            <i class="fas fa-fw fa-thermometer-half"></i>
+                            <i class="fas fa-fw fa-thermometer-quarter"></i>
+                            <i class="fas fa-fw fa-thermometer-three-quarters"></i>
+                            <i class="fas fa-fw fa-think-peaks"></i>
+                            <i class="fas fa-fw fa-thumbs-down"></i>
+                            <i class="fas fa-fw fa-thumbs-up"></i>
+                            <i class="fas fa-fw fa-thumbtack"></i>
+                            <i class="fas fa-fw fa-ticket-alt"></i>
+                            <i class="fas fa-fw fa-times"></i>
+                            <i class="fas fa-fw fa-times-circle"></i>
+                            <i class="fas fa-fw fa-tint"></i>
+                            <i class="fas fa-fw fa-tint-slash"></i>
+                            <i class="fas fa-fw fa-tired"></i>
+                            <i class="fas fa-fw fa-toggle-off"></i>
+                            <i class="fas fa-fw fa-toggle-on"></i>
+                            <i class="fas fa-fw fa-toilet"></i>
+                            <i class="fas fa-fw fa-toilet-paper"></i>
+                            <i class="fas fa-fw fa-toolbox"></i>
+                            <i class="fas fa-fw fa-tools"></i>
+                            <i class="fas fa-fw fa-tooth"></i>
+                            <i class="fas fa-fw fa-torah"></i>
+                            <i class="fas fa-fw fa-torii-gate"></i>
+                            <i class="fas fa-fw fa-tractor"></i>
+                            <i class="fas fa-fw fa-trade-federation"></i>
+                            <i class="fas fa-fw fa-trademark"></i>
+                            <i class="fas fa-fw fa-traffic-light"></i>
+                            <i class="fas fa-fw fa-train"></i>
+                            <i class="fas fa-fw fa-tram"></i>
+                            <i class="fas fa-fw fa-transgender"></i>
+                            <i class="fas fa-fw fa-transgender-alt"></i>
+                            <i class="fas fa-fw fa-trash"></i>
+                            <i class="fas fa-fw fa-trash-alt"></i>
+                            <i class="fas fa-fw fa-trash-restore"></i>
+                            <i class="fas fa-fw fa-trash-restore-alt"></i>
+                            <i class="fas fa-fw fa-tree"></i>
+                            <i class="fas fa-fw fa-trello"></i>
+                            <i class="fas fa-fw fa-tripadvisor"></i>
+                            <i class="fas fa-fw fa-trophy"></i>
+                            <i class="fas fa-fw fa-truck"></i>
+                            <i class="fas fa-fw fa-truck-loading"></i>
+                            <i class="fas fa-fw fa-truck-monster"></i>
+                            <i class="fas fa-fw fa-truck-moving"></i>
+                            <i class="fas fa-fw fa-truck-pickup"></i>
+                            <i class="fas fa-fw fa-tshirt"></i>
+                            <i class="fas fa-fw fa-tty"></i>
+                            <i class="fas fa-fw fa-tumblr"></i>
+                            <i class="fas fa-fw fa-tumblr-square"></i>
+                            <i class="fas fa-fw fa-tv"></i>
+                            <i class="fas fa-fw fa-twitch"></i>
+                            <i class="fas fa-fw fa-twitter"></i>
+                            <i class="fas fa-fw fa-twitter-square"></i>
+                            <i class="fas fa-fw fa-typo3"></i>
+                            <i class="fas fa-fw fa-uber"></i>
+                            <i class="fas fa-fw fa-ubuntu"></i>
+                            <i class="fas fa-fw fa-uikit"></i>
+                            <i class="fas fa-fw fa-ul"></i>
+                            <i class="fas fa-fw fa-umbrella"></i>
+                            <i class="fas fa-fw fa-umbrella-beach"></i>
+                            <i class="fas fa-fw fa-underline"></i>
+                            <i class="fas fa-fw fa-undo"></i>
+                            <i class="fas fa-fw fa-undo-alt"></i>
+                            <i class="fas fa-fw fa-uniregistry"></i>
+                            <i class="fas fa-fw fa-universal-access"></i>
+                            <i class="fas fa-fw fa-university"></i>
+                            <i class="fas fa-fw fa-unlink"></i>
+                            <i class="fas fa-fw fa-unlock"></i>
+                            <i class="fas fa-fw fa-unlock-alt"></i>
+                            <i class="fas fa-fw fa-untappd"></i>
+                            <i class="fas fa-fw fa-upload"></i>
+                            <i class="fas fa-fw fa-ups"></i>
+                            <i class="fas fa-fw fa-usb"></i>
+                            <i class="fas fa-fw fa-user"></i>
+                            <i class="fas fa-fw fa-user-alt"></i>
+                            <i class="fas fa-fw fa-user-alt-slash"></i>
+                            <i class="fas fa-fw fa-user-astronaut"></i>
+                            <i class="fas fa-fw fa-user-check"></i>
+                            <i class="fas fa-fw fa-user-circle"></i>
+                            <i class="fas fa-fw fa-user-clock"></i>
+                            <i class="fas fa-fw fa-user-cog"></i>
+                            <i class="fas fa-fw fa-user-edit"></i>
+                            <i class="fas fa-fw fa-user-friends"></i>
+                            <i class="fas fa-fw fa-user-graduate"></i>
+                            <i class="fas fa-fw fa-user-injured"></i>
+                            <i class="fas fa-fw fa-user-lock"></i>
+                            <i class="fas fa-fw fa-user-md"></i>
+                            <i class="fas fa-fw fa-user-minus"></i>
+                            <i class="fas fa-fw fa-user-ninja"></i>
+                            <i class="fas fa-fw fa-user-nurse"></i>
+                            <i class="fas fa-fw fa-user-plus"></i>
+                            <i class="fas fa-fw fa-user-secret"></i>
+                            <i class="fas fa-fw fa-user-shield"></i>
+                            <i class="fas fa-fw fa-user-slash"></i>
+                            <i class="fas fa-fw fa-user-tag"></i>
+                            <i class="fas fa-fw fa-user-tie"></i>
+                            <i class="fas fa-fw fa-user-times"></i>
+                            <i class="fas fa-fw fa-users"></i>
+                            <i class="fas fa-fw fa-users-cog"></i>
+                            <i class="fas fa-fw fa-usps"></i>
+                            <i class="fas fa-fw fa-ussunnah"></i>
+                            <i class="fas fa-fw fa-utensil-spoon"></i>
+                            <i class="fas fa-fw fa-utensils"></i>
+                            <i class="fas fa-fw fa-vaadin"></i>
+                            <i class="fas fa-fw fa-vector-square"></i>
+                            <i class="fas fa-fw fa-venus"></i>
+                            <i class="fas fa-fw fa-venus-double"></i>
+                            <i class="fas fa-fw fa-venus-mars"></i>
+                            <i class="fas fa-fw fa-viacoin"></i>
+                            <i class="fas fa-fw fa-viadeo"></i>
+                            <i class="fas fa-fw fa-viadeo-square"></i>
+                            <i class="fas fa-fw fa-vial"></i>
+                            <i class="fas fa-fw fa-vials"></i>
+                            <i class="fas fa-fw fa-viber"></i>
+                            <i class="fas fa-fw fa-video"></i>
+                            <i class="fas fa-fw fa-video-slash"></i>
+                            <i class="fas fa-fw fa-vihara"></i>
+                            <i class="fas fa-fw fa-vimeo"></i>
+                            <i class="fas fa-fw fa-vimeo-square"></i>
+                            <i class="fas fa-fw fa-vimeo-v"></i>
+                            <i class="fas fa-fw fa-vine"></i>
+                            <i class="fas fa-fw fa-vk"></i>
+                            <i class="fas fa-fw fa-vnv"></i>
+                            <i class="fas fa-fw fa-volleyball-ball"></i>
+                            <i class="fas fa-fw fa-volume-down"></i>
+                            <i class="fas fa-fw fa-volume-mute"></i>
+                            <i class="fas fa-fw fa-volume-off"></i>
+                            <i class="fas fa-fw fa-volume-up"></i>
+                            <i class="fas fa-fw fa-vote-yea"></i>
+                            <i class="fas fa-fw fa-vr-cardboard"></i>
+                            <i class="fas fa-fw fa-vuejs"></i>
+                            <i class="fas fa-fw fa-walking"></i>
+                            <i class="fas fa-fw fa-wallet"></i>
+                            <i class="fas fa-fw fa-warehouse"></i>
+                            <i class="fas fa-fw fa-water"></i>
+                            <i class="fas fa-fw fa-weebly"></i>
+                            <i class="fas fa-fw fa-weibo"></i>
+                            <i class="fas fa-fw fa-weight"></i>
+                            <i class="fas fa-fw fa-weight-hanging"></i>
+                            <i class="fas fa-fw fa-weixin"></i>
+                            <i class="fas fa-fw fa-whatsapp"></i>
+                            <i class="fas fa-fw fa-whatsapp-square"></i>
+                            <i class="fas fa-fw fa-wheelchair"></i>
+                            <i class="fas fa-fw fa-whmcs"></i>
+                            <i class="fas fa-fw fa-wifi"></i>
+                            <i class="fas fa-fw fa-wikipedia-w"></i>
+                            <i class="fas fa-fw fa-wind"></i>
+                            <i class="fas fa-fw fa-window-close"></i>
+                            <i class="fas fa-fw fa-window-maximize"></i>
+                            <i class="fas fa-fw fa-window-minimize"></i>
+                            <i class="fas fa-fw fa-window-restore"></i>
+                            <i class="fas fa-fw fa-windows"></i>
+                            <i class="fas fa-fw fa-wine-bottle"></i>
+                            <i class="fas fa-fw fa-wine-glass"></i>
+                            <i class="fas fa-fw fa-wine-glass-alt"></i>
+                            <i class="fas fa-fw fa-wix"></i>
+                            <i class="fas fa-fw fa-wizards-of-the-coast"></i>
+                            <i class="fas fa-fw fa-wolf-pack-battalion"></i>
+                            <i class="fas fa-fw fa-won-sign"></i>
+                            <i class="fas fa-fw fa-wordpress"></i>
+                            <i class="fas fa-fw fa-wordpress-simple"></i>
+                            <i class="fas fa-fw fa-wpbeginner"></i>
+                            <i class="fas fa-fw fa-wpexplorer"></i>
+                            <i class="fas fa-fw fa-wpforms"></i>
+                            <i class="fas fa-fw fa-wpressr"></i>
+                            <i class="fas fa-fw fa-wrench"></i>
+                            <i class="fas fa-fw fa-x-ray"></i>
+                            <i class="fas fa-fw fa-xbox"></i>
+                            <i class="fas fa-fw fa-xing"></i>
+                            <i class="fas fa-fw fa-xing-square"></i>
+                            <i class="fas fa-fw fa-xs"></i>
+                            <i class="fas fa-fw fa-y-combinator"></i>
+                            <i class="fas fa-fw fa-yahoo"></i>
+                            <i class="fas fa-fw fa-yandex"></i>
+                            <i class="fas fa-fw fa-yandex-international"></i>
+                            <i class="fas fa-fw fa-yarn"></i>
+                            <i class="fas fa-fw fa-yelp"></i>
+                            <i class="fas fa-fw fa-yen-sign"></i>
+                            <i class="fas fa-fw fa-yin-yang"></i>
+                            <i class="fas fa-fw fa-yoast"></i>
+                            <i class="fas fa-fw fa-youtube"></i>
+                            <i class="fas fa-fw fa-youtube-square"></i>
+                            <i class="fas fa-fw fa-zhihu"></i>
+                            <i class="fas fa-fw fa.fa-pull-left"></i>
+                            <i class="fas fa-fw fa.fa-pull-right"></i>
+                            <i class="fas fa-fw fab"></i>
+                            <i class="fas fa-fw fab.fa-pull-left"></i>
+                            <i class="fas fa-fw fab.fa-pull-right"></i>
+                            <i class="fas fa-fw fal"></i>
+                            <i class="fas fa-fw fal.fa-pull-left"></i>
+                            <i class="fas fa-fw fal.fa-pull-right"></i>
+                            <i class="fas fa-fw far"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% endcomment %}
+{% endblock content %}

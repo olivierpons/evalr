@@ -1,0 +1,104 @@
+{% extends 'new/base.html' %}
+{% load static i18n compress %}
+{% block content %}
+    <script>
+    let css_base_btn_options = {
+            'display': 'block',
+            'color': 'grey',
+            'cursor': 'pointer',
+            'position': 'relative',
+            'top': '-4px',
+            'right': '-4px',
+            'z-index': 1000,
+        },
+        css_base_btn_options_img = {
+            'width': '30px',
+            'height': '30px',
+            'margin': '10px 25px 0 0'
+        };
+    /* $.extend(...) = deep copy of objects: */
+    /* css for "reset button" */
+    let css_option_reset = $.extend(true, {}, css_base_btn_options);
+    let css_option_reset_img = $.extend(true, {}, css_base_btn_options_img);
+    css_option_reset_img['margin-right'] = '14px';
+    css_option_reset_img['float'] = 'right';
+    /* css for "close button" */
+    let css_option_close = $.extend(true, {}, css_base_btn_options);
+    let css_option_close_img = $.extend(true, {}, css_base_btn_options_img);
+    css_option_close_img['float'] = 'left';
+    /* css for "help url button" */
+    let css_help_url_img = $.extend(true, {}, css_base_btn_options_img);
+    let wizard = {
+        icons: {
+            {# copy: "{% static 'icons/copy-icon.png' %}",  #}
+            option_reset: {
+                url_recycle_bin:'{% static 'icons/recycle-bin.png' %}',
+                url_refresh: '{% static 'icons/refresh.png' %}',
+                css: css_option_reset,
+                css_img: css_option_reset_img,
+                description: '{% trans "Reset Wizard" %}'
+            },
+            option_close: {
+                url: '{% static 'icons/close.png' %}',
+                css: css_option_close,
+                css_img: css_option_close_img,
+                description: '{% trans "Close" %}'
+            }
+        },
+        urls: {
+            get_step: '{% url 'wizard_json_step' wz_uuid company %}',
+            goto: '{% url 'wizard_json_goto' wz_uuid company %}',
+            reset: '{% url 'wizard_json_reset' wz_uuid company %}',
+            cancel: '{% url 'wizard_json_cancel' wz_uuid company %}',
+            close: '{% url 'app_index' %}'
+        },
+        not_compatible:
+            "{% trans "The wizard won't work with your Web-browser." %}"+
+            "<br><br>"+
+            "{% trans "Please upgrade it to a newer version." %}"+
+            "<br><br>"+
+            "{% trans "You may upgrade, or try, Chrome, or Firefox." %}"+
+            "<br><br>"+
+            "{% trans "We're sorry for that inconvenience" %}",
+        css_main_div: {
+            'width': '100%',
+            'left': '1%',
+            'top': '1%',
+            'margin-top': '2%'
+        },
+        css_buttons: {
+            'all': 'button',
+            'left': 'button-left please-wait-on-click',
+            'right': 'button-right please-wait-on-click',
+            'cancel': 'button-cancel please-wait-on-click',
+            'parent': {
+                'top': 'buttons-prev-next-top disable-select',
+                'bottom': 'buttons-prev-next-bottom disable-select'
+            }
+        },
+        css_help_url: {
+            img: {
+                url: '{% static 'icons/wz-help.png' %}',
+                css: css_help_url_img
+            },
+            json: '{% url 'wizard_json_help' company %}',
+            default_title: '{% trans "Help" %}'
+        },
+        error_no_specific_message:
+            "{% trans "The server didn't send a specific error message" %}",
+        error_critical_message:
+            "{% trans "A critical error happened with an AJAX call" %}",
+        error_text_for_reset:
+            "{% trans "Click here to reset the whole configuration" %}",
+        trans: {
+            'select_all': "{% trans "Select all" %}",
+            'deselect_all': "{% trans "Deselect all" %}"
+        }
+    };
+</script>
+<script src="{% static 'js/wizard/utils.js' %}"></script>
+<script src="{% static 'js/wizard/wizard.js' %}"></script>
+<script src="{% static 'js/wizard/main.js' %}"></script>
+
+
+{% endblock content %}

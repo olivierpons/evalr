@@ -1,0 +1,134 @@
+{% extends 'new/base.html' %}
+{% load static i18n compress %}
+{% block body %}
+    <body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">
+                                    {% trans "Create an account!" %}
+                                </h1>
+                            </div>
+                            <form class="user" method="post" action="#">
+                                {% csrf_token %}
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input class="form-control form-control-user"
+                                               type="text"
+                                               id="{{ form.first_name.auto_id }}"
+                                               name="{{ form.first_name.html_name }}"
+                                                {% if form.first_name.value %}
+                                               value="{{ form.first_name.value }}"
+                                                {% endif %}
+                                               aria-describedby="{{ form.first_name.html_name }}"
+                                               placeholder="{% trans "First Name" %}">
+                                        {% with form.first_name as field %}
+                                            {% include 'include/errors.html' %}
+                                        {% endwith %}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input class="form-control form-control-user"
+                                               type="text"
+                                               id="{{ form.last_name.auto_id }}"
+                                               name="{{ form.last_name.html_name }}"
+                                                {% if form.last_name.value %}
+                                               value="{{ form.last_name.value }}"
+                                                {% endif %}
+                                               aria-describedby="{{ form.last_name.html_name }}"
+                                               placeholder="{% trans "Last Name" %}">
+                                        {% with form.last_name as field %}
+                                            {% include 'include/errors.html' %}
+                                        {% endwith %}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control form-control-user"
+                                           type="email"
+                                           id="{{ form.email.auto_id }}"
+                                           name="{{ form.email.html_name }}"
+                                            {% if form.email.value %}
+                                           value="{{ form.email.value }}"
+                                            {% endif %}
+                                           aria-describedby="{{ form.email.html_name }}"
+                                           placeholder="Email Address">
+                                    {% with form.email as field %}
+                                        {% include 'include/errors.html' %}
+                                    {% endwith %}
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input class="form-control form-control-user"
+                                               type="password"
+                                               id="{{ form.password_1.auto_id }}"
+                                               name="{{ form.password_1.html_name }}"
+                                               aria-describedby="{{ form.password_1.html_name }}"
+                                               placeholder="Password">
+                                        {% with form.password_1 as field %}
+                                            {% include 'include/errors.html' %}
+                                        {% endwith %}
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input class="form-control form-control-user"
+                                               type="password"
+                                               id="{{ form.password_2.auto_id }}"
+                                               name="{{ form.password_2.html_name }}"
+                                               aria-describedby="{{ form.password_2.html_name }}"
+                                               placeholder="Repeat Password">
+                                        {% with form.password_2 as field %}
+                                            {% include 'include/errors.html' %}
+                                        {% endwith %}
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary btn-user btn-block">
+                                    {% trans "Register account" %}
+                                </button>
+                                <hr>
+                                <a href="{% url 'social:begin' 'google-oauth2' %}"
+                                   class="btn btn-google btn-user btn-block">
+                                    <i class="fab fa-google fa-fw"></i>
+                                    {% trans "Register with Google" %}
+                                </a>
+                                <a href="{% url 'social:begin' 'facebook' %}"
+                                   class="btn btn-facebook btn-user btn-block">
+                                    <i class="fab fa-facebook-f fa-fw"></i>
+                                    {% trans "Register with Facebook" %}
+                                </a>
+                                <a href="{% url 'social:begin' 'twitter' %}"
+                                   class="btn btn-twitter btn-user btn-block">
+                                    <i class="fab fa-twitter fa-fw"></i></i>
+                                    {% trans "Register with Twitter" %}
+                                </a>
+                                <a href="{% url 'social:begin' 'github' %}"
+                                   class="btn btn-github btn-user btn-block">
+                                    <i class="fab fa-github fa-fw"></i></i>
+                                    {% trans "Register with Github" %}
+                                </a>
+                            </form>
+                            <hr>
+                            <div class="text-center">
+                                <a class="small" href="{% url 'auth_forgot_password' %}">
+                                    {% trans "Forgot Password?" %}
+                                </a>
+                            </div>
+                            <div class="text-center">
+                                <a class="small" href="{% url 'auth_login' %}">
+                                    {% trans "Already have an account? Login!" %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# (!) body overriden = re-includes messages here: #}
+    {% include 'include/messages.html' %}
+    </body>
+{% endblock body %}
