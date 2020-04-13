@@ -1,6 +1,6 @@
 # PyCharm ide:
 .idea/
-static/production/CACHE/
+production_static_files/
 uploads/
 
 # Byte-compiled / optimized / DLL files
