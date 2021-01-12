@@ -8,8 +8,8 @@ from os.path import basename, splitext, abspath, join
 
 from pydub import AudioSegment
 
+from core.models.base import BaseModel
 from evalr.settings import BASE_DIR
-from app.models.generic import BaseModel
 
 
 class AudioSegmentCustom(AudioSegment):

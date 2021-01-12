@@ -4,8 +4,8 @@ from django.db import models
 
 from app.models.bulle import GroupeBulles
 from app.models.entity.person import Person
-from app.models.generic import BaseModel
 from app.models.modele import ModeleInterrogation
+from core.models.base import BaseModel
 
 """
 Interrogation est composée :

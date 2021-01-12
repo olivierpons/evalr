@@ -1,25 +1,29 @@
-from django.utils.dateformat import format as datetime_format
-from django.db import models
-from django.utils.dateformat import DateFormat
-from django.utils.formats import date_format
-from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
+from django.db import models
+from django.utils.timezone import now
 from django.utils import timezone, formats
+from django.utils.formats import date_format
+from django.utils.dateformat import DateFormat
+from django.utils.dateformat import format as datetime_format
 
 
 class BaseModel(models.Model):
     date_creation = models.DateTimeField(auto_now_add=True,
-                                         verbose_name=_("Created"))
-    date_updated = models.DateTimeField(auto_now=True,
-                                        verbose_name=_("Last changed"))
-    date_v_start = models.DateTimeField(default=timezone.now,
-                                        editable=True,
-                                        verbose_name=_("V. start"))
-    date_v_end = models.DateTimeField(default=None,
-                                      editable=True,
-                                      null=True,
-                                      verbose_name=_("V. end"),
-                                      blank=True)
+                                         verbose_name=_('Created'))
+    date_last_modif = models.DateTimeField(auto_now=True,
+                                           verbose_name=_('Last changed'))
+    date_v_start = models.DateTimeField(
+        default=timezone.now,
+        editable=True,
+        verbose_name=_("V. start")
+    )
+    date_v_end = models.DateTimeField(
+        default=None,
+        null=True,
+        editable=True,
+        verbose_name=_("V. end"),
+        blank=True
+    )
 
     @staticmethod
     def date_relative(d, most_recent=None):
@@ -45,11 +49,11 @@ class BaseModel(models.Model):
         elif s < 120:
             return _("1 minute ago")
         elif s < 3600:
-            return _("{} minutes ago").format(s / 60)
+            return _("{} minutes ago").format(s // 60)
         elif s < 7200:
             return _("1 hour ago")
         else:
-            return _("{} hours ago").frmat(s / 3600)
+            return _("{} hours ago").format(s // 3600)
 
     def date_creation_relative(self):
         return self.date_relative(self.date_creation)
@@ -59,7 +63,7 @@ class BaseModel(models.Model):
         if dt is None:
             return None
         a = formats.get_format('DATE_INPUT_FORMATS')[1]
-        # transformer '%d/%m/%y' en 'd/m/Y'
+        # transform '%d/%m/%y' into 'd/m/Y'
         for old, new in [('%', ''), ('y', 'Y'), ]:
             a = a.replace(old, new)
         return DateFormat(dt).format(a)
@@ -70,16 +74,33 @@ class BaseModel(models.Model):
         return if_none if retour is None else retour
 
     @staticmethod
+    def datetime_input(dt):
+        if dt is None:
+            return None
+        a = formats.get_format('DATETIME_INPUT_FORMATS')[0]
+        # transform '%d/%m/%y' into 'd/m/Y'
+        for old, new in [('%', ''), ('y', 'Y'), ]:
+            a = a.replace(old, new)
+        return DateFormat(dt).format(a)
+
+    @staticmethod
+    def desc_datetime(dt, if_none=_("(no date)")):
+        retour = BaseModel.datetime_input(dt)
+        return if_none if retour is None else retour
+
+    @staticmethod
     def date_time_to_int(value):
-        return datetime_format(value, 'U') if value is not None else None
+        return int(datetime_format(value, 'U')) if value is not None else None
 
     @staticmethod
     def str_clean(a, if_none='', sep='', max_len=30):
         if a is None:
             return if_none
-        b = str(a)  # ! force str conversion
-        return '{}{}'.format(sep, b[:max_len] if len(b) > max_len else b)
+        b = str(a)  # ! force to str()
+        if len(b) > max_len:
+            return '{}{}...'.format(sep, b[:max_len])
+        return '{}{}'.format(sep, b)
 
     class Meta:
         abstract = True
-        ordering = ['date_v_start', 'date_updated', 'date_creation']
+        ordering = ['date_v_start']

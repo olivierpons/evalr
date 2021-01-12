@@ -4,9 +4,9 @@ from django.utils.translation import ugettext_lazy as _
 from django.db import models
 
 from app.models.bulle import GroupeBulles
-from app.models.generic import BaseModel
 from app.models.expression import GroupExpressions
 from app.models.phrase import Phrase
+from core.models.base import BaseModel
 
 
 class ModeleInterrogation(models.Model):

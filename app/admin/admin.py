@@ -18,7 +18,6 @@ from app.models.access_right import AccessRight
 from app.models.bulle import GroupeBulle, Bulle, GroupeBulles
 from app.models.categorie import CategoryLink, GroupeCategoriesReglesRegle, \
     CategoriesGroup, GroupeCategoriesRegles, Category
-from app.models.entity.base import EntityLink, EntityAddress, EntityPhone
 from app.models.entity.entities_group import EntitiesGroup
 from app.models.entity.entities_group_type import EntitiesGroupType
 from app.models.entity.person import Person
@@ -33,6 +32,7 @@ from app.models.personne_session import PersonneSession, \
 from app.models.phrase import Phrase, PhraseGroupeCategories
 from app.models.regle import Regle
 from app.models.voix import Voix, Fusion
+from core.models.entity import EntityLink, EntityAddress, EntityPhone
 from wizard.models.wz_user_step import WzUserStep
 
 

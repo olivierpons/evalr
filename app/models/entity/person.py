@@ -1,33 +1,31 @@
+import uuid
 from datetime import datetime
 from io import BytesIO
 
 import requests
 from PIL import Image
 from django.contrib.auth.models import User
+from django.db import models, transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.timezone import get_current_timezone
 from django.utils.translation import ugettext_lazy as _
-from django.db import models, transaction
 from libgravatar import Gravatar
 
 from app.forms.generic.generic import UploadedPictureHandler, DateUtilsMixin
 from app.models.bulle import GroupeBulles
-from app.models.entity.base import Entity
-from app.models.generic import Picture
-
-"""
-Quand une Person est interrogée, elle a une Interrogation.
-
-"""
+from core.models.base import BaseModel
+from core.models.entity import Entity
+from core.models.file.image import ImageFile
+from core.models.profession import Profession
 
 
-class GravatarFile(Picture):
+class GravatarFile(ImageFile):
     upload_directory = 'gravatar'
 
     def __str__(self):
         return '{}'.format(
-            self.str_clean(self.filename_original, if_none=_("No file")))
+            self.str_clean(self.original_filename, if_none=_("No file")))
 
 
 class PersonManager(models.Manager):
@@ -55,7 +53,6 @@ class Person(Entity):
     def gravatar_cached_image(self):
 
         def refresh_gravatar():
-            print("refresh_gravatar")
             gravatar_url = Gravatar(self.user.email).get_image()
             if 'http://' in gravatar_url:
                 gravatar_url = 'https://{}'.format(gravatar_url[7:])
@@ -138,22 +135,40 @@ class Person(Entity):
         return username
 
     def __str__(self):
-        def g(a, b=None):
-            if not b:
-                return a if a else ''
-            return '{}{}'.format(a if a else '', b if a.strip() else '')
+        def g(value, add_after=None):
+            if not add_after:
+                return value if value else ''
+            return '{}{}'.format(value if value else '',
+                                 add_after if value.strip() else '')
 
         u = self.user
+        if u is None:
+            return str(_("(no user)"))
         n = ' '.join([g(u.first_name), g(u.last_name)]).strip()
         n = '{}{}{}'.format(u.username, ' / ' if n else '', n).strip()
         return '{}{} - n.{}'.format(g(n, ' - '),
-                                    u.email if u.email else _('No email'),
+                                    u.email if u.email else _('(no email)'),
                                     str(self.pk))
 
     class Meta:
         verbose_name = _('Person')
         verbose_name_plural = _('Persons')
         ordering = ['user__last_name', 'user__first_name', 'pk']
+
+
+class PersonProfession(BaseModel):
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    profession = models.ForeignKey(Profession, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.person.simple_desc()} - ({str(self.profession)})'
+
+
+class PersonConfirmation(BaseModel):
+    person = models.ForeignKey(Person, on_delete=models.CASCADE,
+                               related_name='person_confirmation')
+    uid = models.UUIDField(default=uuid.uuid4, editable=False)
+    used = models.BooleanField(default=False)
 
 
 @receiver(post_save, sender=User)

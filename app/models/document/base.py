@@ -1,7 +1,7 @@
 from django.db import models
 
-from app.models.base import BaseModel
 from app.models.document.state import DocumentState
+from core.models.base import BaseModel
 
 
 class Document(BaseModel):

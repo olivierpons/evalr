@@ -1,7 +1,7 @@
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
 
-from app.models.base import BaseModel
+from core.models.base import BaseModel
 
 
 class EntitiesGroupType(BaseModel):

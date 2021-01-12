@@ -1,8 +1,8 @@
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
 
-from app.models.entity.base import Entity
 from app.models.entity.entities_group_type import EntitiesGroupType
+from core.models.entity import Entity
 
 
 class EntitiesGroupManager(models.Manager):
@@ -39,4 +39,4 @@ class EntitiesGroup(Entity):
         verbose_name = _('Entities group')
         verbose_name_plural = _('Entities groups')
         ordering = ['entities_group_type__name', 'name',
-                    'date_v_start', 'date_updated', 'date_creation', 'pk']
+                    'date_v_start', 'date_last_modif', 'date_creation', 'pk']

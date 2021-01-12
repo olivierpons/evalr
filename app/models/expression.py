@@ -6,7 +6,8 @@ from django.core.files import File
 from django.utils.html import format_html
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
-from app.models.generic import BaseModel
+
+from core.models.base import BaseModel
 from evalr.settings import MEDIA_ROOT
 from .categorie import CategoriesGroup
 from .voix import Voix

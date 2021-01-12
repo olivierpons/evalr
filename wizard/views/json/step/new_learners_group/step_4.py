@@ -4,10 +4,10 @@ from django.contrib.auth.models import User
 from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
 
-from app.models.entity.base import EntityLink
 from app.models.entity.entities_group import EntitiesGroup
 from app.models.entity.entities_group_type import EntitiesGroupType
 from app.models.entity.person import Person
+from core.models.entity import EntityLink
 from wizard.views.json.base import WizardBase
 
 

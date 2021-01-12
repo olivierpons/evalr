@@ -3,8 +3,8 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from app.models.entity.person import Person
+from core.models.base import BaseModel
 from .expression import Expression
-from .generic import BaseModel
 from .interrogation import Interrogation
 from .modele import ModeleSession
 from .phrase import Phrase
