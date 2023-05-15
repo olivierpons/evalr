@@ -318,7 +318,6 @@ DATABASES = {
         'HOST': settings['DATABASE_HOST'],
         'OPTIONS': {
             'client_encoding': 'UTF8',
-            'database': settings['DATABASE_DATABASE'],
             'user': settings['DATABASE_USER'],
             'password': settings['DATABASE_PASSWORD'],
         },
