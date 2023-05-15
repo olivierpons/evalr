@@ -14,6 +14,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # region -- phones constants --
 PHONE_ACCEPTED_FORMAT = "FR"
+
+
 # endregion
 
 
@@ -220,12 +222,10 @@ if DEBUG:
     EMAIL_HOST = 'localhost'
     EMAIL_PORT = 1025
 
-    print("http://evalr.hqf.fr:8000/fr/assistant/")
-    print("http://evalr.hqf.fr:8000/fr/sessions/")
+    print("https://evalr.hqf.fr:8000/fr/assistant/")
+    print("https://evalr.hqf.fr:8000/fr/sessions/")
 else:
     WEBSITE_NAME = 'evalr.com'
-    # specific to mc-media
-    ALLOWED_HOSTS = ALLOWED_HOSTS + ['.mc-media.com', ]
     SECURE_HSTS_SECONDS = True
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
@@ -477,3 +477,4 @@ SECURE_BROWSER_XSS_FILTER = True
 # When I set this I cant login:
 # CSRF_COOKIE_SECURE = True
 # SESSION_COOKIE_SECURE = True
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

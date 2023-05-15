@@ -34,13 +34,13 @@ from wizard.views.json.reset import WizardJsonResetView
 from wizard.views.json.step.view import WizardJsonStepView
 
 urlpatterns = [
-    path('^i18n/', include('django.conf.urls.i18n')),
+    path('i18n/', include('django.conf.urls.i18n')),
     path('admin/', my_admin_site.urls),
     # pour ma surcharge complète de l'admin :
     # path('^hqf-admin/', my_admin_site.urls),
-    path('^oauth/', include('social_django.urls', namespace='social')),
+    re_path('^oauth/', include('social_django.urls', namespace='social')),
 
-    path('^public/(?P<path>.*)$', static.serve, {
+    re_path('^public/(?P<path>.*)$', static.serve, {
         'document_root': settings.MEDIA_ROOT
     }, name='url_public'),
 
@@ -88,24 +88,24 @@ urlpatterns += i18n_patterns(
     path('n/tables',               NewTablesView.as_view(),             name='app_new_tables'),
 
     path('', IndexView.as_view(), name='app_index'),
-    path(_('^wizards/?$'), WizardsIndexView.as_view(), name='app_wizards'),
-    path(_('^wizard/?$'), WizardIndexView.as_view(), name='app_wizard_main'),
-    path(_('^wizard/new-examination-template/?$'),
-         WizardNewExamTemplateView.as_view(), name='wz_new_exam_template'),
-    path(_('^wizard/new-exam/?$'),
-         WizardNewExamView.as_view(), name='wz_new_exam'),
-    path(_('^wizard/new-learners-group/?$'),
-         WizardNewLearnersGroupView.as_view(), name='wz_new_learners_group'),
+    re_path(_('^wizards/?$'), WizardsIndexView.as_view(), name='app_wizards'),
+    re_path(_('^wizard/?$'), WizardIndexView.as_view(), name='app_wizard_main'),
+    re_path(_('^wizard/new-examination-template/?$'),
+            WizardNewExamTemplateView.as_view(), name='wz_new_exam_template'),
+    re_path(_('^wizard/new-exam/?$'),
+            WizardNewExamView.as_view(), name='wz_new_exam'),
+    re_path(_('^wizard/new-learners-group/?$'),
+            WizardNewLearnersGroupView.as_view(), name='wz_new_learners_group'),
 
-    path('^old$', OldIndexView.as_view(), name='app_old_index'),
-    path(_('^interrogation/(?P<slug>[^/.]+)/$'),
-         InterrogationDetailView.as_view(), name='app_interrogation'),
-    path(_('^interrogations/$'),
-         InterrogationListView.as_view(), name='app_interrogations'),
-    path(_('^sessions/$'),
-         SessionListView.as_view(), name='app_sessions'),
-    path(_('^session/(?P<pk>[0-9]+)/$'),
-         PersonneSessionDetailView.as_view(), name='app_person_session'),
+    re_path('^old$', OldIndexView.as_view(), name='app_old_index'),
+    re_path(_('^interrogation/(?P<slug>[^/.]+)/$'),
+            InterrogationDetailView.as_view(), name='app_interrogation'),
+    re_path(_('^interrogations/$'),
+            InterrogationListView.as_view(), name='app_interrogations'),
+    re_path(_('^sessions/$'),
+            SessionListView.as_view(), name='app_sessions'),
+    re_path(_('^session/(?P<pk>[0-9]+)/$'),
+            PersonneSessionDetailView.as_view(), name='app_person_session'),
 
     # region - wizard views -
     path('json/wz/step/<slug:uuid>/<slug:company>',
