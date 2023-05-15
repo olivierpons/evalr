@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 from django.urls import reverse_lazy
 from django.views import generic
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from app.forms.register import RegisterForm
 from app.models.entity.person import Person

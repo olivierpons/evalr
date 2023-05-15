@@ -6,7 +6,7 @@ from django.core.mail import EmailMessage
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import generic
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from app.utils import add_messages
 from evalr import settings

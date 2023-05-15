@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from core.models.base import BaseModel
 from core.models.entity import Entity
@@ -18,7 +18,8 @@ class PersonManager(models.Manager):
 
 class Person(Entity):
     objects = PersonManager()
-    user = models.OneToOneField(User, blank=True, null=True,
+    user = models.OneToOneField(User, related_name='person',
+                                blank=True, null=True,
                                 on_delete=models.CASCADE)
     professions = models.ManyToManyField(Profession,
                                          related_name='persons',

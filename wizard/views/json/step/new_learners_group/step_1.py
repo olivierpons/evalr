@@ -1,5 +1,5 @@
 from django.utils.timezone import now
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from app.models.entity.entities_group import EntitiesGroup
 from wizard.views.json.base import WizardBase

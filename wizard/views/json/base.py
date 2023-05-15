@@ -7,7 +7,7 @@ from django.forms import CharField, TypedChoiceField
 from django.forms.models import ModelChoiceField
 from django.forms.widgets import Textarea
 from django.utils.timezone import now, make_aware
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from wizard.views.json.step.exceptions import RequiredFieldsError
 

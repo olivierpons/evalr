@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext_lazy as _, ungettext_lazy
+from django.utils.translation import gettext_lazy as _, ngettext_lazy
 
 from wizard.views.json.base import WizardBase
 from wizard.views.json.step.exceptions import RequiredFieldsError
@@ -211,7 +211,7 @@ class WizardStepNewLearnersGroupStep2(WizardBase):
         # local import to avoid circular reference
         from wizard.models.wz_user_step import WzUserStep
         return True, WzUserStep.WZ_STEP_NEW_LEARNERS_GROUP_STEP_3, \
-            str(ungettext_lazy(
+            str(ngettext_lazy(
                 str(_("1 learner entered")),
                 _("Informations entered ({} learners)").format(nb_learners),
                 nb_learners)), \

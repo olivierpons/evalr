@@ -13,7 +13,7 @@ from django.utils import formats
 from django.utils.dateparse import parse_date, parse_datetime
 from django.utils.timezone import make_aware, utc, localtime
 from django.utils.datetime_safe import datetime as datetime_safe
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from datetime import time, date as datetime_date
 from datetime import datetime as datetime_classic
 

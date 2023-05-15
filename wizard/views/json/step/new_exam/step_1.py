@@ -1,4 +1,4 @@
-from django.utils.translation import ugettext_lazy as _, ungettext_lazy
+from django.utils.translation import gettext_lazy as _, ngettext_lazy
 
 from app.models.interrogation import Interrogation
 from wizard.views.json.base import WizardBase
@@ -42,7 +42,7 @@ class WizardStepNewExamStep1(WizardBase):
                 'data': [
                     {'type': 'p',
                      'line_break': False,  # line break *inside*, only here:
-                     'content': [ungettext_lazy(
+                     'content': [ngettext_lazy(
                          str(_("You have one template. "
                                "Do you want to use it?")),
                          str(_("You have {} templates. Do you want to use "

@@ -3,7 +3,7 @@ from itertools import cycle
 
 from django.contrib.auth.models import User
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from wizard.views.json.step.example.step_1 import WizardStepExampleStep1
 from wizard.views.json.step.example.step_2 import WizardStepExampleStep2

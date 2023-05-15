@@ -1,7 +1,7 @@
 from django.contrib.staticfiles import finders
 from django.db import models
 from django.templatetags.static import static
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from core.models.base import BaseModel
 

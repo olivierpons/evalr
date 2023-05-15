@@ -187,7 +187,6 @@ if sys.platform.lower().startswith('win'):
 # https://stackoverflow.com/a/40665906/106140
 ALLOWED_HOSTS += [gethostname(), '127.0.0.1', 'localhost', ] + \
                  gethostbyname_ex(gethostname())[2]
-
 ADMINS = (
     ('Olivier Pons', 'olivier.pons@hqf.fr'),
 )
@@ -240,7 +239,7 @@ else:
 SERVER_EMAIL = f'root@{WEBSITE_NAME}'
 DEFAULT_FROM_EMAIL = f'contact@{WEBSITE_NAME}'
 
-ALLOWED_HOSTS = set(ALLOWED_HOSTS)
+ALLOWED_HOSTS = tuple(set(ALLOWED_HOSTS))
 IGNORABLE_404_URLS = (
     re.compile(r'\.(php|cgi)$'),
     re.compile(r'.*phpmyadmin.*'),

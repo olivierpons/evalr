@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import PasswordChangeForm
 from django.views import generic
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from app.utils import add_messages
 
